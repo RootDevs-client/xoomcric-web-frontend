@@ -1,7 +1,6 @@
 import moment from 'moment';
 
 export function convertTimestampToFormattedDate(timestamp) {
-  console.log({ timestamp });
   const date = moment.unix(timestamp / 1000);
   const formattedDate = date.format('DD MMM h:mm A');
 
@@ -11,9 +10,9 @@ export function convertTimestampToFormattedDate(timestamp) {
 export function convertTimestampToFormattedDateMatchCard(timestamp) {
   console.log({ timestamp });
   const date = moment.unix(timestamp / 1000);
-  const formattedDate = date.format('DD MMM h:mm A');
-
-  return formattedDate;
+  const formattedDate = date.format('DD MMM');
+  const formattedTime = date.format('h:mm A');
+  return `<div className="text-center flex justify-center items-center"><span class="match-date">${formattedDate}</span> <span class="match-time">${formattedTime}</span></div>`;
 }
 
 export function convertTimestampToFormattedDateAndYear(timestamp) {

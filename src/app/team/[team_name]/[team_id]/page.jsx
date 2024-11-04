@@ -6,9 +6,11 @@ import Link from 'next/link';
 import TeamTabs from './_components/TeamTabs';
 
 export const metadata = {
-  title: `XoomCric | Team Information`,
-  description: `Explore the profile and statistics  on XoomCric.`,
-  keywords: `cricket, teams, statistics, profiles,  XoomCric`,
+  title: 'XoomCric | Team Details',
+  description:
+    'Explore detailed profiles of cricket teams, including player rosters, match performance, historical records, and upcoming fixtures. Stay informed about your favorite teams in the cricket world.',
+  keywords:
+    'cricket team details, team profiles, player rosters, match performance, cricket history, XoomCric',
 };
 
 export default async function page({ params }) {

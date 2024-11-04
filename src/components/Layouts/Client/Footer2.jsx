@@ -3,14 +3,6 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { PiVideoLight } from 'react-icons/pi';
 
-import {
-  FaApple,
-  FaFacebookF,
-  FaGooglePlay,
-  FaInstagram,
-  FaTwitter,
-  FaYoutube,
-} from 'react-icons/fa';
 import { FaRegCopyright, FaRegNewspaper } from 'react-icons/fa6';
 
 export default function Footer2() {
@@ -26,13 +18,15 @@ export default function Footer2() {
           <div className="mx-auto w-full max-w-screen-xl py-5 skew-y-[0.5deg]">
             <div className="flex flex-wrap justify-between ">
               <div className="p-0">
-                <img
-                  src="/images/logo.png"
-                  alt="logo"
-                  className="w-36 h-16 p-[7px]"
-                />
+                <Link href={'/'}>
+                  <img
+                    src="/images/logo.png"
+                    alt="logo"
+                    className="w-36 h-16 p-[7px]"
+                  />
+                </Link>
                 <h2 className="my-2 font-bold ms-2">
-                  XoomCric is The best Football App
+                  XoomCric is The best Cricket App
                 </h2>
               </div>
               <div className="font-semibold">
@@ -63,12 +57,11 @@ export default function Footer2() {
                   <a href="">Contact</a>
                 </p>
               </div>
-              <div className="font-bold px-2">
+              {/* <div className="font-bold px-2">
                 <div className="py-4">
                   <h2>Follow Us On</h2>
                   <div className="flex gap-2">
-                    {/* <FaFacebookF />
-                  <TiSocialTwitter /> */}
+                    
                     <div className="w-10 h-10 rounded-full bg-gray-200 flex justify-center items-center">
                       <FaFacebookF className="text-blue-500 text-xl" />
                     </div>
@@ -86,8 +79,7 @@ export default function Footer2() {
                 <div>
                   <h2>Get The App</h2>
                   <div className="flex gap-2">
-                    {/* <FaFacebookF />
-                  <TiSocialTwitter /> */}
+                   
                     <div className="w-10 h-10 rounded-full bg-gray-200 flex justify-center items-center">
                       <FaApple className="text-black text-xl" />
                     </div>
@@ -96,7 +88,7 @@ export default function Footer2() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
             <hr className="my-3 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-4" />
             {/* copyright section */}

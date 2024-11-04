@@ -1,5 +1,6 @@
 'use client';
 
+import { convertTimestampToFormattedDateAndYear } from '@/lib/helpers/convertTimestampToFormattedDate';
 import useGetAllNews from '@/lib/hooks/useGetAllNews';
 import moment from 'moment';
 import Link from 'next/link';
@@ -70,9 +71,9 @@ function NewsSlide({ news }) {
       />
       <p className="text-gray-600 text-sm">{news?.title.slice(0, 60)}</p>
       <h4 className="text-gray-700 text-sm font-medium mt-3 mb-3">
-        Xoom Sport
+        Xoom Crick
         <span className="text-xs ml-2">
-          {formatNewsTimestamp(news?.publish_date)}
+          {convertTimestampToFormattedDateAndYear(news?.publish_date)}
         </span>
       </h4>
     </div>
@@ -80,7 +81,8 @@ function NewsSlide({ news }) {
 }
 
 function formatNewsTimestamp(timestamp) {
-  const momentTimestamp = moment(timestamp);
+  const momentTimestamp = moment(timestamp / 1000);
+
   if (momentTimestamp.isValid()) {
     return momentTimestamp.fromNow();
   }

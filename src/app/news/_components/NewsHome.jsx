@@ -3,7 +3,7 @@
 import GlobalLoading from '@/components/Global/GlobalLoading';
 import NoDataFound from '@/components/Global/NoDataFound';
 import { xoomBackendUrl } from '@/lib/axios/getAxios';
-import moment from 'moment';
+import { convertTimestampToFormattedDateAndYear } from '@/lib/helpers/convertTimestampToFormattedDate';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -87,10 +87,13 @@ export default function NewsHome() {
                 {truncate(newsData?.data[0]?.title)}{' '}
               </h2>
               <small className="text-[11px] font-normal mt-3 sm:mt-0">
-                {moment(
+                {convertTimestampToFormattedDateAndYear(
+                  newsData?.data[0]?.publish_date
+                )}
+                {/* {moment(
                   newsData?.data[0]?.publish_date,
                   'YYYY-MM-DD HH:mm'
-                ).format('ddd, DD MMM YYYY')}
+                ).format('ddd, DD MMM YYYY')} */}
               </small>
             </div>
           </div>
@@ -126,8 +129,11 @@ export default function NewsHome() {
                         ...
                       </h2>
                       <small className="text-[11px] font-normal mt-2 sm:mt-0 text-base-00">
-                        {moment(news?.publish_date, 'YYYY-MM-DD HH:mm').format(
+                        {/* {moment(news?.publish_date, 'YYYY-MM-DD HH:mm').format(
                           'ddd, DD MMM YYYY'
+                        )} */}
+                        {convertTimestampToFormattedDateAndYear(
+                          newsData?.data[0]?.publish_date
                         )}
                       </small>
                     </div>

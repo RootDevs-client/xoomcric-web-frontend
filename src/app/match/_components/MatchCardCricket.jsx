@@ -126,16 +126,21 @@ const MatchCardCricket = ({ match, large, status }) => {
         }`}
         className="w-full"
       >
-        <div className="bg-base-100 h-auto w-full -skew-y-[0.5deg] mb-1">
+        <div className="bg-base-100 h-auto w-full -skew-y-[0.5deg] mb-4">
+          {/* <div className=" grid grid-cols-11 items-center gap-2 w-full border ">
+            <div className="col-span-5">1</div>
+            <div className="col-span-1 text-center">2</div>
+            <div className="col-span-5 text-end">3</div>
+          </div> */}
           <div
             className={`skew-y-[0.5deg] p-2 grid grid-cols-12 items-center gap-2 ${
               large && 'p-5 px-10'
             }`}
           >
-            <p className="col-span-1 text-gray-400 text-sm font-semibold">
+            <p className="col-span-2 sm:col-span-1 sm:text-start text-center text-gray-400 text-sm font-semibold">
               {match.matchInfo?.matchFormat}
             </p>
-            <div className="col-span-4 flex items-center">
+            <div className="col-span-3 sm:col-span-4 flex items-center">
               <img
                 src={`https://static.cricbuzz.com/a/img/v1/50x30/i1/c${match?.matchInfo?.team1?.imageId}/cricket.jpg`}
                 alt="team one"
@@ -148,15 +153,17 @@ const MatchCardCricket = ({ match, large, status }) => {
 
             <MatchStates match={match} />
 
-            <div className="col-span-4 flex items-center">
-              <img
-                src={`https://static.cricbuzz.com/a/img/v1/50x30/i1/c${match?.matchInfo?.team2?.imageId}/cricket.jpg`}
-                alt="team two"
-                className="w-7 h-7 ring-1 ring-primary mr-3  rounded-full"
-              />
-              <h4 className="text-sm font-semibold uppercase">
-                {match.matchInfo?.team2?.teamSName}
-              </h4>
+            <div className="col-span-3 sm:col-span-4 flex items-center justify-end">
+              <div className="flex items-center ">
+                <h4 className="text-sm font-semibold uppercase">
+                  {match.matchInfo?.team2?.teamSName}
+                </h4>
+                <img
+                  src={`https://static.cricbuzz.com/a/img/v1/50x30/i1/c${match?.matchInfo?.team2?.imageId}/cricket.jpg`}
+                  alt="team two"
+                  className="w-7 h-7 ring-1 ring-primary ml-3  rounded-full"
+                />
+              </div>
             </div>
           </div>
         </div>

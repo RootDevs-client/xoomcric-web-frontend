@@ -14,8 +14,6 @@ export default function ThreeColumnLayout({ children }) {
   const { allPlayersData, isLoadingAllPlayer } = useGetAllPlayer();
   const { topSeries, isLoadingTopSeries } = useGetTopSeries();
 
-  console.log(selectedPointTable);
-
   return (
     <div className="mx-auto max-w-screen-xl mt-3">
       <div className="grid grid-cols-12 gap-4">

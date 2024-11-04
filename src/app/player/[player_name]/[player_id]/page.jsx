@@ -1,9 +1,11 @@
 import PlayerTabs from './_components/PlayerTabs';
 
 export const metadata = {
-  title: 'XoomCric | Players',
-  description: 'Explore player profiles and statistics on XoomCric.',
-  keywords: 'cricket, players, statistics, profiles, XoomCric',
+  title: 'XoomCric | Player Details',
+  description:
+    'Explore comprehensive profiles of your favorite cricket players. Get insights into their stats, career highlights, recent performances, and personal achievements.',
+  keywords:
+    'cricket player details, player profiles, player statistics, cricket career, XoomCric',
 };
 
 export default async function page({ params }) {

@@ -24,7 +24,7 @@ export default async function Page() {
       <div className="card w-10/12 md:w-6/12 lg:w-4/12 bg-base-100 shadow-xl lg:card-side !flex-col">
         <figure className="w-1/2 m-auto">
           <img
-            src="/images/xslogo.webp"
+            src="/images/logo.png"
             alt="Logo"
             className="w-full"
             priority={true}

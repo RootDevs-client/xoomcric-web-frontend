@@ -3,6 +3,14 @@ import { xoomBackendUrl } from '@/lib/axios/getAxios';
 import Link from 'next/link';
 import SingleNewsDetails from '../_components/SingleNewsDetails';
 
+export const metadata = {
+  title: 'XoomCric | News Details',
+  description:
+    'Dive deeper into cricket news with detailed articles, insights, and analyses. Explore the latest stories, player interviews, and match highlights to stay informed about the cricket world.',
+  keywords:
+    'cricket news details, match highlights, player interviews, cricket analysis, XoomCric',
+};
+
 export const getSingleNews = async (slug) => {
   try {
     const res = await xoomBackendUrl.get(`/api/news/${slug}`);

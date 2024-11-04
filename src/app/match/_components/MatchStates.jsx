@@ -39,7 +39,7 @@ export default function MatchStates({ match }) {
   );
 
   return (
-    <div className="col-span-3 w-12 h-12 sm:w-16 sm:h-16 bg-primary rounded-full flex flex-col text-xs text-gray-100 items-center justify-center mx-auto ">
+    <div className="col-span-2 w-14 h-14 p-1 sm:w-16 sm:h-16 bg-primary rounded-full flex flex-col text-xs text-gray-100 items-center justify-center mx-auto ">
       {isLive && (
         <div className="relative flex flex-col items-center">
           <span>{match?.periods?.slice(-1)[0]?.minutes}</span>
@@ -60,11 +60,15 @@ export default function MatchStates({ match }) {
         </div>
       )}
       <div className="text-center">
-        <span className="font-semibold text-[10px] sm:text-[13px]">
-          {convertTimestampToFormattedDateMatchCard(
-            match?.matchInfo?.startDate
-          )}
-        </span>
+        <div className="font-semibold text-[10px] sm:text-[11px]">
+          <div
+            dangerouslySetInnerHTML={{
+              __html: convertTimestampToFormattedDateMatchCard(
+                match?.matchInfo?.startDate
+              ),
+            }}
+          />
+        </div>
       </div>
     </div>
   );
