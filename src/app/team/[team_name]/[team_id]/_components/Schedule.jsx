@@ -15,7 +15,7 @@ export default function Schedule({ data, loading }) {
         return (
           <div key={index}>
             {item?.matchDetailsMap?.key && (
-              <h4 className="text-xl font-semibold mt-5 mb-3">
+              <h4 className="sm:text-xl text-base  font-semibold mt-5 mb-3">
                 {item?.matchDetailsMap?.key || 'Team Information Not Available'}
               </h4>
             )}

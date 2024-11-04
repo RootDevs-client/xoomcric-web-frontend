@@ -5,7 +5,7 @@ import Link from 'next/link';
 export default function Players({ teamInformation, loading }) {
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {loading ? (
           Array.from({ length: 12 }).map((_, index) => (
             <div
@@ -41,19 +41,21 @@ export default function Players({ teamInformation, loading }) {
                 </span>
                 {player.battingStyle && (
                   <span className="text-center text-sm text-gray-600">
-                    Batting Style: {player.battingStyle}
+                    <span className="font-bold">Batting</span> (
+                    {player.battingStyle})
                   </span>
                 )}
                 {player.bowlingStyle && (
                   <span className="text-center text-sm text-gray-600">
-                    Bowling Style: {player.bowlingStyle}
+                    <span className="font-bold">Bowling</span> (
+                    {player.bowlingStyle})
                   </span>
                 )}
               </Link>
             ) : (
               <div
                 key={player.id || player.name}
-                className="col-span-2 sm:col-span-3 lg:col-span-4"
+                className="col-span-1 sm:col-span-2 lg:col-span-3"
               >
                 <h3 className="text-2xl font-bold">
                   {player.name || 'Unknown Player'}

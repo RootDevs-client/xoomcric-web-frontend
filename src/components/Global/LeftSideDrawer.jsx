@@ -234,7 +234,7 @@ export default function LeftSideDrawer() {
 
                 <div className="">
                   <p className="font-semibold text-rose-500">
-                    COPYRIGHT &copy; XOOMSPORT
+                    COPYRIGHT &copy; XoomCric
                   </p>
                   <p className="pt-1 font-semibold">ALL RIGHTS RESERVED.</p>
                 </div>

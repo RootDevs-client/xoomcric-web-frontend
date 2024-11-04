@@ -1,6 +1,6 @@
 export default function SummaryTable({ playerInformation }) {
   return (
-    <div className="">
+    <div className="overflow-x-auto">
       <table className="w-full">
         <thead>
           <tr className="bg-gray-200">

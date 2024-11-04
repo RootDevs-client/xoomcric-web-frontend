@@ -89,7 +89,7 @@ export default function PlayerTabs({ player_id }) {
               setActiveTab(tab.id);
               setLoading(true);
             }}
-            className={`py-5 px-4  text-sm font-medium transition-colors w-full   h-full bg-black text-white ${
+            className={`py-5 px-4 text-[.7rem] sm:text-sm font-medium transition-colors w-full   h-full bg-black text-white ${
               tab?.id == activeTab && '!bg-[#FB0404]'
             } ${activeTab === 1 && 'tab-button-active-1'} ${
               (activeTab === 2 || activeTab === 3) && 'tab-button-active-2'

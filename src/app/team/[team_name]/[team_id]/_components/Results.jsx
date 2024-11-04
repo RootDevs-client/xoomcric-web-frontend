@@ -13,13 +13,13 @@ export default function Results({ teamInformation, loading }) {
   }
 
   return (
-    <div className="p-4">
+    <div className="sm:p-4">
       {teamInformation?.teamMatchesData?.length > 0 ? (
         teamInformation.teamMatchesData.map(
           (series) =>
             series?.matchDetailsMap?.match?.length > 0 && (
               <div key={series?.matchDetailsMap?.seriesId} className="mb-6">
-                <h4 className="text-xl font-semibold mb-2">
+                <h4 className="sm:text-xl text-base font-semibold mb-2">
                   {series?.matchDetailsMap?.key ||
                     'Series Information Not Available'}
                 </h4>

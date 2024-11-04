@@ -6,7 +6,9 @@ import Link from 'next/link';
 import TeamTabs from './_components/TeamTabs';
 
 export const metadata = {
-  title: 'XoomCric | Teams',
+  title: `XoomCric | Team Information`,
+  description: `Explore the profile and statistics  on XoomCric.`,
+  keywords: `cricket, teams, statistics, profiles,  XoomCric`,
 };
 
 export default async function page({ params }) {

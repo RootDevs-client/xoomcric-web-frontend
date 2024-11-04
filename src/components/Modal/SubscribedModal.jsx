@@ -32,7 +32,7 @@ export default function SubscribedModal() {
                   </svg>
                 </div>
                 <div className="text-center">
-                  <h2 className="py-2 text-xl">XOOMSPORT</h2>
+                  <h2 className="py-2 text-xl">XoomCric</h2>
                   <p>You are a member</p>
                 </div>
               </div>

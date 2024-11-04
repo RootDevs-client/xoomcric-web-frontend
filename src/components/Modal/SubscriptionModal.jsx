@@ -136,7 +136,7 @@ export default function SubscriptionModal() {
               {/* description  */}
               <div className="bg-white py-3">
                 <div className=" mx-4 py-5 skew-y-[1deg]">
-                  <h2 className="font-bold">WHY JOIN XOOMSPORT PREMIUM?</h2>
+                  <h2 className="font-bold">WHY JOIN XoomCric PREMIUM?</h2>
                   <div className="flex justify-around items-center py-5">
                     <div>
                       {subPackage === 'monthly' && (

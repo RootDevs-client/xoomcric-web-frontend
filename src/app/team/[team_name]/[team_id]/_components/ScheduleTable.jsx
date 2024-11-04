@@ -3,7 +3,7 @@ export default function ScheduleTable({ data }) {
   return (
     <div className="">
       <div className="mx-auto bg-white overflow-hidden">
-        <table className="w-full text-left">
+        <table className="w-full text-left text-[.8rem] sm:text-lg">
           <thead>
             <tr className="bg-gray-200 text-gray-700">
               <th className="py-3 px-4">Date</th>
