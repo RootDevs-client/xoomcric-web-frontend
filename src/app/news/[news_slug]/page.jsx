@@ -1,4 +1,6 @@
+import NoDataFound from '@/components/Global/NoDataFound';
 import { xoomBackendUrl } from '@/lib/axios/getAxios';
+import Link from 'next/link';
 import SingleNewsDetails from '../_components/SingleNewsDetails';
 
 export const getSingleNews = async (slug) => {
@@ -21,10 +23,27 @@ export default async function page({ params }) {
       return <SingleNewsDetails newsData={newsData.data} />;
     } else {
       console.error('Server Error:', newsData.message);
-      return 'Server Error!';
+      return (
+        <div className="max-w-screen-xl p-4 mx-auto top-2">
+          <h2 className="text-red-600">Server Error!</h2>
+          <p>{newsData.message || 'An unexpected error occurred.'}</p>
+        </div>
+      );
     }
   } catch (error) {
     console.error('Server Error:', error.message);
-    return 'Server Error!';
+    return (
+      <div className="max-w-screen-xl p-4 mx-auto top-2">
+        <NoDataFound />
+        <div className="flex justify-center items-center mt-5">
+          <Link
+            className="bg-red-500 text-white font-bold  rounded-lg px-4 py-2"
+            href={`/`}
+          >
+            Go To The Home
+          </Link>
+        </div>
+      </div>
+    );
   }
 }

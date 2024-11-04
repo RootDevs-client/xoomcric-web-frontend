@@ -21,9 +21,10 @@ export default function LeftSideDrawer() {
   return (
     <div className="flex items-center justify-between h-[75px] bg-white p-3">
       <Link href="/">
-        <h4 className="text-2xl font-semibold text-gray-800 uppercase">
+        {/* <h4 className="text-2xl font-semibold text-gray-800 uppercase">
           <span className="text-secondary">x</span>oom sports
-        </h4>
+        </h4> */}
+        <img src="/images/logo.png" alt="logo" className="w-32" />
       </Link>
 
       <div>
@@ -54,7 +55,8 @@ export default function LeftSideDrawer() {
                     href="/"
                     className="text-2xl font-semibold text-gray-800 uppercase"
                   >
-                    <span className="text-secondary">x</span>oom sports
+                    {/* <span className="text-secondary">x</span>oom sports */}
+                    <img src="/images/logo.png" alt="logo" className="w-32" />
                   </Link>
                   <p className="pt-5 font-semibold">LOGIN OR REGISTER</p>
                 </div>

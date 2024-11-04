@@ -1,9 +1,10 @@
+import NoDataFound from '@/components/Global/NoDataFound';
 import { xoomBackendUrl } from '@/lib/axios/getAxios';
 import { useEffect, useState } from 'react';
 import MatchCommentary from './MatchCommentary';
 
 export default function Commentary({ match_id }) {
-  const [result, setResult] = useState([]);
+  const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(true);
 
   async function getData() {
@@ -89,6 +90,10 @@ export default function Commentary({ match_id }) {
       </div>
     );
   }
+  console.log({ result }, 'result');
 
+  if (!result) {
+    return <NoDataFound />;
+  }
   return <MatchCommentary data={result} />;
 }

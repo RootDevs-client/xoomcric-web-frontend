@@ -5,8 +5,6 @@ import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import toast from 'react-hot-toast';
-import { BiSolidCricketBall } from 'react-icons/bi';
-import { GiCricketBat } from 'react-icons/gi';
 
 export default function Header() {
   const pathname = usePathname();
@@ -27,20 +25,21 @@ export default function Header() {
     <header>
       <div className="relative w-full mx-auto h-[75px] bg-primary hidden sm:block">
         <div className="absolute -top-10 z-40 inset-0 bg-primary transform -skew-y-[0.5deg] origin-bottom-right"></div>
-        <div className="relative z-50 max-w-screen-xl p-4 mx-auto top-2">
-          <div className="flex items-center justify-between">
+        <div className="relative z-50 max-w-screen-xl px-4 mx-auto top-2">
+          <div className="flex items-center justify-between pt-[10px]">
             <Link
               href="/"
               className="flex items-center text-2xl font-semibold text-white uppercase md:text-3xl"
             >
-              <span className="text-secondary">x</span>
+              {/* <span className="text-secondary">x</span>
               <BiSolidCricketBall className="animate-bounce" />
               <BiSolidCricketBall className="text-secondary animate-bounce [animation-delay:-0.3s]" />
               mCr
               <span className="rotate-[46deg] mx-[-9px]">
                 <GiCricketBat className=" rotate-90 [animation-delay:-0.3s]" />
               </span>
-              ck
+              ck */}
+              <img src="/images/logo.png" alt="logo" className="w-32" />
             </Link>
             <ul className="flex items-center gap-3 text-lg text-white uppercase md:gap-5">
               <Link

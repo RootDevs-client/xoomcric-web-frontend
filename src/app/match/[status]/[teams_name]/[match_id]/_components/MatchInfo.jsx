@@ -1,4 +1,5 @@
 import PointTableCardShimmer from '@/app/series/[series_name]/[series_id]/_conmponents/PointTableCardShimmer';
+import NoDataFound from '@/components/Global/NoDataFound';
 import { xoomBackendUrl } from '@/lib/axios/getAxios';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
@@ -9,7 +10,7 @@ const categorizePlayers = (players) => {
   const bench = [];
   const supportStaff = [];
 
-  players.forEach((player) => {
+  players?.forEach((player) => {
     if (player.substitute) {
       bench.push(player.name);
     } else if (player.role === 'WK-Batsman' && player.keeper) {
@@ -30,7 +31,7 @@ const categorizePlayers = (players) => {
 };
 
 export default function MatchInfo({ match_id }) {
-  const [result, setResult] = useState([]);
+  const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(true);
 
   async function getData() {
@@ -57,7 +58,9 @@ export default function MatchInfo({ match_id }) {
   if (loading) {
     return <PointTableCardShimmer />;
   }
-
+  if (!result) {
+    return <NoDataFound />;
+  }
   const { playing, bench, supportStaff } = categorizePlayers(
     result?.matchInfo?.team1?.playerDetails
   );
@@ -79,9 +82,9 @@ export default function MatchInfo({ match_id }) {
           <div className="grid grid-cols-1 gap-2 text-gray-700">
             <p>
               <span className="font-semibold">Match:</span>{' '}
-              {result?.matchInfo.team1.shortName} VS{' '}
-              {result?.matchInfo.team2.shortName},{' '}
-              {result?.matchInfo.matchDescription},{' '}
+              {result?.matchInfo?.team1?.shortName} VS{' '}
+              {result?.matchInfo?.team2?.shortName},{' '}
+              {result?.matchInfo?.matchDescription},{' '}
               {result?.matchInfo?.series?.name}
             </p>
             <p>

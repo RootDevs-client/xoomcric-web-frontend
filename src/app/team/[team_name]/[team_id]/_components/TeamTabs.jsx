@@ -12,11 +12,11 @@ import Schedule from './Schedule';
 const tabs = [
   {
     id: 1,
-    label: 'Schedule',
+    label: 'Results',
   },
   {
     id: 2,
-    label: 'Results',
+    label: 'Schedule',
   },
 
   {
@@ -126,14 +126,14 @@ export default function TeamTabs({ team_id, team_name, session, teamList }) {
   async function getFixtures() {
     setLoading(true);
     try {
-      if (activeTab === 1) {
+      if (activeTab === 2) {
         const res = await xoomBackendUrl.post(
           `/cric-buzz/cricket/teams/v1/${team_id}/schedule`
         );
         console.log(res.data, 'schedule');
         setTeamInformation(res?.data?.data || {});
       }
-      if (activeTab === 2) {
+      if (activeTab === 1) {
         const res = await xoomBackendUrl.post(
           `/cric-buzz/cricket/teams/v1/${team_id}/results`
         );
@@ -224,13 +224,13 @@ export default function TeamTabs({ team_id, team_name, session, teamList }) {
       <div className="mt-4">
         <>
           {activeTab === 1 && (
+            <Results teamInformation={teamInformation} loading={loading} />
+          )}
+          {activeTab === 2 && (
             <Schedule
               data={teamInformation?.teamMatchesData}
               loading={loading}
             />
-          )}
-          {activeTab === 2 && (
-            <Results teamInformation={teamInformation} loading={loading} />
           )}
           {activeTab === 3 && (
             <Players teamInformation={teamInformation} loading={loading} />

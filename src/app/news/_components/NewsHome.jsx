@@ -1,6 +1,7 @@
 'use client';
 
 import GlobalLoading from '@/components/Global/GlobalLoading';
+import NoDataFound from '@/components/Global/NoDataFound';
 import { xoomBackendUrl } from '@/lib/axios/getAxios';
 import moment from 'moment';
 import Image from 'next/image';
@@ -37,7 +38,6 @@ export default function NewsHome() {
       keepPreviousData: true,
     }
   );
-
   if (isLoadingNews) {
     return (
       <div>
@@ -47,13 +47,7 @@ export default function NewsHome() {
   }
 
   if (!newsData || newsData.length === 0) {
-    return (
-      <div className="bg-black h-[250px] grid grid-cols-1 content-center -skew-y-[0.5deg]">
-        <div className="p-2 font-medium text-center text-gray-300 skew-y-[0.5deg]">
-          No news found at the moment. Stay tuned for updates!
-        </div>
-      </div>
-    );
+    return <NoDataFound />;
   }
 
   const truncate = (input) =>

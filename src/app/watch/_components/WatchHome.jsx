@@ -1,6 +1,7 @@
 'use client';
 
 import GlobalLoading from '@/components/Global/GlobalLoading';
+import NoDataFound from '@/components/Global/NoDataFound';
 import TabItem from '@/components/Global/TabItem';
 import TabPanel from '@/components/Global/TabPanel';
 import useGetAllHighlights from '@/lib/hooks/admin/useGetAllHighlights';
@@ -23,8 +24,11 @@ export default function WatchHome() {
       limit,
     });
 
-  if (highlightsLoading || !highlights?.data) {
+  if (highlightsLoading) {
     return <GlobalLoading />;
+  }
+  if (!highlights || highlights?.data?.length === 0) {
+    return <NoDataFound />;
   }
 
   const tabs = ['Videos'];

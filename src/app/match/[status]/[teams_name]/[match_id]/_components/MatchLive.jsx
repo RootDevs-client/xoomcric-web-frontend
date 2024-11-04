@@ -1,3 +1,4 @@
+import NoDataFound from '@/components/Global/NoDataFound';
 import { xoomBackendUrl } from '@/lib/axios/getAxios';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -7,7 +8,7 @@ import PlayerCard from './PlayerCard';
 import RecentOvsStats from './RecentOvsStats';
 
 export default function MatchLive({ match_id }) {
-  const [result, setResult] = useState([]);
+  const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(true);
   const { teams_name } = useParams();
 
@@ -33,6 +34,10 @@ export default function MatchLive({ match_id }) {
 
   if (loading) {
     return <MatchLiveShimmer />;
+  }
+
+  if (!result) {
+    return <NoDataFound />;
   }
 
   function findLatestInningsForEachTeam(data) {
