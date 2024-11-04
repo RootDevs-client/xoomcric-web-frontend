@@ -207,3 +207,18 @@
 .hexagon {
   clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
 }
+
+/* scrollbar style  */
+
+.match-scrollbar::-webkit-scrollbar {
+  width: 0px; /* Width of the vertical scrollbar */
+  height: 0px; /* Height of the horizontal scrollbar */
+}
+.scrollbar-5::-webkit-scrollbar {
+  cursor: pointer;
+  height: 5px; /* Height of the horizontal scrollbar */
+}
+.scrollbar-0::-webkit-scrollbar {
+  cursor: pointer;
+  height: 0px; /* Height of the horizontal scrollbar */
+}

@@ -1,20 +1,23 @@
+import { xoomBackendUrl } from '@/lib/axios/getAxios';
 import MatchTabs from './_components/matchTabs';
 
-export default function page({ params }) {
+export default async function page({ params }) {
   const { match_id, teams_name, status } = params;
+  const res = await xoomBackendUrl.post(
+    `/cric-buzz/cricket/mcenter/v1/${match_id}`
+  );
 
   return (
     // <ThreeColumnLayout>
     //   <PlayerTabs player_id={player_id} />
     // </ThreeColumnLayout>
-    <div className=" max-w-screen-xl p-4 mx-auto top-2">
-      <h1 className="font-semibold text-xl sm:text-3xl mb-5 ">
-        {teams_name
-          ?.replace(/-/g, ' ')
-          .replace(/(\d{4}) (\d{2})$/, '$1-$2')
-          .toUpperCase()}
-      </h1>
-      <MatchTabs match_id={match_id} status={status} />
+    <div className="max-w-screen-xl sm:p-4 p-2 mx-auto top-2">
+      <MatchTabs
+        match_id={match_id}
+        status={status}
+        teams_name={teams_name}
+        match={res?.data?.data}
+      />
     </div>
   );
 }

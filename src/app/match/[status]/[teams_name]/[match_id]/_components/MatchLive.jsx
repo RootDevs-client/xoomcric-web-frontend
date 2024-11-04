@@ -1,5 +1,6 @@
 import NoDataFound from '@/components/Global/NoDataFound';
 import { xoomBackendUrl } from '@/lib/axios/getAxios';
+import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import LiveCommentary from './LiveCommentary';
@@ -67,33 +68,38 @@ export default function MatchLive({ match_id }) {
   return (
     <div className="w-full">
       <div className="bg-white rounded-lg  w-full p-4">
-        {/* {homeTeam?.batTeamName ||
-          (awayTeam?.batTeamName && ( */}
-        <div className="flex justify-center gap-6 items-center mb-5">
-          <div className="text-center">
-            <p className="text-lg font-semibold">
-              {homeTeam?.batTeamName || teams_name?.split('-')[0]}
-            </p>
-            <p>{`${homeTeam?.score || 0}-${homeTeam?.wickets || 0} (${
-              homeTeam?.overs || 0.0
-            })`}</p>
+        {(awayTeam?.batTeamName || homeTeam?.batTeamName) && (
+          <div className="flex justify-center gap-6 items-center mb-5">
+            <div className="text-center">
+              <Link
+                href={`/team/${homeTeam?.batTeamName}/${homeTeam?.batTeamId}`}
+                className="text-lg font-semibold"
+              >
+                {homeTeam?.batTeamName || teams_name?.split('-')[0]}
+              </Link>
+              <p>{`${homeTeam?.score || 0}-${homeTeam?.wickets || 0} (${
+                homeTeam?.overs || 0.0
+              })`}</p>
+            </div>
+            <div className="text-center">
+              <p className=" py-2 px-4 border text-sm border-gray-300 rounded-full font-bold">
+                {result?.matchScoreDetails?.state || 'N/A'}
+              </p>
+              <p className="text-xl font-bold text-red-400">VS</p>
+            </div>
+            <div className="text-center">
+              <Link
+                href={`/team/${awayTeam?.batTeamName}/${awayTeam?.batTeamId}`}
+                className="text-lg font-semibold"
+              >
+                {awayTeam?.batTeamName || teams_name?.split('-')[2]}
+              </Link>
+              <p>{`${awayTeam?.score || 0}-${awayTeam?.wickets || 0} (${
+                awayTeam?.overs || 0.0
+              })`}</p>
+            </div>
           </div>
-          <div className="text-center">
-            <p className=" py-2 px-4 border text-sm border-gray-300 rounded-full font-bold">
-              {result?.matchScoreDetails?.state || 'N/A'}
-            </p>
-            <p className="text-xl font-bold text-red-400">VS</p>
-          </div>
-          <div className="text-center">
-            <p className="text-lg font-semibold">
-              {awayTeam?.batTeamName || teams_name?.split('-')[2]}
-            </p>
-            <p>{`${awayTeam?.score || 0}-${awayTeam?.wickets || 0} (${
-              awayTeam?.overs || 0.0
-            })`}</p>
-          </div>
-        </div>
-        {/* ))} */}
+        )}
 
         {result?.status && (
           <p className="text-center text-lg font-semibold mb-4">
@@ -131,157 +137,167 @@ export default function MatchLive({ match_id }) {
           )}
         </div>
         {/* ))} */}
-        <div className="w-full">
-          {/* Batting Stats */}
-          {result?.batsmanNonStriker?.batName && (
-            <table className="min-w-full border-collapse border border-gray-300 mb-5">
-              <thead>
-                <tr className="bg-gray-100 text-gray-700">
-                  <th className="border border-gray-300 px-4 py-2 text-left">
-                    Batter
-                  </th>
-                  <th className="border border-gray-300 px-4 py-2 text-center">
-                    R
-                  </th>
-                  <th className="border border-gray-300 px-4 py-2 text-center">
-                    B
-                  </th>
-                  <th className="border border-gray-300 px-4 py-2 text-center">
-                    4s
-                  </th>
-                  <th className="border border-gray-300 px-4 py-2 text-center">
-                    6s
-                  </th>
-                  <th className="border border-gray-300 px-4 py-2 text-center">
-                    SR
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {result?.batsmanStriker?.batName && (
-                  <tr className="border-b">
-                    <td className="border border-gray-300 px-4 py-2">
-                      {result?.batsmanStriker.batName}{' '}
-                      <span className="text-red-400 font-semibold">*</span>
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">
-                      {result?.batsmanStriker.batRuns}
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">
-                      {result?.batsmanStriker.batBalls}
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">
-                      {result?.batsmanStriker.batFours}
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">
-                      {result?.batsmanStriker.batSixes}
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">
-                      {result?.batsmanStriker.batStrikeRate}
-                    </td>
+        <div className={`w-full `}>
+          <div
+            className={` ${
+              result?.batsmanNonStriker?.batName &&
+              'overflow-x-auto scrollbar-5 sm:scrollbar-0'
+            }`}
+          >
+            {result?.batsmanNonStriker?.batName && (
+              <table className="min-w-full border-collapse border border-gray-300 mb-5">
+                <thead>
+                  <tr className="bg-gray-100 text-gray-700">
+                    <th className="border border-gray-300 px-2 sm:px-4 py-2 text-left">
+                      Batter
+                    </th>
+                    <th className="border border-gray-300 px-2 sm:px-4 py-2 text-center">
+                      R
+                    </th>
+                    <th className="border border-gray-300 px-2 sm:px-4 py-2 text-center">
+                      B
+                    </th>
+                    <th className="border border-gray-300 px-2 sm:px-4 py-2 text-center">
+                      4s
+                    </th>
+                    <th className="border border-gray-300 px-2 sm:px-4 py-2 text-center">
+                      6s
+                    </th>
+                    <th className="border border-gray-300 px-2 sm:px-4 py-2 text-center">
+                      SR
+                    </th>
                   </tr>
-                )}
-                {result?.batsmanNonStriker?.batName && (
-                  <tr className="border-b">
-                    <td className="border border-gray-300 px-4 py-2">
-                      {result?.batsmanNonStriker?.batName}
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">
-                      {result?.batsmanNonStriker?.batRuns}
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">
-                      {result?.batsmanNonStriker?.batBalls}
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">
-                      {result?.batsmanNonStriker?.batFours}
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">
-                      {result?.batsmanNonStriker?.batSixes}
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">
-                      {result?.batsmanNonStriker?.batStrikeRate}
-                    </td>
+                </thead>
+                <tbody>
+                  {result?.batsmanStriker?.batName && (
+                    <tr className="border-b">
+                      <td className="border border-gray-300 px-2 sm:px-4 py-2">
+                        {result?.batsmanStriker.batName}{' '}
+                        <span className="text-red-400 font-semibold">*</span>
+                      </td>
+                      <td className="border border-gray-300 px-2 sm:px-4 py-2 text-center">
+                        {result?.batsmanStriker.batRuns}
+                      </td>
+                      <td className="border border-gray-300 px-2 sm:px-4 py-2 text-center">
+                        {result?.batsmanStriker.batBalls}
+                      </td>
+                      <td className="border border-gray-300 px-2 sm:px-4 py-2 text-center">
+                        {result?.batsmanStriker.batFours}
+                      </td>
+                      <td className="border border-gray-300 px-2 sm:px-4 py-2 text-center">
+                        {result?.batsmanStriker.batSixes}
+                      </td>
+                      <td className="border border-gray-300 px-2 sm:px-4 py-2 text-center">
+                        {result?.batsmanStriker.batStrikeRate}
+                      </td>
+                    </tr>
+                  )}
+                  {result?.batsmanNonStriker?.batName && (
+                    <tr className="border-b">
+                      <td className="border border-gray-300 px-2 sm:px-4 py-2">
+                        {result?.batsmanNonStriker?.batName}
+                      </td>
+                      <td className="border border-gray-300 px-2 sm:px-4 py-2 text-center">
+                        {result?.batsmanNonStriker?.batRuns}
+                      </td>
+                      <td className="border border-gray-300 px-2 sm:px-4 py-2 text-center">
+                        {result?.batsmanNonStriker?.batBalls}
+                      </td>
+                      <td className="border border-gray-300 px-2 sm:px-4 py-2 text-center">
+                        {result?.batsmanNonStriker?.batFours}
+                      </td>
+                      <td className="border border-gray-300 px-2 sm:px-4 py-2 text-center">
+                        {result?.batsmanNonStriker?.batSixes}
+                      </td>
+                      <td className="border border-gray-300 px-2 sm:px-4 py-2 text-center">
+                        {result?.batsmanNonStriker?.batStrikeRate}
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            )}
+          </div>
+          <div
+            className={`${
+              result?.bowlerStriker?.bowlName &&
+              'overflow-x-auto scrollbar-5 sm:scrollbar-0'
+            }`}
+          >
+            {result?.bowlerStriker?.bowlName && (
+              <table className="min-w-full border-collapse border border-gray-300">
+                <thead>
+                  <tr className="bg-gray-100 text-gray-700">
+                    <th className="border border-gray-300 px-2 sm:px-4 py-2 text-left">
+                      Bowler
+                    </th>
+                    <th className="border border-gray-300 px-2 sm:px-4 py-2 text-center">
+                      O
+                    </th>
+                    <th className="border border-gray-300 px-2 sm:px-4 py-2 text-center">
+                      M
+                    </th>
+                    <th className="border border-gray-300 px-2 sm:px-4 py-2 text-center">
+                      R
+                    </th>
+                    <th className="border border-gray-300 px-2 sm:px-4 py-2 text-center">
+                      W
+                    </th>
+                    <th className="border border-gray-300 px-2 sm:px-4 py-2 text-center">
+                      ER
+                    </th>
                   </tr>
-                )}
-              </tbody>
-            </table>
-          )}
-
-          {/* Bowling Stats */}
-
-          {result?.bowlerStriker?.bowlName && (
-            <table className="min-w-full border-collapse border border-gray-300">
-              <thead>
-                <tr className="bg-gray-100 text-gray-700">
-                  <th className="border border-gray-300 px-4 py-2 text-left">
-                    Bowler
-                  </th>
-                  <th className="border border-gray-300 px-4 py-2 text-center">
-                    O
-                  </th>
-                  <th className="border border-gray-300 px-4 py-2 text-center">
-                    M
-                  </th>
-                  <th className="border border-gray-300 px-4 py-2 text-center">
-                    R
-                  </th>
-                  <th className="border border-gray-300 px-4 py-2 text-center">
-                    W
-                  </th>
-                  <th className="border border-gray-300 px-4 py-2 text-center">
-                    ER
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {result?.bowlerStriker?.bowlName && (
-                  <tr className="border-b">
-                    <td className="border border-gray-300 px-4 py-2">
-                      {result?.bowlerStriker?.bowlName}{' '}
-                      <span className="text-red-400 font-semibold">*</span>
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">
-                      {result?.bowlerStriker?.bowlOvs}
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">
-                      {result?.bowlerStriker?.bowlMaidens}
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">
-                      {result?.bowlerStriker?.bowlRuns}
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">
-                      {result?.bowlerStriker?.bowlWkts}
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">
-                      {result?.bowlerStriker?.bowlEcon}
-                    </td>
-                  </tr>
-                )}
-                {result?.bowlerNonStriker?.bowlName && (
-                  <tr className="border-b">
-                    <td className="border border-gray-300 px-4 py-2">
-                      {result?.bowlerNonStriker?.bowlName}
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">
-                      {result?.bowlerNonStriker?.bowlOvs}
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">
-                      {result?.bowlerNonStriker?.bowlMaidens}
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">
-                      {result?.bowlerNonStriker?.bowlRuns}
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">
-                      {result?.bowlerNonStriker?.bowlWkts}
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">
-                      {result?.bowlerNonStriker?.bowlEcon}
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          )}
+                </thead>
+                <tbody>
+                  {result?.bowlerStriker?.bowlName && (
+                    <tr className="border-b">
+                      <td className="border border-gray-300 px-2 sm:px-4 py-2">
+                        {result?.bowlerStriker?.bowlName}{' '}
+                        <span className="text-red-400 font-semibold">*</span>
+                      </td>
+                      <td className="border border-gray-300 px-2 sm:px-4 py-2 text-center">
+                        {result?.bowlerStriker?.bowlOvs}
+                      </td>
+                      <td className="border border-gray-300 px-2 sm:px-4 py-2 text-center">
+                        {result?.bowlerStriker?.bowlMaidens}
+                      </td>
+                      <td className="border border-gray-300 px-2 sm:px-4 py-2 text-center">
+                        {result?.bowlerStriker?.bowlRuns}
+                      </td>
+                      <td className="border border-gray-300 px-2 sm:px-4 py-2 text-center">
+                        {result?.bowlerStriker?.bowlWkts}
+                      </td>
+                      <td className="border border-gray-300 px-2 sm:px-4 py-2 text-center">
+                        {result?.bowlerStriker?.bowlEcon}
+                      </td>
+                    </tr>
+                  )}
+                  {result?.bowlerNonStriker?.bowlName && (
+                    <tr className="border-b">
+                      <td className="border border-gray-300 px-2 sm:px-4 py-2">
+                        {result?.bowlerNonStriker?.bowlName}
+                      </td>
+                      <td className="border border-gray-300 px-2 sm:px-4 py-2 text-center">
+                        {result?.bowlerNonStriker?.bowlOvs}
+                      </td>
+                      <td className="border border-gray-300 px-2 sm:px-4 py-2 text-center">
+                        {result?.bowlerNonStriker?.bowlMaidens}
+                      </td>
+                      <td className="border border-gray-300 px-2 sm:px-4 py-2 text-center">
+                        {result?.bowlerNonStriker?.bowlRuns}
+                      </td>
+                      <td className="border border-gray-300 px-2 sm:px-4 py-2 text-center">
+                        {result?.bowlerNonStriker?.bowlWkts}
+                      </td>
+                      <td className="border border-gray-300 px-2 sm:px-4 py-2 text-center">
+                        {result?.bowlerNonStriker?.bowlEcon}
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            )}
+          </div>
         </div>
         {result?.recentOvsStats && (
           <div className="mb-4 mt-4">

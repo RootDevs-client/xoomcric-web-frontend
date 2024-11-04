@@ -8,19 +8,18 @@ function formatOversString(input = '') {
 }
 
 const RecentOvsStats = ({ recentOvsStats }) => {
-  console.log(formatOversString(recentOvsStats), 'string');
   const oversArray = formatOversString(recentOvsStats)
     .split('|')
     .flatMap((ov) => ov.trim().split(' '));
 
   return (
-    <div className="flex space-x-2 mt-2">
+    <div className="flex space-x-1 mt-2 overflow-x-scroll scrollbar-0">
       {oversArray.map((stat, index) => {
         const isWicket = stat === 'W';
         const bgColor = isWicket ? 'bg-red-500 text-white' : 'bg-gray-200';
 
         return (
-          <span key={index} className={`px-4 py-2 ${bgColor} rounded-full`}>
+          <span key={index} className={`px-3 py-1 ${bgColor} rounded-full`}>
             {stat}
           </span>
         );

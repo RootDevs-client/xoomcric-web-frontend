@@ -53,7 +53,6 @@ export default function MatchInfo({ match_id }) {
   useEffect(() => {
     getData();
   }, []);
-  console.log(result?.matchInfo);
 
   if (loading) {
     return <PointTableCardShimmer />;

@@ -31,8 +31,6 @@ export default function Squads({ match_id }) {
     return <PointTableCardShimmer />;
   }
 
-  console.log('result', result);
-
   if (
     !result?.matchInfo ||
     (result?.matchInfo?.team1?.playerDetails?.length === 0 &&
@@ -53,7 +51,7 @@ export default function Squads({ match_id }) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div className="space-y-4">
-          <div className="font-bold text-2xl text-center md:hidden block text-black bg-gray-300 py-4 px-2">
+          <div className=" text-base font-semibold text-center md:hidden block text-black bg-gray-300 py-4 px-2">
             {result?.matchInfo?.team1?.shortName}
           </div>
           {result?.matchInfo?.team1?.playerDetails.length === 0 ? (
@@ -90,7 +88,7 @@ export default function Squads({ match_id }) {
         </div>
 
         <div className="space-y-4">
-          <div className="font-bold text-2xl text-center md:hidden block text-black bg-gray-300 py-4 px-2">
+          <div className="font-semibold  text-base  text-center md:hidden block text-black bg-gray-300 py-4 px-2">
             {result?.matchInfo?.team2?.shortName}
           </div>
           {result?.matchInfo?.team2?.playerDetails?.length === 0 ? (

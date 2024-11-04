@@ -98,7 +98,13 @@ const Tabs = ({ session }) => {
                           <div className="skew-y-[0.5deg] ">
                             <Link
                               className="flex items-center justify-between h-full p-2 px-4 hover:text-secondary"
-                              href={`/league/details/${series?.seriesAdWrapper?.seriesId}`}
+                              href={`/series/${series?.seriesAdWrapper?.seriesName
+                                .split(' ')
+                                .join('-')
+                                .replace(/,/g, '')
+                                .replace(/[^\w-]+/g, '')}/${
+                                series?.seriesAdWrapper?.seriesId
+                              }`}
                             >
                               <h4 className="text-gray-900 text-[16px] font-semibold uppercase">
                                 {series?.seriesAdWrapper?.seriesName}
