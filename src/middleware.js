@@ -21,6 +21,6 @@ export default withAuth(
 
 export const config = {
   matcher: [
-    '/((?!api|_next/static|_next/image|images|icons|favicon.ico|league|match|team|player|favorites|watch|news|home|ip|xoomadmin/login|$).*)',
+    '/((?!api|_next/static|_next/image|images|icons|favicon.ico|series|match|team|player|favorites|watch|news|home|ip|xoomadmin/login|$).*)',
   ],
 };
