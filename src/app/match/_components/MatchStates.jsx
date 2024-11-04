@@ -1,4 +1,7 @@
-import { convertTimestampToFormattedDate } from '@/lib/helpers/convertTimestampToFormattedDate';
+import {
+  convertTimestampToFormattedDate,
+  convertTimestampToFormattedDateMatchCard,
+} from '@/lib/helpers/convertTimestampToFormattedDate';
 import { getCurrentGoals } from '@/lib/helpers/getCurrentGoals';
 
 export default function MatchStates({ match }) {
@@ -58,7 +61,9 @@ export default function MatchStates({ match }) {
       )}
       <div className="text-center">
         <span className="font-semibold text-[10px] sm:text-[13px]">
-          {convertTimestampToFormattedDate(match?.matchInfo?.startDate)}
+          {convertTimestampToFormattedDateMatchCard(
+            match?.matchInfo?.startDate
+          )}
         </span>
       </div>
     </div>

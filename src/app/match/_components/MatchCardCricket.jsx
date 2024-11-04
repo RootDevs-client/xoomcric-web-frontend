@@ -133,7 +133,7 @@ const MatchCardCricket = ({ match, large, status }) => {
             }`}
           >
             <p className="col-span-1 text-gray-400 text-sm font-semibold">
-              {match.matchInfo?.matchFormat.slice(0, 3)}
+              {match.matchInfo?.matchFormat}
             </p>
             <div className="col-span-4 flex items-center">
               <img

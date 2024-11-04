@@ -161,14 +161,14 @@ export default function SeriesTabs({ series_id, series_name, session }) {
         </div>
       </div>
 
-      <div className="flex justify-between items-center bg-black -skew-y-[0.5deg]">
+      <div className="flex justify-between items-center overflow-hidden bg-black -skew-y-[0.5deg] ">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => {
               setActiveTab(tab.id);
             }}
-            className={`sm:py-5 sm:px-4 py-1 px-1 text-sm font-medium transition-colors w-full   h-full bg-black text-white ${
+            className={`sm:py-5 sm:px-4 py-1 px-3 text-sm font-medium  transition-colors w-full h-[50px] flex justify-center items-center bg-black text-white ${
               tab?.id == activeTab && '!bg-[#FB0404]'
             } ${activeTab === 1 && 'tab-button-active-1'} ${
               (activeTab === 2 || activeTab === 3) && 'tab-button-active-2'

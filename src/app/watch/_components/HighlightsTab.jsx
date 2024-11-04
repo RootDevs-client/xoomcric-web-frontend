@@ -115,7 +115,9 @@ export default function HighlightsTab({ highlightsData }) {
                   height="315"
                   src={`https://www.youtube.com/embed/${
                     youtubeUrl?.split('/embed/')[1]
-                  }?si=7Lr-QuMZddvlcURM&autoplay=1&mute=1&loop=1&controls=0&modestbranding=0$rel=0&playsinline=1&enablejsapi=1&playlist=${
+                  }?si=7Lr-QuMZddvlcURM&autoplay=${
+                    modalOpen ? 1 : 0
+                  }&mute=0&loop=1&controls=0&modestbranding=0$rel=0&playsinline=1&enablejsapi=1&playlist=${
                     youtubeUrl?.split('/embed/')[1]
                   }`}
                   title="YouTube video player"

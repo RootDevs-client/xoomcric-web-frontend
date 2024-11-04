@@ -27,6 +27,13 @@ export default function FavoriteSeries({
           <h4 className="p-2 px-4 text-red-500">
             Please log in first and add your favorite series
           </h4>
+          <button
+            type="button"
+            onClick={() => window.authModal.showModal()}
+            className="bg-primary text-white px-4 py-2 rounded-md"
+          >
+            Login / Register
+          </button>
         </div>
       ) : (
         <>
