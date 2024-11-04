@@ -1,0 +1,209 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.slick-dots {
+  position: absolute;
+  bottom: initial;
+  display: inline-block;
+  width: 50% !important;
+  padding: 0;
+  height: fit-content !important;
+  margin: 0;
+  list-style: none;
+  text-align: center;
+  right: -10px;
+  top: -50px;
+}
+
+.slick-dots li.slick-active button:before {
+  opacity: 0.75;
+  color: black;
+}
+
+.slick-dots li button:before {
+  font-family: 'slick';
+  font-size: 6px;
+  line-height: 20px;
+  position: absolute;
+  top: 10px;
+  left: 0;
+  right: -72px;
+  width: 20px;
+  height: 20px;
+  content: '•';
+  text-align: center;
+  opacity: 0.25;
+  color: #25d366 !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.slick-slider {
+  position: static !important;
+}
+
+.slick-dots li {
+  margin: 0 -3px !important;
+}
+.jwplayer.jw-skin-myskin .jw-display-icon-container {
+  border-style: solid;
+  border-width: medium;
+  border-radius: 50%;
+  padding: 1em;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px rgb(192, 189, 189);
+  /* border-radius: 100vw; */
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(61, 61, 61);
+  border: 0.1em solid white;
+  border-radius: 100vw;
+  background: #151515;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #3d3d3d;
+}
+
+/* Waving hand */
+
+@keyframes waving {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(15deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  75% {
+    transform: rotate(-15deg);
+  }
+}
+
+.waving-hand {
+  width: 40px;
+  height: 40px;
+  background: url('/images/waving-hand.png') no-repeat;
+  background-size: cover;
+  animation: waving 2s infinite;
+  margin-top: 20px;
+}
+
+.jw-error {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+}
+
+.jw-error iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.mobile_menu_bar {
+  /*  */
+}
+/* CSS for hiding the scrollbar */
+/* .scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hidden {
+  display: none !important;
+} */
+.scrollbar-hidden {
+  overflow-y: scroll; /* Add the ability to scroll */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.scrollbar-hidden {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+@media screen and (min-width: 640px) {
+  .mobile_menu_bar {
+    display: none;
+  }
+}
+
+.web_menu_bar {
+  /*  */
+}
+
+@media screen and (max-width: 640px) {
+  .web_menu_bar {
+    display: none;
+  }
+}
+
+/* tab bar css start */
+.tab-button-active-1 {
+  clip-path: polygon(0% 0%, 100% 0%, 80% 100%, 0% 100%);
+}
+.tab-button-active-2 {
+  clip-path: polygon(20% 0%, 100% 0%, 80% 100%, 0% 100%);
+}
+.tab-button-active-3 {
+  clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+/* tab bar css end */
+
+/* player about tab shimmer start */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* player about tab shimmer end */
+
+/* globals.css */
+
+.hexagon {
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+}

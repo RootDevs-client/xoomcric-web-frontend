@@ -1,0 +1,115 @@
+'use client';
+
+import { xoomBackendUrl } from '@/lib/axios/getAxios';
+import { signIn, useSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
+import { BiFootball } from 'react-icons/bi';
+
+export default function ValidityModal() {
+  const { data: session } = useSession();
+
+  const [userId, setUserId] = useState();
+  const [accessCode, setAccessCode] = useState();
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const handleEsc = (event) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+      }
+    };
+
+    document.addEventListener('keydown', handleEsc);
+
+    return () => {
+      document.removeEventListener('keydown', handleEsc);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (session?.user?.accessToken) {
+      document.getElementById('my_modal_1').close();
+    } else if (session === null) {
+      document.getElementById('my_modal_1').showModal();
+    }
+  }, [session]);
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    if (!userId || !accessCode) {
+      setError('Please fill in the required fields');
+      return;
+    }
+
+    setError('');
+    setIsLoading(true);
+    xoomBackendUrl
+      .post('/api/user-login', { userId, accessCode })
+      .then(({ data }) => {
+        document.getElementById('my_modal_1').close();
+        localStorage.setItem('accessCode', data.token);
+
+        signIn('credentials', {
+          redirect: false,
+          token: data.token,
+          userId,
+          role: 'user',
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+        setError('Invalid access code');
+      })
+      .finally(() => setIsLoading(false));
+  };
+
+  return (
+    <dialog id="my_modal_1" className="modal backdrop-blur-sm ">
+      <form className="modal-box" onSubmit={onSubmit}>
+        <div className="flex items-center text-2xl font-semibold  uppercase md:text-3xl text-primary">
+          <span className="text-secondary">x</span>
+          <BiFootball className="animate-bounce" />
+          <BiFootball className="text-secondary animate-bounce [animation-delay:-0.3s]" />
+          mSp
+          <BiFootball className="animate-spin" />
+          rts
+        </div>
+        <p className="py-4">
+          Please, enter your access code to browse the website!
+        </p>
+
+        <div className="flex flex-col gap-3">
+          <label className="text-sm">User ID</label>
+
+          <input
+            type="text"
+            className="input input-bordered w-full"
+            onChange={(e) => setUserId(e.target.value)}
+          />
+
+          <label className="text-sm">Access Code</label>
+
+          <input
+            type="text"
+            className="input input-bordered w-full"
+            onChange={(e) => setAccessCode(e.target.value)}
+          />
+        </div>
+
+        {error && <p className="text-red-500 text-sm ml-1 mt-3">{error}</p>}
+
+        <div className="modal-action">
+          <button
+            type="submit"
+            className="btn-primary btn btn-sm "
+            disabled={isLoading}
+          >
+            {isLoading ? 'Verifying...' : 'Submit'}
+          </button>
+        </div>
+      </form>
+    </dialog>
+  );
+}
