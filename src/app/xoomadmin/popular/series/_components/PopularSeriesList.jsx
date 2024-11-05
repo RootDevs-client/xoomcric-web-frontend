@@ -12,8 +12,8 @@ import useGetPopularSeries from '@/lib/hooks/admin/useGetPopularSeries';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { BiSolidCricketBall } from 'react-icons/bi';
 import { FaHome } from 'react-icons/fa';
-import { FaVolleyball } from 'react-icons/fa6';
 import { HiMagnifyingGlass } from 'react-icons/hi2';
 import { LuPlus } from 'react-icons/lu';
 import { RiCloseCircleFill } from 'react-icons/ri';
@@ -254,7 +254,7 @@ function PopularSeriesList({ seriesData, session }) {
             {popularSeriesLoading ? (
               <div className="flex justify-center p-5 h-44">
                 <div className="animate-bounce">
-                  <FaVolleyball className="text-3xl animate-spin text-secondary" />
+                  <BiSolidCricketBall className="text-3xl animate-spin text-secondary" />
                 </div>
               </div>
             ) : seriesList?.length > 0 ? (

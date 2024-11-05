@@ -204,7 +204,7 @@ export default function LeftSideDrawer() {
                   </div>
 
                   <Link
-                    href="https://xoomsport.com/terms"
+                    href="/terms-of-service"
                     className="flex justify-between py-1 cursor-pointer hover:text-secondary"
                   >
                     <div>
@@ -216,7 +216,7 @@ export default function LeftSideDrawer() {
                   </Link>
 
                   <Link
-                    href="https://xoomsport.com/policy"
+                    href="/privacy-policy"
                     className="flex justify-between py-1 cursor-pointer hover:text-secondary"
                   >
                     <div>

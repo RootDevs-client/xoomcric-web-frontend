@@ -12,9 +12,7 @@ import { ImSpinner } from 'react-icons/im';
 import * as Yup from 'yup';
 import AppDownloadLinksForm from './AppDownloadLinksForm';
 import GeneralSettingsForm from './GeneralSettingsForm';
-import LogoAndIconForm from './LogoAndIconForm';
 import PrivacyAndPolicyForm from './PrivacyAndPolicyForm';
-import SocialLinksForm from './SocialLinksForm';
 import TermsAndConditionForm from './TermsAndConditionForm';
 
 export default function SettingsMainForm() {
@@ -32,11 +30,11 @@ export default function SettingsMainForm() {
 
   const tabs = [
     'General Settings',
-    'Apps & Social Links',
-    'Logo & Icon',
+    // 'Apps & Social Links',
+    // 'Logo & Icon',
     'Terms and Condition',
     'Privacy and Policy',
-    'App Download Links',
+    // 'App Download Links',
   ];
 
   const [initialValues, setInitialValues] = useState({
@@ -152,21 +150,7 @@ export default function SettingsMainForm() {
                 </div>
 
                 <div hidden={currentTab === 1 ? false : true}>
-                  <SocialLinksForm />
-                </div>
-
-                <div hidden={currentTab === 2 ? false : true}>
-                  <LogoAndIconForm
-                    values={values}
-                    setFieldValue={setFieldValue}
-                    setSiteIcon={setSiteIcon}
-                    siteIcon={siteIcon}
-                    setSiteLogo={setSiteLogo}
-                    siteLogo={siteLogo}
-                  />
-                </div>
-
-                <div hidden={currentTab === 3 ? false : true}>
+                  {/* <SocialLinksForm /> */}
                   <TermsAndConditionForm
                     terms={terms}
                     setTerms={setTerms}
@@ -174,12 +158,37 @@ export default function SettingsMainForm() {
                   />
                 </div>
 
-                <div hidden={currentTab === 4 ? false : true}>
+                <div hidden={currentTab === 2 ? false : true}>
+                  {/* <LogoAndIconForm
+                    values={values}
+                    setFieldValue={setFieldValue}
+                    setSiteIcon={setSiteIcon}
+                    siteIcon={siteIcon}
+                    setSiteLogo={setSiteLogo}
+                    siteLogo={siteLogo}
+                  /> */}
                   <PrivacyAndPolicyForm
                     policy={policy}
                     setPolicy={setPolicy}
                     setFieldValue={setFieldValue}
                   />
+                </div>
+
+                <div hidden={currentTab === 3 ? false : true}>
+                  {/* <TermsAndConditionForm
+                    terms={terms}
+                    setTerms={setTerms}
+                    setFieldValue={setFieldValue}
+                  /> */}
+                </div>
+
+                <div hidden={currentTab === 4 ? false : true}>
+                  {/* <PrivacyAndPolicyForm
+                    policy={policy}
+                    setPolicy={setPolicy}
+                    setFieldValue={setFieldValue}
+                  /> */}
+                  <AppDownloadLinksForm />
                 </div>
 
                 <div hidden={currentTab === 5 ? false : true}>

@@ -46,11 +46,11 @@ export default function Footer2() {
               <div className="font-semibold">
                 <p>
                   {' '}
-                  <a href="">Terms of Use</a>
+                  <a href="/terms-of-service">Terms of Use</a>
                 </p>
                 <p className="py-1">
                   {' '}
-                  <a href="">Privacy Policy</a>
+                  <a href="/privacy-policy">Privacy Policy</a>
                 </p>
                 <p className="py-1">
                   {' '}
