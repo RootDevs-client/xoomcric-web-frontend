@@ -32,7 +32,6 @@ export default function ScheduleTable({ data }) {
                 ?.format('h:mm A');
 
               const localTime = moment(startDate)?.format('h:mm A');
-              console.log(matchInfo, 'matchInfo');
 
               return (
                 <tr key={index} className="border-b">

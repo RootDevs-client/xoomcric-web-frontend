@@ -19,7 +19,6 @@ export default function MatchLive({ match_id }) {
       const res = await xoomBackendUrl.post(
         `/cric-buzz/cricket/mcenter/v1/${match_id}/overs`
       );
-      console.log(res?.data, 'MatchLive');
 
       setResult(res?.data?.data || {});
     } catch (error) {

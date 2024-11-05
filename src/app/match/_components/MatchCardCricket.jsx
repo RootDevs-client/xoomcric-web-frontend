@@ -39,7 +39,6 @@ const MatchCardCricket = ({ match, large, status }) => {
   const isPreviewPage = upcomingStatus.includes(match?.state?.short_name);
 
   const handleFavoriteClick = async (event, match) => {
-    console.log({ match });
     event.preventDefault();
     if (session) {
       setIsStarClicked(true);

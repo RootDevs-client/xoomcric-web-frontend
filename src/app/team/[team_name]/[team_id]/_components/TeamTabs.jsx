@@ -130,21 +130,21 @@ export default function TeamTabs({ team_id, team_name, session, teamList }) {
         const res = await xoomBackendUrl.post(
           `/cric-buzz/cricket/teams/v1/${team_id}/schedule`
         );
-        console.log(res.data, 'schedule');
+
         setTeamInformation(res?.data?.data || {});
       }
       if (activeTab === 1) {
         const res = await xoomBackendUrl.post(
           `/cric-buzz/cricket/teams/v1/${team_id}/results`
         );
-        console.log(res.data, 'results');
+
         setTeamInformation(res?.data?.data || {});
       }
       if (activeTab === 3) {
         const res = await xoomBackendUrl.post(
           `/cric-buzz/cricket/teams/v1/${team_id}/players`
         );
-        console.log(res.data, 'players');
+
         setTeamInformation(res?.data?.data || {});
       }
     } catch (error) {

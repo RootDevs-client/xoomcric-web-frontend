@@ -40,7 +40,6 @@ export default function MatchInfo({ match_id }) {
       const res = await xoomBackendUrl.post(
         `/cric-buzz/cricket/mcenter/v1/${match_id}`
       );
-      console.log(res?.data, 'MatchInfo');
 
       setResult(res?.data?.data || {});
     } catch (error) {

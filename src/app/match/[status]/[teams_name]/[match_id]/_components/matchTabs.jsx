@@ -32,7 +32,6 @@ export default function MatchTabs({ match_id, status, teams_name, match }) {
   }, [isFavorite, userProfile]);
 
   const handleFavoriteClick = async (event, match) => {
-    console.log({ match });
     event.preventDefault();
     if (session) {
       setIsStarClicked(true);

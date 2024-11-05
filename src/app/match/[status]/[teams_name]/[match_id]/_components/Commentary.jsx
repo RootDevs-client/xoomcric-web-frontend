@@ -90,7 +90,6 @@ export default function Commentary({ match_id }) {
       </div>
     );
   }
-  console.log({ result }, 'result');
 
   if (!result) {
     return <NoDataFound />;

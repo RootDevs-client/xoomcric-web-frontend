@@ -3,11 +3,6 @@ import NoDataFound from '@/components/Global/NoDataFound';
 import ScheduleTable from './ScheduleTable';
 
 export default function Results({ teamInformation, loading }) {
-  console.log(
-    { teamInformation: teamInformation?.teamMatchesData, loading },
-    'informatin'
-  );
-
   if (loading) {
     return <ShimmerSheduleTable />;
   }

@@ -16,7 +16,7 @@ export default function PointTable({ series_id }) {
       const res = await xoomBackendUrl.post(
         `/cric-buzz/cricket/stats/v1/series/${series_id}/points-table`
       );
-      console.log(res?.data, 'information');
+
       setResult(res?.data?.data || {});
     } catch (error) {
       console.error('Error fetching Point Table Information:', error);

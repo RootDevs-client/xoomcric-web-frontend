@@ -43,28 +43,28 @@ export default function PlayerTabs({ player_id }) {
         const res = await xoomBackendUrl.post(
           `/cric-buzz/cricket/stats/v1/player/${player_id}`
         );
-        console.log(res.data, 'inforatio');
+
         setPlayerInformation(res?.data?.data || {});
       }
       if (activeTab === 2) {
         const res = await xoomBackendUrl.post(
           `/cric-buzz/cricket/stats/v1/player/${player_id}/batting`
         );
-        console.log(res.data, 'dattting');
+
         setPlayerInformation(res?.data?.data || {});
       }
       if (activeTab === 3) {
         const res = await xoomBackendUrl.post(
           `/cric-buzz/cricket/stats/v1/player/${player_id}/bowling`
         );
-        console.log(res.data, 'bolling');
+
         setPlayerInformation(res?.data?.data || {});
       }
       if (activeTab === 4) {
         const res = await xoomBackendUrl.post(
           `/cric-buzz/cricket/stats/v1/player/${player_id}/career`
         );
-        console.log(res.data, 'about');
+
         setPlayerInformation(res?.data?.data || {});
       }
     } catch (error) {

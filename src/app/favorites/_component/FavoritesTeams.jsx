@@ -15,8 +15,6 @@ export default function FavoritesTeams({
     );
   }
 
-  console.log('teams', teams);
-
   return (
     <div>
       {notLoggedIn ? (

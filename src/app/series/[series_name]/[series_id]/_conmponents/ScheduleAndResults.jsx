@@ -15,7 +15,6 @@ export default function ScheduleAndResults({ series_id }) {
       const res = await xoomBackendUrl.post(
         `/cric-buzz/cricket/series/v1/${series_id}`
       );
-      console.log(res?.data, 'inforatio');
 
       setResult(res?.data?.data || {});
     } catch (error) {

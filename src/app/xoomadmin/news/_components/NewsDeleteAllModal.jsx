@@ -25,7 +25,7 @@ export default function NewsDeleteAllModal({ session, allNewsRefetch }) {
       }
     } catch (err) {
       setDeleting(false);
-      console.log('err', err);
+
       toast.error('Failed to delete all news!');
     }
   };

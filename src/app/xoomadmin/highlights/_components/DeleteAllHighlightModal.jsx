@@ -28,7 +28,7 @@ export default function DeleteAllHighlightModal({
       }
     } catch (err) {
       setDeleting(false);
-      console.log('err', err);
+
       toast.error('Failed to delete all highlights!');
     }
   };

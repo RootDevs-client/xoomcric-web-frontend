@@ -8,7 +8,6 @@ export function convertTimestampToFormattedDate(timestamp) {
 }
 
 export function convertTimestampToFormattedDateMatchCard(timestamp) {
-  console.log({ timestamp });
   const date = moment.unix(timestamp / 1000);
   const formattedDate = date.format('DD MMM');
   const formattedTime = date.format('h:mm A');

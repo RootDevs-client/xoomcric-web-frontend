@@ -15,7 +15,6 @@ const MatchCommentary = ({ data }) => {
   //   'B0$',
   //   'Let\u2019s address the elephant in the room!!'
   // );
-  // console.log(result, 'result');
 
   // =============
 

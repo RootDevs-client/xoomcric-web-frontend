@@ -6,7 +6,6 @@ import toast from 'react-hot-toast';
 
 export default function FavoriteSeriesCard({ seriesItem, session }) {
   const { userProfile, refetchProfile } = useGetUserProfile(session);
-  console.log(seriesItem, 'seriesItem');
 
   const favorite =
     userProfile?.favorites?.series.some(

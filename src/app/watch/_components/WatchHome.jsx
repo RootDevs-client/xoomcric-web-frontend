@@ -49,8 +49,6 @@ export default function WatchHome() {
     setIsLoadMore(false);
   };
 
-  // console.log('highlights', highlights);
-
   return (
     <div>
       <div className="flex flex-col items-center">

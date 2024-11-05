@@ -19,7 +19,6 @@ export default function Venues({ series_id }) {
       const res = await xoomBackendUrl.post(
         `/cric-buzz/cricket/series/v1/${series_id}/venues`
       );
-      console.log(res?.data, 'inforatio');
 
       setResult(res?.data?.data || {});
     } catch (error) {

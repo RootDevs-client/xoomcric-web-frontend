@@ -13,7 +13,6 @@ export default function ScoreCard({ match_id }) {
       const res = await xoomBackendUrl.post(
         `/cric-buzz/cricket/mcenter/v1/${match_id}/scard`
       );
-      console.log(res?.data, 'ScoreCard');
 
       setResult(res?.data?.data || {});
     } catch (error) {
@@ -22,7 +21,6 @@ export default function ScoreCard({ match_id }) {
       setLoading(false);
     }
   }
-  console.log(result?.scoreCard, 'scoreCard data');
 
   useEffect(() => {
     getData();
