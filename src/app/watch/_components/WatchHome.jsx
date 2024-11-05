@@ -4,7 +4,7 @@ import GlobalLoading from '@/components/Global/GlobalLoading';
 import NoDataFound from '@/components/Global/NoDataFound';
 import TabItem from '@/components/Global/TabItem';
 import TabPanel from '@/components/Global/TabPanel';
-import useGetAllHighlights from '@/lib/hooks/admin/useGetAllHighlights';
+import useGetAllHighlight from '@/lib/hooks/admin/useGetAllHighlight';
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { ImSpinner } from 'react-icons/im';
@@ -18,7 +18,7 @@ export default function WatchHome() {
   const { data: session } = useSession();
 
   const { highlights, highlightsLoading, highlightsRefetch } =
-    useGetAllHighlights({
+    useGetAllHighlight({
       session,
       page,
       limit,
@@ -48,6 +48,8 @@ export default function WatchHome() {
     await highlightsRefetch();
     setIsLoadMore(false);
   };
+
+  // console.log('highlights', highlights);
 
   return (
     <div>
