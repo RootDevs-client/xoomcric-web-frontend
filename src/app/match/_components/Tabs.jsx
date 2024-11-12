@@ -2,6 +2,7 @@
 import NoDataFound from '@/components/Global/NoDataFound';
 import { xoomBackendUrl } from '@/lib/axios/getAxios';
 import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { BiStar } from 'react-icons/bi';
 import { FiChevronRight } from 'react-icons/fi';
@@ -23,9 +24,19 @@ const tabs = [
 ];
 
 const Tabs = ({ session }) => {
-  const [activeTab, setActiveTab] = useState(tabs[0].id);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const paramsTab = searchParams.get('tab');
+  const activeTabCheck = tabs.find(
+    (tab) => tab.label.toLowerCase() === paramsTab
+  );
+
+  const [activeTab, setActiveTab] = useState(
+    activeTabCheck?.id ? activeTabCheck?.id : tabs[1].id
+  );
   const [loading, setLoading] = useState(true);
   const [fixtures, setFixtures] = useState([]);
+
   async function getFixtures() {
     setLoading(true);
     try {
@@ -57,7 +68,10 @@ const Tabs = ({ session }) => {
         {tabs.map((tab) => (
           <button
             key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
+            onClick={() => {
+              setActiveTab(tab.id);
+              router.push(`?tab=${tab.label.toLowerCase()}`);
+            }}
             className={`py-5 px-4  text-sm font-medium transition-colors w-full   h-full bg-black text-white ${
               tab?.id == activeTab && '!bg-[#FB0404]'
             } ${activeTab === 1 && 'tab-button-active-1'} ${
@@ -116,6 +130,7 @@ const Tabs = ({ session }) => {
                         {series?.seriesAdWrapper?.matches?.map(
                           (match, index) => (
                             <MatchCardCricket
+                              activeTab={activeTab}
                               key={index}
                               match={match}
                               status={tabs

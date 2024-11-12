@@ -1,31 +1,29 @@
-import { xoomBackendUrl } from '@/lib/axios/getAxios';
-import { useEffect, useState } from 'react';
 import { BiSolidCricketBall } from 'react-icons/bi';
 
-export default function LiveCommentary({ match_id }) {
-  const [result, setResult] = useState([]);
-  const [loading, setLoading] = useState(true);
+export default function LiveCommentary({ result, loading }) {
+  // const [result, setResult] = useState([]);
+  // const [loading, setLoading] = useState(true);
 
-  async function getData() {
-    setLoading(true);
-    try {
-      const res = await xoomBackendUrl.post(
-        `/cric-buzz/cricket/mcenter/v1/${match_id}/comm`
-      );
+  // async function getData() {
+  //   setLoading(true);
+  //   try {
+  // const res = await xoomBackendUrl.post(
+  //   `/cric-buzz/cricket/mcenter/v1/${match_id}/comm`
+  // );
 
-      setResult(res?.data?.data || {});
-    } catch (error) {
-      setLoading(false);
+  // setResult(res?.data?.data || {});
+  //   } catch (error) {
+  //     setLoading(false);
 
-      console.error('Error fetching Venues Table Information:', error);
-    } finally {
-      setLoading(false);
-    }
-  }
+  //     console.error('Error fetching Venues Table Information:', error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // }
 
-  useEffect(() => {
-    getData();
-  }, []);
+  // useEffect(() => {
+  //   getData();
+  // }, []);
 
   const Shimmer = ({ height, width }) => (
     <div
@@ -75,7 +73,7 @@ export default function LiveCommentary({ match_id }) {
           return (
             <div key={index} className="border-b pb-2 last:border-b-0">
               <p className="text-gray-600 text-sm md:text-base">
-                {new Date(commentary.timestamp).toLocaleTimeString()}
+                {/* {new Date(commentary.timestamp).toLocaleTimeString()} */}
                 <div className="text-gray-800 flex gap-x-2">
                   {commentary?.overNumber && (
                     <div className="font-bold text-base flex items-center justify-start">

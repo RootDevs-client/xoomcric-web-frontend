@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import MatchStates from './MatchStates';
 
-const MatchCardCricket = ({ match, large, status }) => {
+const MatchCardCricket = ({ match, large, status, activeTab }) => {
   const { data: session } = useSession();
 
   const { userProfile, refetchProfile } = useGetUserProfile(session);
@@ -149,8 +149,34 @@ const MatchCardCricket = ({ match, large, status }) => {
                 {match.matchInfo?.team1?.teamSName}
               </h4>
             </div>
-
-            <MatchStates match={match} />
+            {activeTab == 1 || activeTab == 2 ? (
+              (
+                match?.matchScore?.team1Score?.inngs2
+                  ? match?.matchScore?.team1Score?.inngs2?.runs
+                  : match?.matchScore?.team1Score?.inngs1?.runs &&
+                    match?.matchScore?.team2Score?.inngs2
+                  ? match?.matchScore?.team2Score?.inngs2?.runs
+                  : match?.matchScore?.team2Score?.inngs1?.runs
+              ) ? (
+                <div className="col-span-2 w-14 h-14 p-1 sm:w-16 sm:h-16 bg-primary rounded-full flex flex-col text-xs text-gray-100 items-center justify-around mx-auto ">
+                  <div className="h-1/2 flex items-center w-full ml-4 justify-start">
+                    {match?.matchScore?.team1Score?.inngs2
+                      ? match?.matchScore?.team1Score?.inngs2?.runs
+                      : match?.matchScore?.team1Score?.inngs1?.runs || 0}{' '}
+                  </div>{' '}
+                  <div className="border w-full -rotate-[40deg] border-red-500"></div>
+                  <div className="h-1/2 flex items-center w-full mr-4 justify-end">
+                    {match?.matchScore?.team2Score?.inngs2
+                      ? match?.matchScore?.team2Score?.inngs2?.runs
+                      : match?.matchScore?.team2Score?.inngs1?.runs || 0}{' '}
+                  </div>
+                </div>
+              ) : (
+                <MatchStates match={match} />
+              )
+            ) : (
+              <MatchStates match={match} />
+            )}
 
             <div className="col-span-3 sm:col-span-4 flex items-center justify-end">
               <div className="flex items-center ">
@@ -164,6 +190,14 @@ const MatchCardCricket = ({ match, large, status }) => {
                 />
               </div>
             </div>
+          </div>
+
+          <div
+            className={`flex justify-center items-center pb-2 p-2 ${
+              large && 'p-5 px-10'
+            }`}
+          >
+            {match?.matchInfo?.status || ''}
           </div>
         </div>
       </Link>

@@ -14,6 +14,8 @@ import Squads from './Squads';
 export default function MatchTabs({ match_id, status, teams_name, match }) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const id = searchParams.get('id');
+
   const { data: session } = useSession();
 
   const { userProfile, refetchProfile } = useGetUserProfile(session);
@@ -143,7 +145,9 @@ export default function MatchTabs({ match_id, status, teams_name, match }) {
     ];
   }
 
-  const [activeTab, setActiveTab] = useState(tabs[0].id);
+  const [activeTab, setActiveTab] = useState(
+    Number(id) ? Number(id) : tabs[0].id
+  );
 
   return (
     <div className="w-full">

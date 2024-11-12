@@ -15,9 +15,6 @@ export default async function page({ params }) {
   );
 
   return (
-    // <ThreeColumnLayout>
-    //   <PlayerTabs player_id={player_id} />
-    // </ThreeColumnLayout>
     <div className="max-w-screen-xl sm:p-4 p-2 mx-auto top-2">
       <MatchTabs
         match_id={match_id}

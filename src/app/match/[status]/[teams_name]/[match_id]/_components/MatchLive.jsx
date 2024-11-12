@@ -3,6 +3,8 @@ import { xoomBackendUrl } from '@/lib/axios/getAxios';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
+import { LuRefreshCw } from 'react-icons/lu';
 import LiveCommentary from './LiveCommentary';
 import MatchLiveShimmer from './MatchLiveShimmer';
 import PlayerCard from './PlayerCard';
@@ -10,21 +12,59 @@ import RecentOvsStats from './RecentOvsStats';
 
 export default function MatchLive({ match_id }) {
   const [result, setResult] = useState(null);
+  const [commentary, setCommentary] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [refresh, setRefresh] = useState(false);
   const { teams_name } = useParams();
 
   async function getData() {
     setLoading(true);
+
     try {
-      const res = await xoomBackendUrl.post(
-        `/cric-buzz/cricket/mcenter/v1/${match_id}/overs`
-      );
+      const [res, comm] = await Promise.all([
+        xoomBackendUrl.post(
+          `/cric-buzz/cricket/mcenter/v1/${match_id}/overs?expiresIn=30000`
+        ),
+        xoomBackendUrl.post(
+          `/cric-buzz/cricket/mcenter/v1/${match_id}/comm?expiresIn=30000`
+        ),
+      ]);
 
       setResult(res?.data?.data || {});
+      setCommentary(comm?.data?.data || {});
     } catch (error) {
-      console.error('Error fetching Venues Table Information:', error);
+      console.error('Error fetching cricket data:', error.message || error);
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function refreshData() {
+    try {
+      const [res, comm] = await Promise.all([
+        xoomBackendUrl.post(
+          `/cric-buzz/cricket/mcenter/v1/${match_id}/overs?expiresIn=30000`
+        ),
+        xoomBackendUrl.post(
+          `/cric-buzz/cricket/mcenter/v1/${match_id}/comm?expiresIn=30000`
+        ),
+      ]);
+
+      setResult(res?.data?.data || {});
+      setCommentary(comm?.data?.data || {});
+    } catch (error) {
+      console.error('Error fetching Venues Table Information:', error);
+      setRefresh(false);
+    } finally {
+      toast.success('Refresh Successfully!', {
+        position: 'top-right',
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+      setRefresh(false);
     }
   }
 
@@ -63,10 +103,27 @@ export default function MatchLive({ match_id }) {
   );
   const homeTeam = teams[0];
   const awayTeam = teams[1];
+  console.log({ homeTeam, awayTeam, match: result }, 'team information');
 
   return (
-    <div className="w-full">
-      <div className="bg-white rounded-lg  w-full p-4">
+    <div className="w-full ">
+      {result?.matchScoreDetails?.state == 'In Progress' && (
+        <div className=" max-w-screen-xl sm:p-4 p-2 mx-auto border flex justify-end items-end ">
+          <div className=" fixed z-20  bottom-32">
+            {/* <span>Refresh Now</span> */}
+            <LuRefreshCw
+              className={`text-3xl text-red-500 cursor-pointer border border-red-100 p-1 backdrop-blur-sm rounded-full   w-10 h-10  ${
+                refresh && 'animate-spin !text-red-400'
+              }`}
+              onClick={() => {
+                setRefresh(true);
+                refreshData();
+              }}
+            />
+          </div>
+        </div>
+      )}
+      <div className="bg-white rounded-lg  w-full sm:p-4">
         {(awayTeam?.batTeamName || homeTeam?.batTeamName) && (
           <div className="flex justify-center gap-6 items-center mb-5">
             <div className="text-center">
@@ -82,7 +139,13 @@ export default function MatchLive({ match_id }) {
             </div>
             <div className="text-center">
               <p className=" py-2 px-4 border text-sm border-gray-300 rounded-full font-bold">
-                {result?.matchScoreDetails?.state || 'N/A'}
+                {result?.matchScoreDetails?.state == 'In Progress' ? (
+                  <div className="text-red-500 text-xs font-bold flex items-center gap-1">
+                    <span className="animate-pulse">●</span> Live
+                  </div>
+                ) : (
+                  result?.matchScoreDetails?.state || 'N/A'
+                )}
               </p>
               <p className="text-xl font-bold text-red-400">VS</p>
             </div>
@@ -143,7 +206,7 @@ export default function MatchLive({ match_id }) {
               'overflow-x-auto scrollbar-5 sm:scrollbar-0'
             }`}
           >
-            {result?.batsmanNonStriker?.batName && (
+            {result?.batsmanStriker?.batName && (
               <table className="min-w-full border-collapse border border-gray-300 mb-5">
                 <thead>
                   <tr className="bg-gray-100 text-gray-700">
@@ -170,9 +233,13 @@ export default function MatchLive({ match_id }) {
                 <tbody>
                   {result?.batsmanStriker?.batName && (
                     <tr className="border-b">
-                      <td className="border border-gray-300 px-2 sm:px-4 py-2">
-                        {result?.batsmanStriker.batName}{' '}
-                        <span className="text-red-400 font-semibold">*</span>
+                      <td className="border border-gray-300 px-2 sm:px-4 py-2 hover:text-red-400">
+                        <Link
+                          href={`/player/${result?.batsmanStriker.batName}/${result?.batsmanStriker.batId}`}
+                        >
+                          {result?.batsmanStriker.batName}{' '}
+                          <span className="text-red-400 font-semibold">*</span>
+                        </Link>
                       </td>
                       <td className="border border-gray-300 px-2 sm:px-4 py-2 text-center">
                         {result?.batsmanStriker.batRuns}
@@ -193,8 +260,12 @@ export default function MatchLive({ match_id }) {
                   )}
                   {result?.batsmanNonStriker?.batName && (
                     <tr className="border-b">
-                      <td className="border border-gray-300 px-2 sm:px-4 py-2">
-                        {result?.batsmanNonStriker?.batName}
+                      <td className="border border-gray-300 px-2 sm:px-4 py-2 hover:text-red-400">
+                        <Link
+                          href={`/player/${result?.batsmanNonStriker?.batName}/${result?.batsmanNonStriker?.batId}`}
+                        >
+                          {result?.batsmanNonStriker?.batName}
+                        </Link>
                       </td>
                       <td className="border border-gray-300 px-2 sm:px-4 py-2 text-center">
                         {result?.batsmanNonStriker?.batRuns}
@@ -250,9 +321,13 @@ export default function MatchLive({ match_id }) {
                 <tbody>
                   {result?.bowlerStriker?.bowlName && (
                     <tr className="border-b">
-                      <td className="border border-gray-300 px-2 sm:px-4 py-2">
-                        {result?.bowlerStriker?.bowlName}{' '}
-                        <span className="text-red-400 font-semibold">*</span>
+                      <td className="border border-gray-300 px-2 sm:px-4 py-2 hover:text-red-400">
+                        <Link
+                          href={`/player/${result?.bowlerStriker?.bowlName}/${result?.bowlerStriker?.bowlId}`}
+                        >
+                          {result?.bowlerStriker?.bowlName}{' '}
+                          <span className="text-red-400 font-semibold">*</span>
+                        </Link>
                       </td>
                       <td className="border border-gray-300 px-2 sm:px-4 py-2 text-center">
                         {result?.bowlerStriker?.bowlOvs}
@@ -273,8 +348,12 @@ export default function MatchLive({ match_id }) {
                   )}
                   {result?.bowlerNonStriker?.bowlName && (
                     <tr className="border-b">
-                      <td className="border border-gray-300 px-2 sm:px-4 py-2">
-                        {result?.bowlerNonStriker?.bowlName}
+                      <td className="border border-gray-300 px-2 sm:px-4 py-2 hover:text-red-400">
+                        <Link
+                          href={`/player/${result?.bowlerNonStriker?.bowlName}/${result?.bowlerNonStriker?.bowlId}`}
+                        >
+                          {result?.bowlerNonStriker?.bowlName}
+                        </Link>
                       </td>
                       <td className="border border-gray-300 px-2 sm:px-4 py-2 text-center">
                         {result?.bowlerNonStriker?.bowlOvs}
@@ -313,7 +392,7 @@ export default function MatchLive({ match_id }) {
         )}
 
         <div className="mb-4">
-          <LiveCommentary match_id={match_id} />
+          <LiveCommentary result={commentary} loading={loading} />
         </div>
       </div>
     </div>
