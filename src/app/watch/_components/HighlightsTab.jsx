@@ -205,7 +205,6 @@ export default function HighlightsTab({ highlightsData }) {
       >
         <div className="modal-box">
           <div className="modal-action">
-            {/* Close button */}
             <button
               onClick={handleCloseModal}
               className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
