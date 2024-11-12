@@ -60,7 +60,7 @@ export default function ScoreCard({ match_id }) {
               </h3>
             </div>
             <div className=" scrollbar-5">
-              <table className="min-w-full bg-white border border-gray-200 sm:text-base text-[.6rem]">
+              <table className="min-w-full bg-white border border-gray-200 sm:text-base text-[.9rem]">
                 <thead>
                   <tr className="bg-gray-100">
                     <th className="py-2 px-2 sm:px-4 border-b text-left">
@@ -118,7 +118,7 @@ export default function ScoreCard({ match_id }) {
               </table>
             </div>
             <div className="w-full scrollbar-5">
-              <table className="w-full bg-white border border-gray-200 mt-4 sm:text-base text-[.7rem]">
+              <table className="w-full bg-white border border-gray-200 mt-4 sm:text-base text-[.9rem]">
                 <thead>
                   <tr className="bg-gray-100">
                     <th className="py-2 px-2 sm:px-4 border-b text-left">
