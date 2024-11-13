@@ -34,7 +34,6 @@ export default function WatchHome() {
   const tabs = ['Videos'];
 
   const tabContents = [
-    // <LiveMatchTab key={'watch_tab_001'} liveMatches={allMatches} />,
     <HighlightsTab key={'watch_tab_001'} highlightsData={highlights?.data} />,
   ];
 
