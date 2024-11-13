@@ -2,20 +2,24 @@ function formatOversString(input = '') {
   if (typeof input !== 'string') {
     return '';
   }
-  const parts = input?.split('|').slice(1);
 
-  return parts?.map((part) => part?.trim())?.join(' | ');
+  // Remove leading/trailing whitespace and split by '|'
+  const parts = input.trim().split('|');
+
+  // Return the parts joined back with ' | ' (or you can adjust based on use case)
+  return parts.map((part) => part.trim()).join(' | ');
 }
 
 const RecentOvsStats = ({ recentOvsStats }) => {
+  // Format the input string and split it by the pipe (|)
   const oversArray = formatOversString(recentOvsStats)
-    .split('|')
-    .flatMap((ov) => ov.trim().split(' '));
+    .split(' | ') // Split by ' | ' for individual overs
+    .flatMap((ov) => ov.trim().split(' ')); // Split individual overs into individual balls
 
   return (
     <div className="flex space-x-1 mt-2 overflow-x-scroll scrollbar-0">
       {oversArray.map((stat, index) => {
-        const isWicket = stat === 'W';
+        const isWicket = stat === 'W'; // Check if the stat is a 'W' for wicket
         const bgColor = isWicket ? 'bg-red-500 text-white' : 'bg-gray-200';
 
         return (
