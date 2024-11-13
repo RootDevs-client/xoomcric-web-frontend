@@ -114,6 +114,7 @@ const MatchCardCricket = ({ match, large, status, activeTab }) => {
 
   const teamByLocation = (location) =>
     match?.participants?.find((team) => team?.meta?.location === location);
+  console.log(match?.matchInfo?.state, 'match');
 
   return (
     <div className="relative w-full">
@@ -133,8 +134,8 @@ const MatchCardCricket = ({ match, large, status, activeTab }) => {
           </div> */}
           <div
             className={`skew-y-[0.5deg] p-2 grid grid-cols-12 items-center gap-2 ${
-              large && 'p-5 px-10'
-            }`}
+              match?.matchInfo?.state == 'In Progress' && 'py-6'
+            } ${large && 'p-5 px-10'}`}
           >
             <p className="col-span-2 sm:col-span-1 sm:text-start text-center text-gray-400 text-sm font-semibold">
               {match.matchInfo?.matchFormat}
@@ -150,14 +151,20 @@ const MatchCardCricket = ({ match, large, status, activeTab }) => {
               </h4>
             </div>
             {activeTab == 1 || activeTab == 2 ? (
-              (
-                match?.matchScore?.team1Score?.inngs2
-                  ? match?.matchScore?.team1Score?.inngs2?.runs
-                  : match?.matchScore?.team1Score?.inngs1?.runs &&
-                    match?.matchScore?.team2Score?.inngs2
-                  ? match?.matchScore?.team2Score?.inngs2?.runs
-                  : match?.matchScore?.team2Score?.inngs1?.runs
-              ) ? (
+              match?.matchInfo?.state == 'In Progress' ? (
+                <div className="col-span-2   rounded-sm border border-red-300 px-2 py-1 flex flex-col text-xs text-gray-100 items-center justify-around mx-auto ">
+                  <div className="text-red-500 text-xs font-bold flex items-center gap-1">
+                    <span className="animate-pulse">●</span> Live
+                  </div>
+                </div>
+              ) : (
+                  match?.matchScore?.team1Score?.inngs2
+                    ? match?.matchScore?.team1Score?.inngs2?.runs
+                    : match?.matchScore?.team1Score?.inngs1?.runs &&
+                      match?.matchScore?.team2Score?.inngs2
+                    ? match?.matchScore?.team2Score?.inngs2?.runs
+                    : match?.matchScore?.team2Score?.inngs1?.runs
+                ) ? (
                 <div className="col-span-2 w-14 h-14 p-1 sm:w-16 sm:h-16 bg-primary rounded-full flex flex-col text-xs text-gray-100 items-center justify-around mx-auto ">
                   <div className="h-1/2 flex items-center w-full ml-4 justify-start">
                     {match?.matchScore?.team1Score?.inngs2
@@ -192,17 +199,19 @@ const MatchCardCricket = ({ match, large, status, activeTab }) => {
             </div>
           </div>
 
-          <div
-            className={`flex justify-center items-center pb-2 p-2 ${
-              large && 'p-5 px-10'
-            }`}
-          >
-            {match?.matchInfo?.status || ''}
-          </div>
+          {match?.matchInfo?.state !== 'In Progress' && (
+            <div
+              className={`flex justify-center items-center pb-2 p-2 ${
+                large && 'p-5 px-10'
+              }`}
+            >
+              {match?.matchInfo?.status || ''}
+            </div>
+          )}
         </div>
       </Link>
 
-      <div className=" mx-auto absolute top-6 right-5">
+      <div className={` mx-auto absolute top-6 right-5`}>
         <button
           onClick={(event) =>
             isStarClicked

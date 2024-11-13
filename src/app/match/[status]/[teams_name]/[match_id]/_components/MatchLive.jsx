@@ -8,7 +8,6 @@ import { LuRefreshCw } from 'react-icons/lu';
 import LiveCommentary from './LiveCommentary';
 import MatchLiveShimmer from './MatchLiveShimmer';
 import PlayerCard from './PlayerCard';
-import RecentOvsStats from './RecentOvsStats';
 
 export default function MatchLive({ match_id }) {
   const [result, setResult] = useState(null);
@@ -22,12 +21,8 @@ export default function MatchLive({ match_id }) {
 
     try {
       const [res, comm] = await Promise.all([
-        xoomBackendUrl.post(
-          `/cric-buzz/cricket/mcenter/v1/${match_id}/overs?expiresIn=30000`
-        ),
-        xoomBackendUrl.post(
-          `/cric-buzz/cricket/mcenter/v1/${match_id}/comm?expiresIn=30000`
-        ),
+        xoomBackendUrl.post(`/cric-buzz/cricket/mcenter/v1/${match_id}/overs`),
+        xoomBackendUrl.post(`/cric-buzz/cricket/mcenter/v1/${match_id}/comm`),
       ]);
 
       setResult(res?.data?.data || {});
@@ -42,12 +37,8 @@ export default function MatchLive({ match_id }) {
   async function refreshData() {
     try {
       const [res, comm] = await Promise.all([
-        xoomBackendUrl.post(
-          `/cric-buzz/cricket/mcenter/v1/${match_id}/overs?expiresIn=30000`
-        ),
-        xoomBackendUrl.post(
-          `/cric-buzz/cricket/mcenter/v1/${match_id}/comm?expiresIn=30000`
-        ),
+        xoomBackendUrl.post(`/cric-buzz/cricket/mcenter/v1/${match_id}/overs`),
+        xoomBackendUrl.post(`/cric-buzz/cricket/mcenter/v1/${match_id}/comm`),
       ]);
 
       setResult(res?.data?.data || {});
@@ -103,16 +94,15 @@ export default function MatchLive({ match_id }) {
   );
   const homeTeam = teams[0];
   const awayTeam = teams[1];
-  console.log({ homeTeam, awayTeam, match: result }, 'team information');
 
   return (
     <div className="w-full ">
       {result?.matchScoreDetails?.state == 'In Progress' && (
-        <div className=" max-w-screen-xl sm:p-4 p-2 mx-auto border flex justify-end items-end ">
-          <div className=" fixed z-20  bottom-32">
+        <div className=" max-w-screen-xl sm:p-4 mx-auto flex justify-end items-end ">
+          <div className=" fixed z-20  bottom-32 right-7">
             {/* <span>Refresh Now</span> */}
             <LuRefreshCw
-              className={`text-3xl text-red-500 cursor-pointer border border-red-100 p-1 backdrop-blur-sm rounded-full   w-10 h-10  ${
+              className={`text-3xl animate-bounce text-red-500 cursor-pointer border border-red-100 p-1 backdrop-blur-sm rounded-full   w-10 h-10  ${
                 refresh && 'animate-spin !text-red-400'
               }`}
               onClick={() => {
@@ -133,7 +123,7 @@ export default function MatchLive({ match_id }) {
               >
                 {homeTeam?.batTeamName || teams_name?.split('-')[0]}
               </Link>
-              <p>{`${homeTeam?.score || 0}-${homeTeam?.wickets || 0} (${
+              <p>{`${homeTeam?.score || 0}/${homeTeam?.wickets || 0} (${
                 homeTeam?.overs || 0.0
               })`}</p>
             </div>
@@ -143,6 +133,10 @@ export default function MatchLive({ match_id }) {
                   <div className="text-red-500 text-xs font-bold flex items-center gap-1">
                     <span className="animate-pulse">●</span> Live
                   </div>
+                ) : result?.matchScoreDetails?.state === 'Complete' ? (
+                  <span className="text-[#00B74A]">
+                    {result?.matchScoreDetails?.state}
+                  </span>
                 ) : (
                   result?.matchScoreDetails?.state || 'N/A'
                 )}
@@ -156,16 +150,24 @@ export default function MatchLive({ match_id }) {
               >
                 {awayTeam?.batTeamName || teams_name?.split('-')[2]}
               </Link>
-              <p>{`${awayTeam?.score || 0}-${awayTeam?.wickets || 0} (${
+              <p>{`${awayTeam?.score || 0}/${awayTeam?.wickets || 0} (${
                 awayTeam?.overs || 0.0
               })`}</p>
             </div>
           </div>
         )}
-
-        {result?.status && (
-          <p className="text-center text-lg font-semibold mb-4">
-            {result?.status || ''}
+        {result?.matchScoreDetails?.state == 'In Progress' && (
+          <div>
+            {result?.currentRunRate !== 0 && (
+              <p className="text-center text-lg font-light mb-1">
+                CRR: {result?.currentRunRate || ''}
+              </p>
+            )}
+          </div>
+        )}
+        {(result?.status || result?.matchScoreDetails?.customStatus) && (
+          <p className="text-center text-lg font-light  mb-4 text-red-500">
+            {result?.status || result?.matchScoreDetails?.customStatus || ''}
           </p>
         )}
         {/* {result?.matchHeader?.playersOfTheSeries ||
@@ -378,19 +380,18 @@ export default function MatchLive({ match_id }) {
           </div>
         </div>
         {result?.recentOvsStats && (
-          <div className="mb-4 mt-4">
-            <h2 className="text-lg font-bold mb-2">Recent Overs Stats</h2>
-            <RecentOvsStats recentOvsStats={result?.recentOvsStats} />
+          <div className="mb-4 mt-4 flex justify-start items-center gap-2">
+            <h2 className="text-lg font-bold mb-2">Recent: </h2>
+            {/* <RecentOvsStats recentOvsStats={result?.recentOvsStats} /> */}
+            <span>{result?.recentOvsStats}</span>
           </div>
         )}
-
         {result?.lastWicket && (
           <div className="mb-4">
             <h2 className="text-lg font-bold mb-2">Last Wicket</h2>
             <p className="text-gray-700">{result?.lastWicket}</p>
           </div>
         )}
-
         <div className="mb-4">
           <LiveCommentary result={commentary} loading={loading} />
         </div>
