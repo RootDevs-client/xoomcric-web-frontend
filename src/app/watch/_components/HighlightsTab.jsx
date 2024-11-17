@@ -243,13 +243,13 @@ export default function HighlightsTab({ highlightsData }) {
               //     }}
               //   />
               // </div>
-              <div className="yt-embed-holder">
+              <div className="yt-embed-holder h-[200px] sm:h-[315px] overflow-hidden">
                 <iframe
                   width="100%"
-                  height="315"
+                  height="100%"
                   src={`https://www.youtube.com/embed/${
                     youtubeUrl?.split('/embed/')[1]
-                  }?si=7Lr-QuMZddvlcURM&autoplay=1&mute=1&loop=1&controls=0&modestbranding=0$rel=0&playsinline=1&enablejsapi=1&playlist=${
+                  }?si=7Lr-QuMZddvlcURM&autoplay=1&mute=${!modalOpen}&loop=1&controls=0&modestbranding=0$rel=0&playsinline=1&enablejsapi=1&playlist=${
                     youtubeUrl?.split('/embed/')[1]
                   }`}
                   title="YouTube video player"
@@ -257,6 +257,7 @@ export default function HighlightsTab({ highlightsData }) {
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   referrerpolicy="strict-origin-when-cross-origin"
                   allowfullscreen
+                  className="w-full h-[200%] -mt-[33%]"
                 ></iframe>
               </div>
             )}

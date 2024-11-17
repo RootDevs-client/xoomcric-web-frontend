@@ -99,7 +99,7 @@ export default function MatchLive({ match_id }) {
     <div className="w-full ">
       {result?.matchScoreDetails?.state == 'In Progress' && (
         <div className=" max-w-screen-xl sm:p-4 mx-auto flex justify-end items-end ">
-          <div className=" fixed z-20  bottom-32 right-7">
+          <div className=" fixed z-20  bottom-32 ">
             {/* <span>Refresh Now</span> */}
             <LuRefreshCw
               className={`text-3xl animate-bounce text-red-500 cursor-pointer border border-red-100 p-1 backdrop-blur-sm rounded-full   w-10 h-10  ${
@@ -113,7 +113,7 @@ export default function MatchLive({ match_id }) {
           </div>
         </div>
       )}
-      <div className="bg-white rounded-lg  w-full sm:p-4">
+      <div className="bg-white rounded-lg  w-full ">
         {(awayTeam?.batTeamName || homeTeam?.batTeamName) && (
           <div className="flex justify-center gap-6 items-center mb-5">
             <div className="text-center">
