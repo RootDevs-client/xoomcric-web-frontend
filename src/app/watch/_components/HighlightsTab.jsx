@@ -151,8 +151,6 @@ export default function HighlightsTab({ highlightsData }) {
       ? highlightsData[0]?.youtube_url
       : highlightsData[0]?.videos || [];
 
-  console.log(youtubeUrl);
-
   return (
     <div className="py-2">
       {highlightsData && highlightsData.length > 0 ? (

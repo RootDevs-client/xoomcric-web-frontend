@@ -96,26 +96,6 @@ export default function MatchLive({ match_id }) {
   );
   const homeTeam = teams[0];
   const awayTeam = teams[1];
-  console.log(
-    {
-      homeTeam: homeTeam?.batTeamId,
-      awayTeam: awayTeam?.batTeamId,
-      batTeam: result?.batTeam?.teamId,
-    },
-    'team information'
-  );
-  console.log(
-    {
-      batch: homeTeam?.batTeamId === result?.batTeam?.teamId ? 'batch' : 'ball',
-    },
-    'home team'
-  );
-  console.log(
-    {
-      batch: awayTeam?.batTeamId === result?.batTeam?.teamId ? 'batch' : 'ball',
-    },
-    'away team'
-  );
 
   return (
     <div className="w-full ">

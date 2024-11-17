@@ -6,7 +6,6 @@ const useFetchVideoUrl = () => {
   const [error, setError] = useState(null);
 
   const fetchVideoUrl = async (videoId) => {
-    console.log({ videoId });
     setLoading(true);
     setError(null);
 
@@ -50,7 +49,6 @@ const useFetchVideoUrl = () => {
         }),
       }
     );
-    console.log(response, 'response');
 
     if (!response.ok) {
       throw new Error('Failed to fetch video data');
@@ -63,7 +61,6 @@ const useFetchVideoUrl = () => {
         format.mimeType.includes('video/mp4; codecs="avc1.42001E, mp4a.40.2')
       )?.url || null;
 
-    console.log({ foundVideoUrl });
     setVideoUrl(foundVideoUrl);
     // } catch (err) {
     //   console.log('catch');

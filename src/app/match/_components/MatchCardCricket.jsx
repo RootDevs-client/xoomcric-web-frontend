@@ -15,7 +15,8 @@ const MatchCardCricket = ({ match, large, status, activeTab }) => {
   const isFavorite =
     userProfile?.favorites?.matches.some(
       (item) =>
-        parseInt(item?.matchInfo?.matchId) === parseInt(match.matchInfo.matchId)
+        parseInt(item?.matchInfo?.matchId) ===
+        parseInt(match?.matchInfo?.matchId || 0)
     ) || false;
 
   const [isStarClicked, setIsStarClicked] = useState(isFavorite);
@@ -114,7 +115,6 @@ const MatchCardCricket = ({ match, large, status, activeTab }) => {
 
   const teamByLocation = (location) =>
     match?.participants?.find((team) => team?.meta?.location === location);
-  console.log(match?.matchInfo?.state, 'match');
 
   return (
     <div className="relative w-full">

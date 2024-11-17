@@ -55,13 +55,15 @@ export default function FavoriteTeamCard({ team, session }) {
     >
       <div className="skew-y-[0.5deg] bg-base-100 mb-2 p-5 flex justify-between items-center">
         <div className="flex gap-2 items-center">
-          <div className="">
-            <img
-              src={`https://static.cricbuzz.com/a/img/v1/i1/c${team.imageId}/cricket.jpg`}
-              alt={team?.teamName}
-              className="w-7 h-7 ring-1 ring-primary mr-3 rounded-full"
-            />
-          </div>
+          {team.imageId && (
+            <div className="">
+              <img
+                src={`https://static.cricbuzz.com/a/img/v1/i1/c${team.imageId}/cricket.jpg`}
+                alt={team?.teamName}
+                className="w-7 h-7 ring-1 ring-primary mr-3 rounded-full"
+              />
+            </div>
+          )}
           <div>
             <h2 className="font-bold">{team?.teamName}</h2>
             {/* <p className="text-gray-500 text-sm">{team.country}</p> */}
