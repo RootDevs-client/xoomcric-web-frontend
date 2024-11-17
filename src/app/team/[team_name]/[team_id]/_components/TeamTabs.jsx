@@ -167,8 +167,8 @@ export default function TeamTabs({ team_id, team_name, session, teamList }) {
           <Image
             width={100}
             height={100}
-            src={`https://static.cricbuzz.com/a/img/v1/i1/c${teamDetails.imageId}/cricket.jpg`}
-            alt={teamDetails.name || 'Player'}
+            src={`https://static.cricbuzz.com/a/img/v1/i1/c${teamDetails?.imageId}/cricket.jpg`}
+            alt={teamDetails?.name || 'Player'}
             className="h-10 w-10 object-cover mb-2 rounded-full"
             loading="lazy"
           />

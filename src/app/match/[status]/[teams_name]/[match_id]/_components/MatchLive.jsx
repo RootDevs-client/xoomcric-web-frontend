@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { BiCricketBall } from 'react-icons/bi';
+import { GiCricketBat } from 'react-icons/gi';
 import { LuRefreshCw } from 'react-icons/lu';
 import LiveCommentary from './LiveCommentary';
 import MatchLiveShimmer from './MatchLiveShimmer';
@@ -94,6 +96,26 @@ export default function MatchLive({ match_id }) {
   );
   const homeTeam = teams[0];
   const awayTeam = teams[1];
+  console.log(
+    {
+      homeTeam: homeTeam?.batTeamId,
+      awayTeam: awayTeam?.batTeamId,
+      batTeam: result?.batTeam?.teamId,
+    },
+    'team information'
+  );
+  console.log(
+    {
+      batch: homeTeam?.batTeamId === result?.batTeam?.teamId ? 'batch' : 'ball',
+    },
+    'home team'
+  );
+  console.log(
+    {
+      batch: awayTeam?.batTeamId === result?.batTeam?.teamId ? 'batch' : 'ball',
+    },
+    'away team'
+  );
 
   return (
     <div className="w-full ">
@@ -119,8 +141,13 @@ export default function MatchLive({ match_id }) {
             <div className="text-center">
               <Link
                 href={`/team/${homeTeam?.batTeamName}/${homeTeam?.batTeamId}`}
-                className="text-lg font-semibold"
+                className="text-lg font-semibold flex items-center gap-1"
               >
+                {homeTeam?.batTeamId === result?.batTeam?.teamId ? (
+                  <GiCricketBat className="rotate-180" />
+                ) : (
+                  <BiCricketBall />
+                )}
                 {homeTeam?.batTeamName || teams_name?.split('-')[0]}
               </Link>
               <p>{`${homeTeam?.score || 0}/${homeTeam?.wickets || 0} (${
@@ -146,8 +173,13 @@ export default function MatchLive({ match_id }) {
             <div className="text-center">
               <Link
                 href={`/team/${awayTeam?.batTeamName}/${awayTeam?.batTeamId}`}
-                className="text-lg font-semibold"
+                className="text-lg font-semibold flex items-center gap-1"
               >
+                {awayTeam?.batTeamId === result?.batTeam?.teamId ? (
+                  <GiCricketBat className=" rotate-180" />
+                ) : (
+                  <BiCricketBall />
+                )}{' '}
                 {awayTeam?.batTeamName || teams_name?.split('-')[2]}
               </Link>
               <p>{`${awayTeam?.score || 0}/${awayTeam?.wickets || 0} (${
