@@ -3,7 +3,6 @@ export default function ShimmerInformation() {
     <div className="animate-pulse mx-auto bg-white shadow-lg rounded-lg overflow-hidden mt-8">
       {/* Profile Header */}
       <div className="flex flex-col items-center bg-gray-800 text-white py-6">
-        {/* Profile Image Placeholder */}
         <div className="w-24 h-24 rounded-full bg-gray-300"></div>
 
         {/* Name Placeholder */}
