@@ -245,14 +245,14 @@ export default function HighlightsTab({ highlightsData }) {
                   height="100%"
                   src={`https://www.youtube.com/embed/${
                     youtubeUrl?.split('/embed/')[1]
-                  }?si=7Lr-QuMZddvlcURM&autoplay=1&allowfullscreen="1"&mute=${!modalOpen}&loop=1&controls=0&modestbranding=0$rel=0&playsinline=1&enablejsapi=1&playlist=${
+                  }?si=7Lr-QuMZddvlcURM&autoplay=1&mute=${!modalOpen}&loop=1&controls=0&modestbranding=0$rel=0&playsinline=1&enablejsapi=1&playlist=${
                     youtubeUrl?.split('/embed/')[1]
                   }`}
                   title="YouTube video player"
                   frameborder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   referrerpolicy="strict-origin-when-cross-origin"
-                  allowfullscreen
+                  allowfullscreen="1"
                   className="w-full h-[200%] -mt-[33%]"
                 ></iframe>
               </div>
