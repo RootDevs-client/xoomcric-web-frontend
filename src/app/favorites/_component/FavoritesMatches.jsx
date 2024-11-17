@@ -66,8 +66,9 @@ export default function FavoritesMatches({
                       <MatchCardCricket
                         key={index}
                         match={match}
-                        status={match.status.toLocaleLowerCase() || 'recent'}
+                        status={match?.status?.toLocaleLowerCase() || 'recent'}
                         //   refetchFixtures={refetchFixtures}
+                        activeTab={1}
                       />
                     ))}
                   </div>

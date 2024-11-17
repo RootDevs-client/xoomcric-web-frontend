@@ -62,8 +62,12 @@ export default function TeamTabs({ team_id, team_name, session, teamList }) {
         email: session?.user?.email,
         key: 'teams',
         item: {
-          id: teamDetails?.teamId,
-          ...teamDetails,
+          id: teamDetails?.teamId || team_id,
+          ...(teamDetails || {
+            teamId: team_id,
+            teamSName: team_name,
+            teamName: team_name,
+          }),
         },
       };
 
@@ -100,8 +104,12 @@ export default function TeamTabs({ team_id, team_name, session, teamList }) {
         email: session?.user?.email,
         key: 'teams',
         item: {
-          id: teamDetails?.teamId,
-          ...teamDetails,
+          id: teamDetails?.teamId || team_id,
+          ...(teamDetails || {
+            teamId: team_id,
+            teamName: team_name,
+            teamSName: team_name,
+          }),
         },
       };
 
@@ -164,18 +172,23 @@ export default function TeamTabs({ team_id, team_name, session, teamList }) {
     <div className="w-full">
       <div className="flex items-center justify-between mb-5 py-3 border-b border-gray-200 bg-primary w-full -skew-y-[0.5deg]">
         <div className="flex items-center justify-center pl-4 gap-4">
-          <Image
-            width={100}
-            height={100}
-            src={`https://static.cricbuzz.com/a/img/v1/i1/c${teamDetails?.imageId}/cricket.jpg`}
-            alt={teamDetails?.name || 'Player'}
-            className="h-10 w-10 object-cover mb-2 rounded-full"
-            loading="lazy"
-          />
+          {teamDetails?.imageId && (
+            <Image
+              width={100}
+              height={100}
+              src={`https://static.cricbuzz.com/a/img/v1/i1/c${
+                teamDetails?.imageId || team_id
+              }/cricket.jpg`}
+              alt={teamDetails?.name || 'Player'}
+              className="h-10 w-10 object-cover mb-2 rounded-full"
+              loading="lazy"
+            />
+          )}
           <div className="font-semibold text-md text-white  sm:text-3xl ">
-            {teamDetails?.teamName
-              ?.replace(/-/g, ' ')
-              .replace(/(\d{4}) (\d{2})$/, '$1-$2')}
+            {teamDetails?.teamName ||
+              team_name
+                ?.replace(/-/g, ' ')
+                .replace(/(\d{4}) (\d{2})$/, '$1-$2')}
           </div>
         </div>
         <div className="flex items-center">
