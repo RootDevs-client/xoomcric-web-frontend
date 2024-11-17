@@ -49,8 +49,6 @@
 //       ? highlightsData[0]?.youtube_url
 //       : highlightsData[0]?.videos || [];
 
-//   console.log('highlightsData', highlightsData);
-
 //   return (
 //     <div className="py-2">
 //       {highlightsData && highlightsData.length > 0 ? (
