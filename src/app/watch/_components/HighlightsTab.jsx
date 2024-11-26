@@ -124,7 +124,7 @@
 //   );
 // }
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function HighlightsTab({ highlightsData }) {
   const [modalOpen, setModalOpen] = useState(false);
@@ -148,6 +148,53 @@ export default function HighlightsTab({ highlightsData }) {
     highlightsData[0]?.video_type === 'youtube'
       ? highlightsData[0]?.youtube_url
       : highlightsData[0]?.videos || [];
+
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  useEffect(() => {
+    // Event listener for fullscreen change
+    const handleFullscreenChange = () => {
+      if (document.fullscreenElement) {
+        setIsFullscreen(true);
+      } else {
+        setIsFullscreen(false);
+      }
+    };
+
+    // Add the event listener for fullscreen changes
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange); // for Safari
+    document.addEventListener('mozfullscreenchange', handleFullscreenChange); // for Firefox
+    document.addEventListener('MSFullscreenChange', handleFullscreenChange); // for IE/Edge
+
+    return () => {
+      // Clean up event listeners on component unmount
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      document.removeEventListener(
+        'webkitfullscreenchange',
+        handleFullscreenChange
+      );
+      document.removeEventListener(
+        'mozfullscreenchange',
+        handleFullscreenChange
+      );
+      document.removeEventListener(
+        'MSFullscreenChange',
+        handleFullscreenChange
+      );
+    };
+  }, []);
+
+  const toggleFullscreen = () => {
+    const iframe = document.querySelector('iframe');
+    if (iframe) {
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+      } else {
+        iframe.requestFullscreen();
+      }
+    }
+  };
 
   return (
     <div className="py-2">
@@ -239,21 +286,21 @@ export default function HighlightsTab({ highlightsData }) {
               //     }}
               //   />
               // </div>
-              <div className="yt-embed-holder h-[200px] sm:h-[315px] overflow-hidden">
+
+              <div className="yt-embed-holder">
                 <iframe
                   width="100%"
-                  height="100%"
+                  height="315"
                   src={`https://www.youtube.com/embed/${
                     youtubeUrl?.split('/embed/')[1]
-                  }?si=7Lr-QuMZddvlcURM&autoplay=1&mute=${!modalOpen}&loop=1&controls=0&modestbranding=0$rel=0&playsinline=1&enablejsapi=1&playlist=${
+                  }?si=7Lr-QuMZddvlcURM&autoplay=1&allowfullscreen="1"&mute=${!modalOpen}&loop=1&controls=0&modestbranding=0$rel=0&playsinline=1&enablejsapi=1&playlist=${
                     youtubeUrl?.split('/embed/')[1]
                   }`}
                   title="YouTube video player"
                   frameborder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   referrerpolicy="strict-origin-when-cross-origin"
-                  allowfullscreen="1"
-                  className="w-full h-[200%] -mt-[33%]"
+                  allowfullscreen
                 ></iframe>
               </div>
             )}
