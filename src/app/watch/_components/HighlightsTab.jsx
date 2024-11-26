@@ -185,17 +185,6 @@ export default function HighlightsTab({ highlightsData }) {
     };
   }, []);
 
-  const toggleFullscreen = () => {
-    const iframe = document.querySelector('iframe');
-    if (iframe) {
-      if (document.fullscreenElement) {
-        document.exitFullscreen();
-      } else {
-        iframe.requestFullscreen();
-      }
-    }
-  };
-
   return (
     <div className="py-2">
       {highlightsData && highlightsData.length > 0 ? (
