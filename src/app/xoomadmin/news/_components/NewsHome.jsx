@@ -1,9 +1,9 @@
 'use client';
 
 import GlobalLoading from '@/components/Global/GlobalLoading';
+import { useAuthStore } from '@/lib/auth-store';
 import useGetAllNews from '@/lib/hooks/admin/useGetAllNews';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import {
   BsFillArrowLeftSquareFill,
@@ -17,11 +17,9 @@ import NewsDeleteModal from './NewsDeleteModal';
 import NewsGridView from './NewsGridView';
 import NewsListView from './NewsListView';
 
-export default function NewsHome({ session }) {
-  const router = useRouter();
+export default function NewsHome() {
   const [searchQuery, setSearchQuery] = useState('');
   const [singleNews, setSingleNews] = useState(null);
-  const [autoNewsFetching, setAutoNewsFetching] = useState(false);
   const [isGrid, setIsGrid] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(
@@ -29,7 +27,10 @@ export default function NewsHome({ session }) {
       ? localStorage?.getItem('newsPageNumber') || 10
       : 10
   );
-  const { allNews, allNewsLoading, allNewsRefetch } = useGetAllNews(session);
+
+  const { token } = useAuthStore();
+
+  const { allNews, allNewsLoading, allNewsRefetch } = useGetAllNews(token);
 
   if (allNewsLoading) {
     return (
@@ -248,12 +249,12 @@ export default function NewsHome({ session }) {
       </div>
 
       <NewsDeleteModal
-        session={session}
+        token={token}
         singleNews={singleNews}
         allNewsRefetch={allNewsRefetch}
       />
 
-      <NewsDeleteAllModal session={session} allNewsRefetch={allNewsRefetch} />
+      <NewsDeleteAllModal token={token} allNewsRefetch={allNewsRefetch} />
     </div>
   );
 }

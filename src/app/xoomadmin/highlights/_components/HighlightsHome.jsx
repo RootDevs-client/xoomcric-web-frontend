@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import HighlightsList from './HighlightsList';
 
-export default function HighlightsHome({ session }) {
+export default function HighlightsHome() {
   const deleteAllHighlightModalHandler = () => {
     document.getElementById('highlightDeleteAllModal').showModal();
   };
@@ -24,7 +24,7 @@ export default function HighlightsHome({ session }) {
           Delete All Highlight
         </button>
       </div>
-      <HighlightsList session={session} />
+      <HighlightsList  />
     </div>
   );
 }

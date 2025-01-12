@@ -1,6 +1,7 @@
 'use client';
 
 import GlobalLoading from '@/components/Global/GlobalLoading';
+import { useAuthStore } from '@/lib/auth-store';
 import { xoomBackendUrl } from '@/lib/axios/getAxios';
 import useGetSingleUser from '@/lib/hooks/admin/useGetSingleUser';
 import axios from 'axios';
@@ -14,8 +15,9 @@ import { ImSpinner6 } from 'react-icons/im';
 import { RiCloseCircleFill } from 'react-icons/ri';
 import * as Yup from 'yup';
 
-export default function UsersUpdate({ session, id }) {
-  const { singleUser, singleUserLoading } = useGetSingleUser(session, id);
+export default function UsersUpdate({ id }) {
+  const { token } = useAuthStore();
+  const { singleUser, singleUserLoading } = useGetSingleUser(token, id);
   const [userImage, setUserImage] = useState(null);
   const [showImage, setShowImage] = useState(false);
   const [formSubmitting, setFormSubmitting] = useState(false);
@@ -69,7 +71,7 @@ export default function UsersUpdate({ session, id }) {
           image: uploadedImageUrl ? uploadedImageUrl : values.image,
         },
         {
-          headers: { Authorization: `Bearer ${session?.user?.accessToken}` },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
 

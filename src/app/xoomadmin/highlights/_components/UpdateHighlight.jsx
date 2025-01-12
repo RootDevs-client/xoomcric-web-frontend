@@ -6,18 +6,20 @@ import { useQuery } from 'react-query';
 import * as Yup from 'yup';
 
 import GlobalLoading from '@/components/Global/GlobalLoading';
+import { useAuthStore } from '@/lib/auth-store';
 import { uploadImageToCloudinary } from '@/lib/helpers/uploadImageToCloudinary';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 import { ImSpinner } from 'react-icons/im';
 
-export default function UpdateHighlight({ session, highlightId }) {
+export default function UpdateHighlight({ highlightId }) {
   const [isUpdating, setIsUpdating] = useState(false);
   const [initialValues, setInitialValues] = useState({});
   const [videoList, setVideoList] = useState([]);
   const [thumbnailImage, setThumbnailImage] = useState('');
   const [uploadImageMsg, setUploadImageMsg] = useState('');
+  const { token } = useAuthStore();
 
   const { push } = useRouter();
   const {
@@ -31,7 +33,7 @@ export default function UpdateHighlight({ session, highlightId }) {
         const { data } = await xoomBackendUrl.get(
           `/api/admin/highlights/${highlightId}`,
           {
-            headers: { Authorization: `Bearer ${session?.user?.accessToken}` },
+            headers: { Authorization: `Bearer ${token}` },
           }
         );
 
@@ -132,7 +134,7 @@ export default function UpdateHighlight({ session, highlightId }) {
         `/api/admin/highlights/${highlightId}`,
         highlightValues,
         {
-          headers: { Authorization: `Bearer ${session?.user?.accessToken}` },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
       if (data.status) {

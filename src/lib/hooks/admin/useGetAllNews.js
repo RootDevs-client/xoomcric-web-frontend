@@ -1,14 +1,14 @@
 import { xoomBackendUrl } from '@/lib/axios/getAxios';
 import { useQuery } from 'react-query';
 
-export default function useGetAllNews(session) {
+export default function useGetAllNews(token) {
   const {
     isLoading: allNewsLoading,
     data: allNews,
     refetch: allNewsRefetch,
   } = useQuery('admin-all-news', async () => {
     const response = await xoomBackendUrl.get(`/api/admin/news`, {
-      headers: { Authorization: `Bearer ${session?.user?.accessToken}` },
+      headers: { Authorization: `Bearer ${token}` },
     });
     if (response.status === 200) {
       return response.data?.data;

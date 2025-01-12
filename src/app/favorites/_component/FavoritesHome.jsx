@@ -2,6 +2,7 @@
 
 import TabItem from '@/components/Global/TabItem';
 import TabPanel from '@/components/Global/TabPanel';
+import { useAuthStore } from '@/lib/auth-store';
 import useGetUserProfile from '@/lib/hooks/useGetUserProfile';
 import { useState } from 'react';
 import FavoriteSeries from './FavoriteSeries';
@@ -18,9 +19,14 @@ const FavoriteTabItem = ({ tab, index, onClick, active, isWhite }) => (
   />
 );
 
-export default function FavoritesHome({ session }) {
-  const { userProfile, refetchProfile, userProfileLoading } =
-    useGetUserProfile(session);
+export default function FavoritesHome() {
+  const { token, isAdmin, user } = useAuthStore();
+
+  const { userProfile, refetchProfile, userProfileLoading } = useGetUserProfile(
+    token,
+    isAdmin,
+    user
+  );
   const [currentTab, setCurrentTab] = useState(0);
   const [favoriteMatchesLoading, setFavoriteMatchesLoading] = useState(true);
   const [favoriteMatchesData, setFavoriteMatchesData] = useState([]);
@@ -63,7 +69,7 @@ export default function FavoritesHome({ session }) {
       key={'favorites_tab_001'}
       userProfile={userProfile}
       notLoggedIn={!userProfile}
-      session={session}
+
       userProfileLoading={userProfileLoading}
     />,
     <FavoritesTeams
@@ -71,7 +77,7 @@ export default function FavoritesHome({ session }) {
       teams={teams}
       userProfile={userProfile}
       notLoggedIn={!userProfile}
-      session={session}
+
       userProfileLoading={userProfileLoading}
     />,
     <FavoriteSeries
@@ -79,7 +85,7 @@ export default function FavoritesHome({ session }) {
       series={series}
       userProfile={userProfile}
       notLoggedIn={!userProfile}
-      session={session}
+ 
       userProfileLoading={userProfileLoading}
     />,
   ];

@@ -1,7 +1,7 @@
 import { xoomBackendUrl } from '@/lib/axios/getAxios';
 import { useQuery } from 'react-query';
 
-export default function useGetAllHighlight({ session, page, limit }) {
+export default function useGetAllHighlight({ token, page, limit }) {
   const {
     isLoading: highlightsLoading,
     data: highlights,
@@ -12,7 +12,7 @@ export default function useGetAllHighlight({ session, page, limit }) {
       const response = await xoomBackendUrl.get(
         `/api/highlights?page=${page}&limit=${limit}`,
         {
-          headers: { Authorization: `Bearer ${session?.user?.accessToken}` },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
       if (response.status === 200) {

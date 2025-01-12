@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 
 export default function AddNewsModal({
   singleSeries,
-  session,
+  token,
   refetch,
   category,
 }) {
@@ -22,7 +22,7 @@ export default function AddNewsModal({
         `/api/admin/popular-${category}/${singleSeries?._id}`,
         { ...singleSeries, newsUrl },
         {
-          headers: { Authorization: `Bearer ${session?.user?.accessToken}` },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
 

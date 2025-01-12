@@ -2,11 +2,7 @@ import { xoomBackendUrl } from '@/lib/axios/getAxios';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
-export default function NewsDeleteModal({
-  session,
-  singleNews,
-  allNewsRefetch,
-}) {
+export default function NewsDeleteModal({ token, singleNews, allNewsRefetch }) {
   const [submitting, setSubmitting] = useState(false);
 
   const deleteNewsHandler = async (id) => {
@@ -24,7 +20,7 @@ export default function NewsDeleteModal({
       // );
 
       const { data } = await xoomBackendUrl.delete(`/api/admin/news/${id}`, {
-        headers: { Authorization: `Bearer ${session?.user?.accessToken}` },
+        headers: { Authorization: `Bearer ${token}` },
       });
       if (data.status) {
         setSubmitting(false);

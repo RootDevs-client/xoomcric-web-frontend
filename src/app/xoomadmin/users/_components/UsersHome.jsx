@@ -1,5 +1,7 @@
 'use client';
 
+import GlobalLoading from '@/components/Global/GlobalLoading';
+import { useAuthStore } from '@/lib/auth-store';
 import useGetAllUsers from '@/lib/hooks/admin/useGetAllUsers';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -13,9 +15,8 @@ import { FaPlus } from 'react-icons/fa6';
 import UsersDeleteModal from './UsersDeleteModal';
 import UsersGridView from './UsersGridView';
 import UsersListView from './UsersListView';
-import GlobalLoading from '@/components/Global/GlobalLoading';
 
-export default function UsersHome({ session }) {
+export default function UsersHome() {
   const [searchQuery, setSearchQuery] = useState('');
   const [singleUser, setSingleUser] = useState(null);
   const [isGrid, setIsGrid] = useState(false);
@@ -25,11 +26,13 @@ export default function UsersHome({ session }) {
       ? localStorage?.getItem('usersPageNumber') || 10
       : 10
   );
-  const { allUsers, allUsersLoading, allUsersRefetch } =
-    useGetAllUsers(session);
+
+  const { token } = useAuthStore();
+
+  const { allUsers, allUsersLoading, allUsersRefetch } = useGetAllUsers(token);
 
   if (allUsersLoading) {
-    return <GlobalLoading/>;
+    return <GlobalLoading />;
   }
 
   const deleteUsersModalHandler = (users) => {
@@ -231,7 +234,7 @@ export default function UsersHome({ session }) {
       </div>
 
       <UsersDeleteModal
-        session={session}
+        token={token}
         singleUser={singleUser}
         allUsersRefetch={allUsersRefetch}
       />

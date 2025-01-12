@@ -2,7 +2,7 @@ import { xoomBackendUrl } from '@/lib/axios/getAxios';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
-export default function NewsDeleteAllModal({ session, allNewsRefetch }) {
+export default function NewsDeleteAllModal({ token, allNewsRefetch }) {
   const [deleting, setDeleting] = useState(false);
 
   const handleDeleteAllNews = async () => {
@@ -11,7 +11,7 @@ export default function NewsDeleteAllModal({ session, allNewsRefetch }) {
       const { data } = await xoomBackendUrl.delete(
         '/api/admin/news/delete-all',
         {
-          headers: { Authorization: `Bearer ${session?.user?.accessToken}` },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
       if (data?.status) {

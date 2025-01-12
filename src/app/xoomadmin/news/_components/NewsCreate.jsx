@@ -2,6 +2,7 @@
 
 import FlatPicker from '@/components/Global/FlatPicker';
 import SunEditor from '@/components/Global/SunEditor';
+import { useAuthStore } from '@/lib/auth-store';
 import { xoomBackendUrl } from '@/lib/axios/getAxios';
 import { uploadImageToCloudinary } from '@/lib/helpers/uploadImageToCloudinary';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
@@ -13,11 +14,13 @@ import { FaHome } from 'react-icons/fa';
 import { ImSpinner6 } from 'react-icons/im';
 import * as Yup from 'yup';
 
-export default function NewsCreate({ session }) {
+export default function NewsCreate() {
   const [newsImage, setNewsImage] = useState(null);
   const [newsFormSubmitting, setNewsFormSubmitting] = useState(false);
   const [uploadNewsImageMsg, setUploadNewsImageMsg] = useState('');
   const router = useRouter();
+
+  const { token } = useAuthStore();
 
   const initialValues = {
     title: '',
@@ -69,7 +72,7 @@ export default function NewsCreate({ session }) {
             news_image: newsImage ? uploadedImageUrl : values.news_image,
           },
           {
-            headers: { Authorization: `Bearer ${session?.user?.accessToken}` },
+            headers: { Authorization: `Bearer ${token}` },
           }
         );
 

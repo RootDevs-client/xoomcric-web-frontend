@@ -1,5 +1,6 @@
 'use client';
 import NoDataFound from '@/components/Global/NoDataFound';
+import { useAuthStore } from '@/lib/auth-store';
 import { xoomBackendUrl } from '@/lib/axios/getAxios';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -23,8 +24,11 @@ const tabs = [
   },
 ];
 
-const Tabs = ({ session }) => {
+const Tabs = () => {
+  const { token } = useAuthStore();
+
   const router = useRouter();
+
   const searchParams = useSearchParams();
   const paramsTab = searchParams.get('tab');
   const activeTabCheck = tabs.find(
@@ -47,7 +51,7 @@ const Tabs = ({ session }) => {
             tabs.find((i) => i.id === activeTab).label.toLowerCase() ||
             'Recent'.toLowerCase(),
         },
-        { headers: { Authorization: `Bearer ${session?.user?.accessToken}` } }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       setFixtures(res?.data?.data || []);
     } catch (error) {

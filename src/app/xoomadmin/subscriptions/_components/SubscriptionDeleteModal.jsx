@@ -3,7 +3,7 @@ import { useState } from 'react';
 import toast from 'react-hot-toast';
 
 export default function SubscriptionDeleteModal({
-  session,
+  token,
   singleSubscription,
   allSubscriptionsRefetch,
 }) {
@@ -15,7 +15,7 @@ export default function SubscriptionDeleteModal({
       const { data } = await xoomBackendUrl.delete(
         `/api/admin/subscriptions/${id}`,
         {
-          headers: { Authorization: `Bearer ${session?.user?.accessToken}` },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
       if (data.status) {

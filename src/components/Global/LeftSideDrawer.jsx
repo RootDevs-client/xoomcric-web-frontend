@@ -1,4 +1,4 @@
-import { signOut, useSession } from 'next-auth/react';
+import { useAuthStore } from '@/lib/auth-store';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import toast from 'react-hot-toast';
@@ -6,15 +6,15 @@ import { GoArrowRight } from 'react-icons/go';
 import { HiMenuAlt2 } from 'react-icons/hi';
 
 export default function LeftSideDrawer() {
-  const { data: session } = useSession();
+  const { user } = useAuthStore();
+
   const pathname = usePathname();
   const isCurrentPath = (path) => pathname.includes(path);
 
   const handleLogout = async () => {
-    await signOut({
-      redirect: false,
-      callbackUrl: '/',
-    });
+    if (user) {
+      useAuthStore.getState().logout();
+    }
     toast.success('Signed out successfully!');
   };
 
@@ -121,7 +121,7 @@ export default function LeftSideDrawer() {
                       <p className="text-sm font-semibold">NEWS</p>
                     </Link>
                   </div>
-                  {session ? (
+                  {user ? (
                     <>
                       <div className="dropdown dropdown-bottom py-1">
                         <div
@@ -130,9 +130,9 @@ export default function LeftSideDrawer() {
                           className="btn btn-ghost btn-circle btn-sm avatar ring-2 ring-white"
                         >
                           <div className="w-10 rounded-full">
-                            {session?.user?.image ? (
+                            {user?.image ? (
                               <img
-                                src={session?.user?.image}
+                                src={user?.image}
                                 alt="User Profile"
                                 height={40}
                                 width={40}
@@ -153,7 +153,7 @@ export default function LeftSideDrawer() {
                         >
                           <div className="flex items-center gap-2 px-2 py-1 font-medium">
                             <span className="text-white hover:text-secondary">
-                              {session?.user?.name}
+                              {user?.name}
                             </span>{' '}
                             <span className="badge badge-outline">Free</span>
                           </div>

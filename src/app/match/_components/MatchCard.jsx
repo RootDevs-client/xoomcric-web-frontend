@@ -1,17 +1,21 @@
+import { useAuthStore } from '@/lib/auth-store';
 import { xoomBackendUrl } from '@/lib/axios/getAxios';
 import getShortName from '@/lib/helpers/getShortName';
 import getSlugify from '@/lib/helpers/getSlugify';
 import useGetUserProfile from '@/lib/hooks/useGetUserProfile';
-import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import MatchStates from './MatchStates';
 
 const MatchCard = ({ match, large }) => {
-  const { data: session } = useSession();
+  const { token, isAdmin, user } = useAuthStore();
 
-  const { userProfile, refetchProfile } = useGetUserProfile(session);
+  const { userProfile, refetchProfile } = useGetUserProfile(
+    token,
+    isAdmin,
+    user
+  );
 
   const isFavorite =
     userProfile?.favorites?.matches.some(
@@ -40,18 +44,18 @@ const MatchCard = ({ match, large }) => {
 
   const handleFavoriteClick = async (event, match) => {
     event.preventDefault();
-    if (session) {
+    if (user) {
       setIsStarClicked(true);
 
       // Check if the user is an admin
-      if (session?.user?.email?.role === 'admin') {
+      if (isAdmin) {
         toast.error('Please login as a user to add matches to favorites.');
         setIsStarClicked(false);
         return;
       }
 
       const favoriteData = {
-        email: session?.user?.email,
+        phone: user?.phone,
         key: 'matches',
         item: { id: match.id },
       };
@@ -81,10 +85,10 @@ const MatchCard = ({ match, large }) => {
 
   const handleRemoveFavorite = async (event, match) => {
     event.preventDefault();
-    if (session) {
+    if (user) {
       setIsStarClicked(false);
       const favoriteData = {
-        email: session?.user?.email,
+        phone: user?.phone,
         key: 'matches',
         item: { id: match.id },
       };

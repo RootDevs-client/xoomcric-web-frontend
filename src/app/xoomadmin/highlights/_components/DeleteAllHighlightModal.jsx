@@ -3,7 +3,7 @@ import { useState } from 'react';
 import toast from 'react-hot-toast';
 
 export default function DeleteAllHighlightModal({
-  session,
+  token,
   allHighlightRefetch,
 }) {
   const [deleting, setDeleting] = useState(false);
@@ -14,7 +14,7 @@ export default function DeleteAllHighlightModal({
       const { data } = await xoomBackendUrl.delete(
         '/api/admin/highlights/delete-all',
         {
-          headers: { Authorization: `Bearer ${session?.user?.accessToken}` },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
       if (data?.status) {

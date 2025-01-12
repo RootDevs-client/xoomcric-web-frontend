@@ -1,6 +1,7 @@
 'use client';
 
 import GlobalLoading from '@/components/Global/GlobalLoading';
+import { useAuthStore } from '@/lib/auth-store';
 import { xoomBackendUrl } from '@/lib/axios/getAxios';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -8,13 +9,13 @@ import toast from 'react-hot-toast';
 import { FaGear } from 'react-icons/fa6';
 import CricketFixtureList from './CricketFixtureList';
 
-export default function CricBuzzFixtureContainer({ session }) {
+export default function CricBuzzFixtureContainer() {
   const [loading, setLoading] = useState(true);
   const [fixtures, setFixtures] = useState([]);
   const [fixtureState, setFixtureState] = useState('live');
   const [offset, setOffset] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
-  // const { userToken } = useAuthContext();
+  const { token } = useAuthStore();
 
   useEffect(() => {
     async function setTimeZone() {
@@ -22,7 +23,7 @@ export default function CricBuzzFixtureContainer({ session }) {
         const { data } = await xoomBackendUrl.get(
           '/api/admin/administration-settings',
           {
-            headers: { Authorization: `Bearer ${session?.user?.accessToken}` },
+            headers: { Authorization: `Bearer ${token}` },
           }
         );
         const timeZone = data?.data?.timezone?.value;
@@ -42,7 +43,7 @@ export default function CricBuzzFixtureContainer({ session }) {
         const res = await xoomBackendUrl.post(
           `/api/admin/fixtures/cric-buzz/cricket`,
           { state: fixtureState },
-          { headers: { Authorization: `Bearer ${session?.user?.accessToken}` } }
+          { headers: { Authorization: `Bearer ${token}` } }
         );
         setFixtures(res?.data?.data || []);
       } catch (error) {
@@ -94,7 +95,7 @@ export default function CricBuzzFixtureContainer({ session }) {
 
     setTimeZone();
     getFixtures();
-  }, [session?.user?.accessToken, fixtureState]);
+  }, [token, fixtureState]);
 
   const tabClasses = (state) =>
     `btn h-[45px] btn-sm btn-primary min-w-[170px] rounded-md ${

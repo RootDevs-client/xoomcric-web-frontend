@@ -3,6 +3,7 @@
 import FlatPicker from '@/components/Global/FlatPicker';
 import GlobalLoading from '@/components/Global/GlobalLoading';
 import SunEditor from '@/components/Global/SunEditor';
+import { useAuthStore } from '@/lib/auth-store';
 import { xoomBackendUrl } from '@/lib/axios/getAxios';
 import { uploadImageToCloudinary } from '@/lib/helpers/uploadImageToCloudinary';
 import useGetSingleNews from '@/lib/hooks/admin/useGetSingleNews';
@@ -15,8 +16,10 @@ import { FaHome } from 'react-icons/fa';
 import { ImSpinner6 } from 'react-icons/im';
 import * as Yup from 'yup';
 
-export default function NewsUpdate({ session, id }) {
-  const { singleNews, singleNewsLoading } = useGetSingleNews(session, id);
+export default function NewsUpdate({ id }) {
+  const { token, isAdmin, user } = useAuthStore();
+
+  const { singleNews, singleNewsLoading } = useGetSingleNews(token, id);
   const [newsImage, setNewsImage] = useState(null);
   const [newsFormSubmitting, setNewsFormSubmitting] = useState(false);
   const [uploadNewsImageMsg, setUploadNewsImageMsg] = useState('');
@@ -80,7 +83,7 @@ export default function NewsUpdate({ session, id }) {
             news_image: newsImage ? uploadedImageUrl : values.news_image,
           },
           {
-            headers: { Authorization: `Bearer ${session?.user?.accessToken}` },
+            headers: { Authorization: `Bearer ${token}` },
           }
         );
 

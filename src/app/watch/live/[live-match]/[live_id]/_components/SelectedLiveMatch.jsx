@@ -5,17 +5,13 @@ import Countdown from '@/components/Global/Countdown';
 import GlobalLoading from '@/components/Global/GlobalLoading';
 import useGetAppSettings from '@/lib/hooks/useGetAppSettings';
 import useGetBlackList from '@/lib/hooks/useGetBlackList';
-import useGetUserProfile from '@/lib/hooks/useGetUserProfile';
 import JWPlayer from '@jwplayer/jwplayer-react';
-import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 
 const formatDate = (timestamp) => new Date(timestamp * 1000);
 const isPastDate = (timestamp) => formatDate(timestamp) < new Date();
 
 const SelectedLiveMatch = ({ match }) => {
-  const { data: session } = useSession();
-  const { userProfile, refetchProfile } = useGetUserProfile(session);
   const streamingSources = match?.streaming_sources;
   const videoUrls = streamingSources?.map((source) => source?.stream_url) || [];
   const [currentStreamIndex, setCurrentStreamIndex] = useState(0);

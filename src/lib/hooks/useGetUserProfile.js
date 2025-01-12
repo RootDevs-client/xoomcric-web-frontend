@@ -1,7 +1,7 @@
 import { xoomBackendUrl } from '@/lib/axios/getAxios';
 import { useQuery } from 'react-query';
 
-export default function useGetUserProfile(session) {
+export default function useGetUserProfile(token, isAdmin, user) {
   const {
     isLoading: userProfileLoading,
     data: userProfile,
@@ -9,20 +9,16 @@ export default function useGetUserProfile(session) {
   } = useQuery(
     'user-profile',
     async () => {
-      // Check if session is available before making the API call
-
-      const userRole = session?.user?.role;
-      const apiEndpoint =
-        userRole === 'admin' ? '/api/admin/profile' : '/api/user/profile';
+      const apiEndpoint = isAdmin ? '/api/admin/profile' : '/api/user/profile';
 
       const response = await xoomBackendUrl.post(
         apiEndpoint,
         {
-          email: session?.user?.email,
+          phone: user?.phone,
         },
         {
           headers: {
-            Authorization: `Bearer ${session?.user?.accessToken}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -34,7 +30,7 @@ export default function useGetUserProfile(session) {
       }
     },
     {
-      enabled: !!session,
+      enabled: !!token,
     }
   );
 

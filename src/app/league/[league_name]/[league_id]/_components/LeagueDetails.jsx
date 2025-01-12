@@ -2,6 +2,7 @@
 
 import TabItem from '@/components/Global/TabItem';
 import TabPanel from '@/components/Global/TabPanel';
+import { useAuthStore } from '@/lib/auth-store';
 import { xoomBackendUrl } from '@/lib/axios/getAxios';
 import useGetUserProfile from '@/lib/hooks/useGetUserProfile';
 import { useEffect, useState } from 'react';
@@ -11,11 +12,16 @@ import PlayerStats from './PlayerStats';
 import Standings from './Standings';
 import TeamStats from './TeamStats';
 
-export default function LeagueDetails({ leagueData, session }) {
+export default function LeagueDetails({ leagueData }) {
   const [seasonId, setSeasonId] = useState(leagueData?.currentseason?.id);
   const [currentTab, setCurrentTab] = useState(0);
+  const { token, isAdmin, user } = useAuthStore();
 
-  const { userProfile, refetchProfile } = useGetUserProfile(session);
+  const { userProfile, refetchProfile } = useGetUserProfile(
+    token,
+    isAdmin,
+    user
+  );
   const isFavorite =
     userProfile?.favorites?.leagues.some(
       (item) => item?.id === leagueData?.id
@@ -48,18 +54,18 @@ export default function LeagueDetails({ leagueData, session }) {
   const handleFavoriteClick = async (event, leagueData) => {
     event.preventDefault();
 
-    if (session) {
+    if (user) {
       setIsStarClicked(true);
 
       // Check if the user is an admin
-      if (session?.user?.email?.role === 'admin') {
+      if (isAdmin) {
         toast.error('Please log in as a user to add leagues to favorite.');
         setIsStarClicked(false);
         return;
       }
 
       const favoriteData = {
-        email: session?.user?.email,
+        phone: user?.phone,
         key: 'leagues',
         item: {
           id: leagueData.id,
@@ -96,10 +102,10 @@ export default function LeagueDetails({ leagueData, session }) {
   const handleRemoveFavorite = async (event, leagueData) => {
     event.preventDefault();
 
-    if (session) {
+    if (user) {
       setIsStarClicked(false);
       const favoriteData = {
-        email: session?.user?.email,
+        phone: user?.phone,
         key: 'leagues',
         item: {
           id: leagueData.id,

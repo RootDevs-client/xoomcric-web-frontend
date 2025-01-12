@@ -4,7 +4,6 @@ import FavoriteSeriesCard from './FavoriteSeriesCard';
 export default function FavoriteSeries({
   series,
   notLoggedIn,
-  session,
   userProfileLoading,
 }) {
   if (userProfileLoading) {
@@ -55,7 +54,7 @@ export default function FavoriteSeries({
                 <FavoriteSeriesCard
                   key={seriesItem.id}
                   seriesItem={seriesItem}
-                  session={session}
+           
                 />
               ))}
             </div>

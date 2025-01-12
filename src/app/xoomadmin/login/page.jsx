@@ -1,6 +1,3 @@
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import { getServerSession } from 'next-auth';
-import { redirect } from 'next/navigation';
 import SignInForm from './_components/SignInForm';
 
 export const metadata = {
@@ -8,15 +5,6 @@ export const metadata = {
 };
 
 export default async function Page() {
-  const session = await getServerSession(authOptions);
-
-  if (session) {
-    if (session?.user?.role === 'user') {
-      redirect('/');
-    } else {
-      redirect('/xoomadmin/dashboard');
-    }
-  }
   // bg-gradient-to-r from-[#b44646] via-purple-600 to-[#28a78f]
 
   return (

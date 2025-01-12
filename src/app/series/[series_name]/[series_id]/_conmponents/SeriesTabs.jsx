@@ -1,4 +1,5 @@
 'use client';
+import { useAuthStore } from '@/lib/auth-store';
 import { xoomBackendUrl } from '@/lib/axios/getAxios';
 import useGetUserProfile from '@/lib/hooks/useGetUserProfile';
 import { useEffect, useState } from 'react';
@@ -27,12 +28,16 @@ const tabs = [
   },
 ];
 
-export default function SeriesTabs({ series_id, series_name, session }) {
+export default function SeriesTabs({ series_id, series_name }) {
   const [activeTab, setActiveTab] = useState(tabs[0].id);
 
-  const [currentTab, setCurrentTab] = useState(0);
+  const { token, isAdmin, user } = useAuthStore();
 
-  const { userProfile, refetchProfile } = useGetUserProfile(session);
+  const { userProfile, refetchProfile } = useGetUserProfile(
+    token,
+    isAdmin,
+    user
+  );
   const isFavorite =
     userProfile?.favorites?.series?.some((item) => item?.id === series_id) ||
     false;
@@ -48,18 +53,18 @@ export default function SeriesTabs({ series_id, series_name, session }) {
   const handleFavoriteClick = async (event, seriesData) => {
     event.preventDefault();
 
-    if (session) {
+    if (user) {
       setIsStarClicked(true);
 
       // Check if the user is an admin
-      if (session?.user?.email?.role === 'admin') {
+      if (isAdmin) {
         toast.error('Please log in as a user to add leagues to favorite.');
         setIsStarClicked(false);
         return;
       }
 
       const favoriteData = {
-        email: session?.user?.email,
+        phone: user?.phone,
         key: 'series',
         item: {
           id: seriesData.series_id,
@@ -96,10 +101,10 @@ export default function SeriesTabs({ series_id, series_name, session }) {
   const handleRemoveFavorite = async (event, seriesData) => {
     event.preventDefault();
 
-    if (session) {
+    if (user) {
       setIsStarClicked(false);
       const favoriteData = {
-        email: session?.user?.email,
+        phone: user?.phone,
         key: 'series',
         item: {
           id: seriesData.series_id,

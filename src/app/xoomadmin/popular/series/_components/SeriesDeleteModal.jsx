@@ -2,7 +2,7 @@ import { xoomBackendUrl } from '@/lib/axios/getAxios';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
-function SeriesDeleteModal({ session, singleSeries, popularSeriesRefetch }) {
+function SeriesDeleteModal({ token, singleSeries, popularSeriesRefetch }) {
   const [submitting, setSubmitting] = useState(false);
 
   const deleteSeriesHandler = async (id) => {
@@ -11,7 +11,7 @@ function SeriesDeleteModal({ session, singleSeries, popularSeriesRefetch }) {
       const { data } = await xoomBackendUrl.delete(
         `/api/admin/popular-series/${id}`,
         {
-          headers: { Authorization: `Bearer ${session?.user?.accessToken}` },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
       if (data.status) {

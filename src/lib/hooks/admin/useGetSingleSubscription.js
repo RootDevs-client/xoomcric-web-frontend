@@ -1,7 +1,7 @@
 import { xoomBackendUrl } from '@/lib/axios/getAxios';
 import { useQuery } from 'react-query';
 
-export default function useGetSingleSubscription(session, id) {
+export default function useGetSingleSubscription(token, id) {
   const {
     isLoading: singleSubscriptionLoading,
     data: singleSubscription,
@@ -12,7 +12,7 @@ export default function useGetSingleSubscription(session, id) {
       const response = await xoomBackendUrl.get(
         `/api/admin/subscriptions/${id}`,
         {
-          headers: { Authorization: `Bearer ${session?.user?.accessToken}` },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
       if (response.status === 200) {

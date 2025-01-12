@@ -1,14 +1,14 @@
 import { xoomBackendUrl } from '@/lib/axios/getAxios';
 import { useQuery } from 'react-query';
 
-export default function useGetPopularSeries(session) {
+export default function useGetPopularSeries(token) {
   const {
     isLoading: popularSeriesLoading,
     data: popularSeries,
     refetch: popularSeriesRefetch,
   } = useQuery('popular-Series', async () => {
     const response = await xoomBackendUrl.get(`api/admin/popular-series`, {
-      headers: { Authorization: `Bearer ${session?.user?.accessToken}` },
+      headers: { Authorization: `Bearer ${token}` },
     });
     if (response.status === 200) {
       return response.data?.data;
