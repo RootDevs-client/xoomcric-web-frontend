@@ -1,20 +1,17 @@
 'use client';
 
-import { useAppContext } from '@/contexts/XoomAppContent';
+import { useAuthStore } from '@/lib/auth-store';
 import { xoomBackendUrl } from '@/lib/axios/getAxios';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { useQuery } from 'react-query';
 
 export default function UserPayment() {
-  const router = useRouter();
-
   const [isProcessing, setIsProcessing] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
-  const { userInfo } = useAppContext();
+  const { userInfo } = useAuthStore();
 
-  const { isLoading, data, refetch } = useQuery(
+  const { isLoading, data } = useQuery(
     'all-subscriptions',
     async () => {
       const response = await xoomBackendUrl.get(`/api/subscriptions`);

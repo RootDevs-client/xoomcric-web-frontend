@@ -52,13 +52,11 @@ export default function LeftSideDrawer() {
               <div className="flex flex-col p-5">
                 <div className="flex flex-col">
                   <Link
-                    href="/"
+                    href="/login"
                     className="text-2xl font-semibold text-gray-800 uppercase"
                   >
-                    {/* <span className="text-secondary">x</span>oom sports */}
                     <img src="/images/logo.png" alt="logo" className="w-32" />
                   </Link>
-                  <p className="pt-5 font-semibold">LOGIN OR REGISTER</p>
                 </div>
 
                 <div className="py-5">
@@ -158,7 +156,7 @@ export default function LeftSideDrawer() {
                             <span className="badge badge-outline">Free</span>
                           </div>
                           <li className="px-2 py-1 font-medium text-white hover:text-secondary ">
-                            Settings
+                            <Link href={'/profile'}>Profile</Link>
                           </li>
                           <li
                             className="w-full mx-auto mt-3 rounded-md btn btn-sm btn-error"
@@ -170,12 +168,12 @@ export default function LeftSideDrawer() {
                       </div>
                     </>
                   ) : (
-                    <label
-                      onClick={() => window.authModal.showModal()}
+                    <Link
+                      href={'/login'}
                       className="text-black text-sm uppercase font-semibold py-1 cursor-pointer hover:text-secondary"
                     >
-                      sign in
-                    </label>
+                      Login
+                    </Link>
                   )}
                 </div>
 

@@ -1,5 +1,5 @@
 'use client';
-import { useAppContext } from '@/contexts/XoomAppContent';
+import { useAuthStore } from '@/lib/auth-store';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -10,11 +10,11 @@ export default function UserRegister() {
   const [registerFormSubmitted, setRegisterFormSubmitted] = useState(false);
   const { push } = useRouter();
 
-  const { setUserInfo } = useAppContext();
+  const setRegister = useAuthStore((state) => state.setRegister);
 
   const handleRegister = (values, { resetForm }) => {
     setRegisterFormSubmitted(true);
-    setUserInfo(values);
+    setRegister(values);
     resetForm();
     push('/package');
   };

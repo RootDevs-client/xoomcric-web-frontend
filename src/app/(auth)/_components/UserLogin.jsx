@@ -60,7 +60,7 @@ export default function UserLogin() {
           initialValues={{ phone: '', password: '' }}
           validationSchema={Yup.object({
             phone: Yup.string().required('Phone number is required'),
-            password: Yup.string().required('Password is required'),
+            password: Yup.string().min(6).required('Password is required'),
           })}
           onSubmit={handleLogin}
         >

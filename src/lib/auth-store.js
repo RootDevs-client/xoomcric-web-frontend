@@ -6,10 +6,12 @@ const useAuthStore = create(
     (set) => ({
       token: null,
       user: null,
+      userInfo: null,
       isAdmin: false,
       isPaid: false,
       isLoading: false,
       setAuth: (token, user, isAdmin = false) => set({ token, user, isAdmin }),
+      setRegister: (userInfo) => set({ userInfo }),
       updateUser: (user) => set({ user }),
       setLoading: (isLoading) => set({ isLoading }),
       logout: () =>

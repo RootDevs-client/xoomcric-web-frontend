@@ -116,7 +116,7 @@ export default function Header() {
                         </span>{' '}
                       </div>
                       <li className="px-2 py-1 font-medium text-white hover:text-secondary ">
-                        Settings
+                        <Link href={'/profile'}>Profile</Link>
                       </li>
                       <li
                         className="w-full mx-auto mt-3 rounded-md btn btn-sm btn-error"
@@ -128,12 +128,12 @@ export default function Header() {
                   </div>
                 </>
               ) : (
-                <label
-                  onClick={() => window.authModal.showModal()}
+                <Link
+                  href={'/login'}
                   className="text-white cursor-pointer hover:text-secondary"
                 >
-                  sign in
-                </label>
+                  Login
+                </Link>
               )}
             </ul>
           </div>
