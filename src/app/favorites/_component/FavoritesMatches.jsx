@@ -4,7 +4,6 @@ import GlobalLoading from '@/components/Global/GlobalLoading';
 export default function FavoritesMatches({
   userProfile,
   notLoggedIn,
-
   userProfileLoading,
 }) {
   if (userProfileLoading) {

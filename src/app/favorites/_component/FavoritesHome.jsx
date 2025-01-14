@@ -22,15 +22,12 @@ const FavoriteTabItem = ({ tab, index, onClick, active, isWhite }) => (
 export default function FavoritesHome() {
   const { token, isAdmin, user } = useAuthStore();
 
-  const { userProfile, refetchProfile, userProfileLoading } = useGetUserProfile(
+  const { userProfile, userProfileLoading } = useGetUserProfile(
     token,
     isAdmin,
     user
   );
   const [currentTab, setCurrentTab] = useState(0);
-  const [favoriteMatchesLoading, setFavoriteMatchesLoading] = useState(true);
-  const [favoriteMatchesData, setFavoriteMatchesData] = useState([]);
-  const [error, setError] = useState(null);
 
   const {
     series = [],
@@ -38,38 +35,13 @@ export default function FavoritesHome() {
     teams = [],
   } = userProfile?.favorites || {};
 
-  // const fixtureIds = matches.map((item) => item.id);
-  // const fetchData = async () => {
-  //   try {
-  //     if (fixtureIds.length > 0) {
-  //       const response = await sportMonkUrl.get(
-  //         `/fixtures/multi/${fixtureIds}?include=league.country;round.stage;participants;state;scores;periods`
-  //       );
-  //       if (response.status === 200) {
-  //         setFavoriteMatchesData(response.data?.data);
-  //       } else {
-  //         throw new Error('Failed to fetch favorite matches data');
-  //       }
-  //     } else {
-  //       setFavoriteMatchesData([]);
-  //     }
-  //   } catch (error) {
-  //     setError(error);
-  //   } finally {
-  //     setFavoriteMatchesLoading(false);
-  //   }
-  // };
-  // useEffect(() => {
-  //   fetchData();
-  // }, [userProfile]);
-
   const tabs = ['Matches', 'Teams', 'Series'];
   const tabContents = [
     <FavoritesMatches
       key={'favorites_tab_001'}
+      matches={matches}
       userProfile={userProfile}
       notLoggedIn={!userProfile}
-
       userProfileLoading={userProfileLoading}
     />,
     <FavoritesTeams
@@ -77,7 +49,6 @@ export default function FavoritesHome() {
       teams={teams}
       userProfile={userProfile}
       notLoggedIn={!userProfile}
-
       userProfileLoading={userProfileLoading}
     />,
     <FavoriteSeries
@@ -85,7 +56,6 @@ export default function FavoritesHome() {
       series={series}
       userProfile={userProfile}
       notLoggedIn={!userProfile}
- 
       userProfileLoading={userProfileLoading}
     />,
   ];

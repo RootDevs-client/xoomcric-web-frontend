@@ -9,6 +9,8 @@ import { useQuery } from 'react-query';
 export default function UserPayment() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
+  const [paymentMethod, setPaymentMethod] = useState('card');
+
   const { userInfo } = useAuthStore();
 
   const { isLoading, data } = useQuery(
@@ -21,7 +23,7 @@ export default function UserPayment() {
         throw new Error('Failed to fetch all subscriptions data!');
       }
     },
-    { enabled: !!userInfo } // Only run this query if userInfo exists
+    { enabled: !!userInfo }
   );
 
   const handlePayment = async () => {
@@ -29,16 +31,18 @@ export default function UserPayment() {
 
     setIsProcessing(true);
     try {
-      const response = await xoomBackendUrl.post('/api/payment', {
-        phone: userInfo?.phone,
-        password: userInfo?.password,
-        subscription: selectedPlan._id,
-      });
+      if (paymentMethod === 'card') {
+        const response = await xoomBackendUrl.post('/api/payment', {
+          phone: userInfo?.phone,
+          password: userInfo?.password,
+          subscription: selectedPlan._id,
+        });
 
-      if (response.status === 200) {
-        console.log('response', response);
-
-        window.location.assign(response?.data?.data?.session);
+        if (response.status === 200) {
+          window.location.assign(response?.data?.data?.session);
+        }
+      } else if (paymentMethod === 'mobile') {
+        window.location.assign(`${process.env.NEXT_PUBLIC_MOBILE_PAYMENT_URL}`);
       }
     } catch (error) {
       toast.error('Payment failed, please try again.');
@@ -57,10 +61,7 @@ export default function UserPayment() {
         <div className="flex items-start gap-5 justify-start flex-col">
           <img src="/images/default_profile.png" alt="" className="w-24" />
           <p>
-            {' '}
-            <span className="text-lg font-semibold text-gray-700">
-              Phone:
-            </span>{' '}
+            <span className="text-lg font-semibold text-gray-700">Phone:</span>{' '}
             {userInfo?.phone}
           </p>
         </div>
@@ -78,7 +79,8 @@ export default function UserPayment() {
             </div>
           ) : (
             <div className="p-8 bg-white rounded-lg shadow-lg max-w-md w-full">
-              <h2 className="text-2xl font-bold mb-6">Subscription Plans</h2>
+              <h4 className="text-xl font-bold mb-6">Subscription Plans</h4>
+
               {data?.map((plan) => (
                 <div
                   key={plan?._id}
@@ -107,10 +109,23 @@ export default function UserPayment() {
                   </label>
                 </div>
               ))}
+
+              <h4 className="text-base mb-6">Select Payment Methods</h4>
+
+              <select
+                className="w-full p-2 mb-4 border border-gray-300 rounded"
+                value={paymentMethod}
+                onChange={(e) => setPaymentMethod(e.target.value)}
+              >
+                <option value="">Select One</option>
+                <option value="card">Visa/Mastercard</option>
+                <option value="mobile">Mobile Payment</option>
+              </select>
+
               <button
                 className="btn btn-primary w-full mt-4"
                 onClick={handlePayment}
-                disabled={!selectedPlan || isProcessing}
+                disabled={!selectedPlan || isProcessing || !paymentMethod}
               >
                 {isProcessing ? 'Processing...' : 'Pay Now'}
               </button>

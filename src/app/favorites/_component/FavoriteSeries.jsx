@@ -54,7 +54,6 @@ export default function FavoriteSeries({
                 <FavoriteSeriesCard
                   key={seriesItem.id}
                   seriesItem={seriesItem}
-           
                 />
               ))}
             </div>
