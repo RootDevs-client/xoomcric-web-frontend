@@ -2,8 +2,10 @@ import { useAuthStore } from '@/lib/auth-store';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import toast from 'react-hot-toast';
+import { BiFootball } from 'react-icons/bi';
 import { GoArrowRight } from 'react-icons/go';
 import { HiMenuAlt2 } from 'react-icons/hi';
+import { IoClose } from 'react-icons/io5';
 
 export default function LeftSideDrawer() {
   const { user } = useAuthStore();
@@ -11,20 +13,30 @@ export default function LeftSideDrawer() {
   const pathname = usePathname();
   const isCurrentPath = (path) => pathname.includes(path);
 
+  const closeDrawer = () => {
+    document.getElementById('menu-drawer').checked = false;
+  };
+
   const handleLogout = async () => {
     if (user) {
       useAuthStore.getState().logout();
     }
+    closeDrawer();
     toast.success('Signed out successfully!');
   };
 
   return (
     <div className="flex items-center justify-between h-[75px] bg-white p-3">
-      <Link href="/">
-        {/* <h4 className="text-2xl font-semibold text-gray-800 uppercase">
-          <span className="text-secondary">x</span>oom sports
-        </h4> */}
-        <img src="/images/logo.png" alt="logo" className="w-32" />
+      <Link
+        href="/"
+        className="flex items-center text-2xl font-semibold text-black uppercase md:text-3xl"
+      >
+        <span className="text-secondary">x</span>
+        <BiFootball className="animate-bounce" />
+        <BiFootball className="text-secondary animate-bounce [animation-delay:-0.3s]" />
+        mSp
+        <BiFootball className="animate-spin" />
+        rts
       </Link>
 
       <div>
@@ -48,15 +60,25 @@ export default function LeftSideDrawer() {
               className="drawer-overlay"
             ></label>
 
-            <div className="min-h-full p-4 menu w-80 bg-base-100 text-base-content rounded-tr-2xl rounded-br-2xl">
+            <div className="min-h-full relative p-4 menu w-80 bg-base-100 text-base-content rounded-tr-2xl rounded-br-2xl">
+              <button
+                className="absolute right-0 p-2"
+                onClick={() =>
+                  (document.getElementById('menu-drawer').checked = false)
+                }
+              >
+                <IoClose className="text-2xl text-secondary" />
+              </button>
               <div className="flex flex-col p-5">
                 <div className="flex flex-col">
                   <Link
-                    href="/login"
+                    href="/"
                     className="text-2xl font-semibold text-gray-800 uppercase"
+                    onClick={closeDrawer}
                   >
-                    <img src="/images/logo.png" alt="logo" className="w-32" />
+                    <span className="text-secondary">x</span>oom sports
                   </Link>
+                  {/* <p className="pt-5 font-semibold">LOGIN OR REGISTER</p> */}
                 </div>
 
                 <div className="py-5">
@@ -74,6 +96,7 @@ export default function LeftSideDrawer() {
                           : 'text-black hover:text-secondary'
                       }`}
                       href="/"
+                      onClick={closeDrawer}
                     >
                       <p className="text-sm font-semibold">HOME</p>
                     </Link>
@@ -87,6 +110,7 @@ export default function LeftSideDrawer() {
                           : 'text-black hover:text-secondary'
                       }`}
                       href="/favorites"
+                      onClick={closeDrawer}
                     >
                       <p className="text-sm font-semibold uppercase">
                         favorites
@@ -102,6 +126,7 @@ export default function LeftSideDrawer() {
                           : 'text-black hover:text-secondary'
                       }`}
                       href="/watch"
+                      onClick={closeDrawer}
                     >
                       <p className="text-sm font-semibold">WATCH</p>
                     </Link>
@@ -115,10 +140,12 @@ export default function LeftSideDrawer() {
                           : 'text-black hover:text-secondary'
                       }`}
                       href="/news"
+                      onClick={closeDrawer}
                     >
                       <p className="text-sm font-semibold">NEWS</p>
                     </Link>
                   </div>
+
                   {user ? (
                     <>
                       <div className="dropdown dropdown-bottom py-1">
@@ -153,10 +180,19 @@ export default function LeftSideDrawer() {
                             <span className="text-white hover:text-secondary">
                               {user?.name}
                             </span>{' '}
-                            <span className="badge badge-outline">Free</span>
                           </div>
-                          <li className="px-2 py-1 font-medium text-white hover:text-secondary ">
-                            <Link href={'/profile'}>Profile</Link>
+                          <li>
+                            <Link
+                              className="px-2 py-1 font-medium text-white !hover:text-gray-200"
+                              href={'/profile'}
+                              onClick={() =>
+                                (document.getElementById(
+                                  'menu-drawer'
+                                ).checked = false)
+                              }
+                            >
+                              Profile
+                            </Link>
                           </li>
                           <li
                             className="w-full mx-auto mt-3 rounded-md btn btn-sm btn-error"
@@ -171,8 +207,9 @@ export default function LeftSideDrawer() {
                     <Link
                       href={'/login'}
                       className="text-black text-sm uppercase font-semibold py-1 cursor-pointer hover:text-secondary"
+                      onClick={closeDrawer}
                     >
-                      Login
+                      login
                     </Link>
                   )}
                 </div>
@@ -183,6 +220,7 @@ export default function LeftSideDrawer() {
                   <Link
                     href="#"
                     className="flex justify-between py-1 cursor-pointer hover:text-secondary"
+                    onClick={closeDrawer}
                   >
                     <div>
                       <p className="text-sm font-semibold">SUPPORT & CONTACT</p>
@@ -202,8 +240,9 @@ export default function LeftSideDrawer() {
                   </div>
 
                   <Link
-                    href="/terms-of-service"
+                    href="https://xoomsport.com/terms"
                     className="flex justify-between py-1 cursor-pointer hover:text-secondary"
+                    onClick={closeDrawer}
                   >
                     <div>
                       <p className="text-sm font-semibold">TERMS OF USE</p>
@@ -214,8 +253,9 @@ export default function LeftSideDrawer() {
                   </Link>
 
                   <Link
-                    href="/privacy-policy"
+                    href="https://xoomsport.com/policy"
                     className="flex justify-between py-1 cursor-pointer hover:text-secondary"
+                    onClick={closeDrawer}
                   >
                     <div>
                       <p className="text-sm font-semibold">PRIVACY & POLICY</p>
@@ -232,7 +272,7 @@ export default function LeftSideDrawer() {
 
                 <div className="">
                   <p className="font-semibold text-rose-500">
-                    COPYRIGHT &copy; XoomCric
+                    COPYRIGHT &copy; XOOMSPORT
                   </p>
                   <p className="pt-1 font-semibold">ALL RIGHTS RESERVED.</p>
                 </div>
