@@ -1,4 +1,4 @@
-import { signOut, useSession } from 'next-auth/react';
+import { useAuthStore } from '@/lib/auth-store';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { IoLogOutOutline } from 'react-icons/io5';
@@ -7,7 +7,8 @@ import { RiMenuFoldFill, RiMenuUnfoldFill, RiUserFill } from 'react-icons/ri';
 import { SlLock } from 'react-icons/sl';
 
 export default function Header({ toggleSidebar, isSidebarOpen }) {
-  const { data: session } = useSession();
+  const { user } = useAuthStore();
+
   const { replace } = useRouter();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -18,10 +19,9 @@ export default function Header({ toggleSidebar, isSidebarOpen }) {
 
   const handleLogout = async () => {
     toggleDropdown();
-    await signOut({
-      redirect: false,
-      callbackUrl: '/xoomadmin/login',
-    });
+    if (user) {
+      useAuthStore.getState().logout();
+    }
     replace('/xoomadmin/login');
   };
 
@@ -63,7 +63,9 @@ export default function Header({ toggleSidebar, isSidebarOpen }) {
         {isDropdownOpen && (
           <div className="absolute top-[60px] right-0 bg-white rounded shadow-md z-20 p-2 w-52">
             <ul className="flex flex-col items-center">
-              <li className='font-medium p-2 text-gray-600'>{session?.user?.name}</li>
+              <li className="font-medium p-2 text-gray-600">
+                {user?.name}
+              </li>
               <li className="w-full font-medium flex items-center justify-start text-sm hover:bg-rose-200 p-2 rounded cursor-pointer">
                 <LuUserCog className="mr-2 text-base" />
                 Edit Profile

@@ -1,5 +1,6 @@
 'use client';
 
+import { useAuthStore } from '@/lib/auth-store';
 import { xoomBackendUrl } from '@/lib/axios/getAxios';
 import { ErrorMessage, Field, FieldArray, Form, Formik } from 'formik';
 import Link from 'next/link';
@@ -11,9 +12,11 @@ import { FaHome } from 'react-icons/fa';
 import { ImSpinner6 } from 'react-icons/im';
 import * as Yup from 'yup';
 
-export default function SubscriptionCreate({ session }) {
+export default function SubscriptionCreate() {
   const [formSubmitting, setFormSubmitting] = useState(false);
   const router = useRouter();
+
+  const { token } = useAuthStore();
 
   const initialValues = {
     title: '',
@@ -42,7 +45,7 @@ export default function SubscriptionCreate({ session }) {
         '/api/admin/subscriptions/create',
         values,
         {
-          headers: { Authorization: `Bearer ${session?.user?.accessToken}` },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
 

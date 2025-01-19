@@ -1,6 +1,4 @@
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import BreadCrumb from '@/components/Global/BreadCrumb';
-import { getServerSession } from 'next-auth';
 import CreateHighlight from '../_components/CreateHighlight';
 
 export default async function page({ searchParams }) {
@@ -11,12 +9,10 @@ export default async function page({ searchParams }) {
     link2: '/xoomadmin/highlights/create',
   };
 
-  const session = await getServerSession(authOptions);
-
   return (
     <>
       <BreadCrumb breadMenu={breadMenu} />
-      <CreateHighlight query={searchParams} session={session} />
+      <CreateHighlight query={searchParams} />
     </>
   );
 }

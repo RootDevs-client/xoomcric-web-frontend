@@ -1,5 +1,7 @@
 'use client';
 
+import GlobalLoading from '@/components/Global/GlobalLoading';
+import { useAuthStore } from '@/lib/auth-store';
 import useGetAllSubscriptions from '@/lib/hooks/admin/useGetAllSubscriptions';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -13,9 +15,8 @@ import { FaPlus } from 'react-icons/fa6';
 import SubscriptionDeleteModal from './SubscriptionDeleteModal';
 import SubscriptionGridView from './SubscriptionGridView';
 import SubscriptionListView from './SubscriptionListView';
-import GlobalLoading from '@/components/Global/GlobalLoading';
 
-export default function SubscriptionHome({ session }) {
+export default function SubscriptionHome() {
   const [searchQuery, setSearchQuery] = useState('');
   const [singleSubscription, setSingleSubscription] = useState(null);
   const [isGrid, setIsGrid] = useState(false);
@@ -25,11 +26,18 @@ export default function SubscriptionHome({ session }) {
       ? localStorage?.getItem('subscriptionPageNumber') || 10
       : 10
   );
+
+  const { token } = useAuthStore();
+
   const { allSubscriptions, allSubscriptionsLoading, allSubscriptionsRefetch } =
-    useGetAllSubscriptions(session);
+    useGetAllSubscriptions(token);
 
   if (allSubscriptionsLoading) {
-    return <><GlobalLoading/></>;
+    return (
+      <>
+        <GlobalLoading />
+      </>
+    );
   }
 
   const deleteSubscriptionModalHandler = (subscription) => {
@@ -236,7 +244,7 @@ export default function SubscriptionHome({ session }) {
       </div>
 
       <SubscriptionDeleteModal
-        session={session}
+        token={token}
         singleSubscription={singleSubscription}
         allSubscriptionsRefetch={allSubscriptionsRefetch}
       />

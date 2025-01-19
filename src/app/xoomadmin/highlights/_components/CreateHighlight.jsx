@@ -1,5 +1,6 @@
 'use client';
 
+import { useAuthStore } from '@/lib/auth-store';
 import { xoomBackendUrl } from '@/lib/axios/getAxios';
 import { uploadImageToCloudinary } from '@/lib/helpers/uploadImageToCloudinary';
 
@@ -11,7 +12,7 @@ import { ImSpinner } from 'react-icons/im';
 import { IoIosFootball } from 'react-icons/io';
 import * as Yup from 'yup';
 
-export default function CreateHighlight({ query, session }) {
+export default function CreateHighlight({ query }) {
   const [thumbnailImage, setThumbnailImage] = useState('');
   const [uploadImageMsg, setUploadImageMsg] = useState('');
   const [fixtureId, setFixtureId] = useState(query?.fixture_id ?? '');
@@ -19,6 +20,8 @@ export default function CreateHighlight({ query, session }) {
   const [videoList, setVideoList] = useState(
     query?.video_list ? JSON.parse(query.video_list) : []
   );
+
+  const { token } = useAuthStore();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { push } = useRouter();
@@ -106,7 +109,7 @@ export default function CreateHighlight({ query, session }) {
         '/api/admin/highlights/create',
         highlightValues,
         {
-          headers: { Authorization: `Bearer ${session?.user?.accessToken}` },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
       if (data.status) {

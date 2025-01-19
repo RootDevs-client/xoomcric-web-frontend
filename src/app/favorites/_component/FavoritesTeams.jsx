@@ -4,7 +4,7 @@ import FavoriteTeamCard from './FavoriteTeamCard';
 export default function FavoritesTeams({
   teams,
   notLoggedIn,
-  session,
+
   userProfileLoading,
 }) {
   if (userProfileLoading) {
@@ -55,7 +55,7 @@ export default function FavoritesTeams({
                 <FavoriteTeamCard
                   key={team?.id}
                   team={team}
-                  session={session}
+                
                 />
               ))}
             </div>

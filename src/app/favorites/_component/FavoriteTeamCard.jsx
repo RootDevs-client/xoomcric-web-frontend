@@ -1,11 +1,17 @@
+import { useAuthStore } from '@/lib/auth-store';
 import { xoomBackendUrl } from '@/lib/axios/getAxios';
 import useGetUserProfile from '@/lib/hooks/useGetUserProfile';
 import Link from 'next/link';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
-export default function FavoriteTeamCard({ team, session }) {
-  const { userProfile, refetchProfile } = useGetUserProfile(session);
+export default function FavoriteTeamCard({ team }) {
+  const { token, isAdmin, user } = useAuthStore();
+  const { userProfile, refetchProfile } = useGetUserProfile(
+    token,
+    isAdmin,
+    user
+  );
 
   const favorite =
     userProfile?.favorites?.teams.some(
@@ -16,10 +22,10 @@ export default function FavoriteTeamCard({ team, session }) {
 
   const handleRemoveFavorite = async (event, team) => {
     event.preventDefault();
-    if (session) {
+    if (user) {
       setIsFavorite(false);
       const favoriteData = {
-        email: session?.user?.email,
+        email: user?.email,
         key: 'teams',
         item: { id: team.id },
       };

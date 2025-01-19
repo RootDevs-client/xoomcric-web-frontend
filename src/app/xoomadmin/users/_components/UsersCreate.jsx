@@ -1,5 +1,6 @@
 'use client';
 
+import { useAuthStore } from '@/lib/auth-store';
 import { xoomBackendUrl } from '@/lib/axios/getAxios';
 import axios from 'axios';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
@@ -12,7 +13,9 @@ import { FaHome } from 'react-icons/fa';
 import { ImSpinner6 } from 'react-icons/im';
 import * as Yup from 'yup';
 
-export default function UsersCreate({ session }) {
+export default function UsersCreate() {
+  const { token, isAdmin, user } = useAuthStore();
+
   const [userImage, setUserImage] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const [formSubmitting, setFormSubmitting] = useState(false);
@@ -61,7 +64,7 @@ export default function UsersCreate({ session }) {
           image: uploadedImageUrl ? uploadedImageUrl : values.image,
         },
         {
-          headers: { Authorization: `Bearer ${session?.user?.accessToken}` },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
 

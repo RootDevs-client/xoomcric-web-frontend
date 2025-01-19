@@ -1,7 +1,7 @@
 import { xoomBackendUrl } from '@/lib/axios/getAxios';
 import { useQuery } from 'react-query';
 
-export default function useGetSingleNews(session, id) {
+export default function useGetSingleNews(token, id) {
   const {
     isLoading: singleNewsLoading,
     data: singleNews,
@@ -10,7 +10,7 @@ export default function useGetSingleNews(session, id) {
     'admin-single-news',
     async () => {
       const response = await xoomBackendUrl.get(`/api/admin/news/${id}`, {
-        headers: { Authorization: `Bearer ${session?.user?.accessToken}` },
+        headers: { Authorization: `Bearer ${token}` },
       });
       if (response.status === 200) {
         return response.data?.data;

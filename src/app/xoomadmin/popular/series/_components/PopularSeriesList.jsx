@@ -8,6 +8,7 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 
+import { useAuthStore } from '@/lib/auth-store';
 import useGetPopularSeries from '@/lib/hooks/admin/useGetPopularSeries';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -22,7 +23,7 @@ import AddNewsModal from './AddNewsModal';
 import SeriesDeleteModal from './SeriesDeleteModal';
 import SeriesItem from './SeriesItem';
 
-function PopularSeriesList({ seriesData, session }) {
+function PopularSeriesList({ seriesData }) {
   const [showSeries, setShowSeries] = useState([]);
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [addingSeries, setAddingSeries] = useState(false);
@@ -30,8 +31,10 @@ function PopularSeriesList({ seriesData, session }) {
   const [singleSeries, setSingleSeries] = useState(null);
   const [seriesList, setSeriesList] = useState([]);
 
+  const { token, isAdmin, user } = useAuthStore();
+
   const { popularSeries, popularSeriesLoading, popularSeriesRefetch } =
-    useGetPopularSeries(session);
+    useGetPopularSeries(token);
 
   useEffect(() => {
     if (!popularSeriesLoading) {
@@ -73,7 +76,7 @@ function PopularSeriesList({ seriesData, session }) {
           endDate: series?.endDt,
         },
         {
-          headers: { Authorization: `Bearer ${session?.user?.accessToken}` },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
 
@@ -106,7 +109,7 @@ function PopularSeriesList({ seriesData, session }) {
           id: id,
         },
         {
-          headers: { Authorization: `Bearer ${session?.user?.accessToken}` },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
 
@@ -149,7 +152,7 @@ function PopularSeriesList({ seriesData, session }) {
           '/api/admin/popular-series/sort',
           leagueIdWithPosition,
           {
-            headers: { Authorization: `Bearer ${session?.user?.accessToken}` },
+            headers: { Authorization: `Bearer ${token}` },
           }
         );
 
@@ -270,7 +273,7 @@ function PopularSeriesList({ seriesData, session }) {
                     <SeriesItem
                       key={series._id}
                       series={series}
-                      session={session}
+                      token={token}
                       selectPointTableHandler={selectPointTableHandler}
                       deleteSeriesHandler={deleteSeriesHandler}
                       addNewsModalHandler={addNewsModalHandler}
@@ -293,7 +296,7 @@ function PopularSeriesList({ seriesData, session }) {
       {/* Add News Modal  */}
       <AddNewsModal
         singleSeries={singleSeries}
-        session={session}
+        token={token}
         refetch={popularSeriesRefetch}
         category={'leagues'}
       />
@@ -301,14 +304,14 @@ function PopularSeriesList({ seriesData, session }) {
       {/* Add Channel Modal  */}
       <AddChannelModal
         singleSeries={singleSeries}
-        session={session}
+        token={token}
         refetch={popularSeriesRefetch}
         category={'series'}
       />
 
       <SeriesDeleteModal
         singleSeries={singleSeries}
-        session={session}
+        token={token}
         popularSeriesRefetch={popularSeriesRefetch}
       />
     </div>

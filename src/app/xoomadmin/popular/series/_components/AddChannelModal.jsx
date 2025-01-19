@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 
 export default function AddChannelModal({
   singleSeries,
-  session,
+  token,
   refetch,
   category,
 }) {
@@ -22,7 +22,7 @@ export default function AddChannelModal({
         `/api/admin/popular-${category}/${singleSeries?._id}`,
         { ...singleSeries, channelId: channelUrl },
         {
-          headers: { Authorization: `Bearer ${session?.user?.accessToken}` },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
 

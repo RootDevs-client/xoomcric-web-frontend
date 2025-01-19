@@ -1,7 +1,7 @@
 import { xoomBackendUrl } from '@/lib/axios/getAxios';
 import { useQuery } from 'react-query';
 
-export default function useGetSingleUser(session, id) {
+export default function useGetSingleUser(token, id) {
   const {
     isLoading: singleUserLoading,
     data: singleUser,
@@ -10,7 +10,7 @@ export default function useGetSingleUser(session, id) {
     'admin-single-users',
     async () => {
       const response = await xoomBackendUrl.get(`/api/admin/users/${id}`, {
-        headers: { Authorization: `Bearer ${session?.user?.accessToken}` },
+        headers: { Authorization: `Bearer ${token}` },
       });
       if (response.status === 200) {
         return response.data?.data;

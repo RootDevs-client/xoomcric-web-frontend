@@ -1,6 +1,7 @@
 'use client';
 
 import GlobalLoading from '@/components/Global/GlobalLoading';
+import { useAuthStore } from '@/lib/auth-store';
 import { xoomBackendUrl } from '@/lib/axios/getAxios';
 import useGetSingleSubscription from '@/lib/hooks/admin/useGetSingleSubscription';
 import { ErrorMessage, Field, FieldArray, Form, Formik } from 'formik';
@@ -13,9 +14,11 @@ import { FaHome } from 'react-icons/fa';
 import { ImSpinner6 } from 'react-icons/im';
 import * as Yup from 'yup';
 
-export default function SubscriptionUpdate({ session, id }) {
+export default function SubscriptionUpdate({ id }) {
+  const { token } = useAuthStore();
+
   const { singleSubscription, singleSubscriptionLoading } =
-    useGetSingleSubscription(session, id);
+    useGetSingleSubscription(token, id);
   const [formSubmitting, setFormSubmitting] = useState(false);
   const [initialValues, setInitialValues] = useState(null);
   const router = useRouter();
@@ -52,7 +55,7 @@ export default function SubscriptionUpdate({ session, id }) {
         `/api/admin/subscriptions/${singleSubscription._id}`,
         values,
         {
-          headers: { Authorization: `Bearer ${session?.user?.accessToken}` },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
 

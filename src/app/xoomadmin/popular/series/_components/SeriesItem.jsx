@@ -14,7 +14,7 @@ function SeriesItem({
   deleteSeriesHandler,
   addNewsModalHandler,
   addChannelModalHandler,
-  session,
+  token,
 }) {
   const [isAddNews, setIsAddNews] = useState(false);
   const [isAddHighlight, setIsAddHighlight] = useState(false);
@@ -30,7 +30,7 @@ function SeriesItem({
         `/cric-buzz/cricket/news/v1/series/${series?.id}`
         // { newsUrl: series.newsUrl, series, categoryType: 'leagues' },
         // {
-        //   headers: { Authorization: `Bearer ${session?.user?.accessToken}` },
+        //   headers: { Authorization: `Bearer ${token}` },
         // }
       );
 
@@ -58,7 +58,7 @@ function SeriesItem({
             categoryType: 'series',
           },
           {
-            headers: { Authorization: `Bearer ${session?.user?.accessToken}` },
+            headers: { Authorization: `Bearer ${token}` },
           }
         );
 

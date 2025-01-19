@@ -1,7 +1,5 @@
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import NoDataFound from '@/components/Global/NoDataFound';
 import { xoomBackendUrl } from '@/lib/axios/getAxios';
-import { getServerSession } from 'next-auth';
 import Link from 'next/link';
 import TeamTabs from './_components/TeamTabs';
 
@@ -17,8 +15,6 @@ export default async function page({ params }) {
   const { team_name, team_id } = params;
 
   try {
-    const session = await getServerSession(authOptions);
-
     const res = await xoomBackendUrl.post(
       `/cric-buzz/cricket/teams/v1/international`
     );
@@ -28,7 +24,7 @@ export default async function page({ params }) {
         <TeamTabs
           team_id={team_id}
           team_name={team_name}
-          session={session}
+        
           teamList={res?.data?.data?.list || []}
         />
       </div>

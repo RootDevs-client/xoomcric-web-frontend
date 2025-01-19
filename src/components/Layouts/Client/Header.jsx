@@ -1,21 +1,19 @@
 'use client';
 import LeftSideDrawer from '@/components/Global/LeftSideDrawer';
 import AuthModal from '@/components/Modal/AuthModal';
-import { signOut, useSession } from 'next-auth/react';
+import { useAuthStore } from '@/lib/auth-store';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import toast from 'react-hot-toast';
 
 export default function Header() {
   const pathname = usePathname();
-
-  const { data: session } = useSession();
+  const { user } = useAuthStore();
 
   const handleLogout = async () => {
-    await signOut({
-      redirect: false,
-      callbackUrl: '/',
-    });
+    if (user) {
+      useAuthStore.getState().logout();
+    }
     toast.success('Signed out successfully!');
   };
 
@@ -82,7 +80,7 @@ export default function Header() {
               >
                 news
               </Link>
-              {session ? (
+              {user ? (
                 <>
                   <div className="dropdown dropdown-end">
                     <div
@@ -91,9 +89,9 @@ export default function Header() {
                       className="btn btn-ghost btn-circle btn-sm avatar ring-2 ring-white"
                     >
                       <div className="w-10 rounded-full">
-                        {session?.user?.image ? (
+                        {user?.image ? (
                           <img
-                            src={session?.user?.image}
+                            src={user?.image}
                             alt="User Profile"
                             height={40}
                             width={40}
@@ -114,12 +112,11 @@ export default function Header() {
                     >
                       <div className="flex items-center gap-2 px-2 py-1 font-medium">
                         <span className="text-white hover:text-secondary">
-                          {session?.user?.name}
+                          {user?.name}
                         </span>{' '}
-                        <span className="badge badge-outline">Free</span>
                       </div>
                       <li className="px-2 py-1 font-medium text-white hover:text-secondary ">
-                        Settings
+                        <Link href={'/profile'}>Profile</Link>
                       </li>
                       <li
                         className="w-full mx-auto mt-3 rounded-md btn btn-sm btn-error"
@@ -131,12 +128,12 @@ export default function Header() {
                   </div>
                 </>
               ) : (
-                <label
-                  onClick={() => window.authModal.showModal()}
+                <Link
+                  href={'/login'}
                   className="text-white cursor-pointer hover:text-secondary"
                 >
-                  sign in
-                </label>
+                  Login
+                </Link>
               )}
             </ul>
           </div>

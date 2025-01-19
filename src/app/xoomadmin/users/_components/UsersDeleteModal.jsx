@@ -3,7 +3,7 @@ import { useState } from 'react';
 import toast from 'react-hot-toast';
 
 export default function UsersDeleteModal({
-  session,
+  token,
   singleUser,
   allUsersRefetch,
 }) {
@@ -13,7 +13,7 @@ export default function UsersDeleteModal({
     setSubmitting(true);
     try {
       const { data } = await xoomBackendUrl.delete(`/api/admin/users/${id}`, {
-        headers: { Authorization: `Bearer ${session?.user?.accessToken}` },
+        headers: { Authorization: `Bearer ${token}` },
       });
       if (data.status) {
         setSubmitting(false);

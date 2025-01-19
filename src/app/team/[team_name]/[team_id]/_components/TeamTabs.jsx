@@ -1,4 +1,5 @@
 'use client';
+import { useAuthStore } from '@/lib/auth-store';
 import { xoomBackendUrl } from '@/lib/axios/getAxios';
 import useGetUserProfile from '@/lib/hooks/useGetUserProfile';
 import Image from 'next/image';
@@ -24,14 +25,19 @@ const tabs = [
     label: 'Players',
   },
 ];
-export default function TeamTabs({ team_id, team_name, session, teamList }) {
+export default function TeamTabs({ team_id, team_name, teamList }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState(tabs[0].id);
   const [loading, setLoading] = useState(true);
   const [teamInformation, setTeamInformation] = useState([]);
+  const { token, isAdmin, user } = useAuthStore();
 
-  const { userProfile, refetchProfile } = useGetUserProfile(session);
+  const { userProfile, refetchProfile } = useGetUserProfile(
+    token,
+    isAdmin,
+    user
+  );
   const isFavorite =
     userProfile?.favorites?.teams?.some((item) => item?.id == team_id) || false;
 
@@ -48,18 +54,18 @@ export default function TeamTabs({ team_id, team_name, session, teamList }) {
   const handleFavoriteClick = async (event) => {
     event.preventDefault();
 
-    if (session) {
+    if (user) {
       setIsStarClicked(true);
 
       // Check if the user is an admin
-      if (session?.user?.email?.role === 'admin') {
+      if (isAdmin) {
         toast.error('Please log in as a user to add leagues to favorite.');
         setIsStarClicked(false);
         return;
       }
 
       const favoriteData = {
-        email: session?.user?.email,
+        phone: user?.phone,
         key: 'teams',
         item: {
           id: teamDetails?.teamId || team_id,
@@ -98,10 +104,10 @@ export default function TeamTabs({ team_id, team_name, session, teamList }) {
   const handleRemoveFavorite = async (event) => {
     event.preventDefault();
 
-    if (session) {
+    if (user) {
       setIsStarClicked(false);
       const favoriteData = {
-        email: session?.user?.email,
+        phone: user?.phone,
         key: 'teams',
         item: {
           id: teamDetails?.teamId || team_id,

@@ -1,7 +1,4 @@
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { xoomBackendUrl } from '@/lib/axios/getAxios';
-import { getServerSession } from 'next-auth';
-import { redirect } from 'next/navigation';
 import PopularSeriesList from './_components/PopularSeriesList';
 
 async function getAllLeagues() {
@@ -16,14 +13,6 @@ export const metadata = {
 };
 
 export default async function Page() {
-  const session = await getServerSession(authOptions);
-
-  if (session) {
-    if (session?.user?.role === 'user') {
-      redirect('/');
-    }
-  }
-
   const leagueResponse = await getAllLeagues();
 
   const seriesData = leagueResponse?.data?.data?.seriesMapProto?.reduce(
@@ -39,7 +28,7 @@ export default async function Page() {
     return 'Server Error!';
   } else {
     if (leagueResponse?.data?.status) {
-      return <PopularSeriesList seriesData={seriesData} session={session} />;
+      return <PopularSeriesList seriesData={seriesData} />;
     } else {
       return 'Server Error!';
     }

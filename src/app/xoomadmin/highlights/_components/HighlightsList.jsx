@@ -1,6 +1,7 @@
 'use client';
 
 import GlobalLoading from '@/components/Global/GlobalLoading';
+import { useAuthStore } from '@/lib/auth-store';
 import useGetAllHighlights from '@/lib/hooks/admin/useGetAllHighlights';
 import { useState } from 'react';
 import {
@@ -14,7 +15,7 @@ import DeleteHighlightModal from './DeleteHighlightModal';
 import HighlightGridItem from './HighlightGridItem';
 import HighlightListItem from './HighlightListItem';
 
-export default function HighlightsList({ session }) {
+export default function HighlightsList() {
   const [searchQuery, setSearchQuery] = useState('');
   const [singleHighlight, setSingleHighlight] = useState(null);
   const [isGrid, setIsGrid] = useState(false);
@@ -24,8 +25,11 @@ export default function HighlightsList({ session }) {
       ? localStorage?.getItem('highlightPageNumber') || 10
       : 10
   );
+
+  const { token } = useAuthStore();
+
   const { highlights, highlightsLoading, highlightsRefetch } =
-    useGetAllHighlights({ session, page: currentPage, limit: pageSize });
+    useGetAllHighlights({ token, page: currentPage, limit: pageSize });
 
   if (highlightsLoading) {
     return (
@@ -217,7 +221,7 @@ export default function HighlightsList({ session }) {
         highlightsRefetch={highlightsRefetch}
       />
       <DeleteAllHighlightModal
-        session={session}
+        token={token}
         allHighlightRefetch={highlightsRefetch}
       />
     </div>

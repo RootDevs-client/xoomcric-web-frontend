@@ -4,8 +4,8 @@ import GlobalLoading from '@/components/Global/GlobalLoading';
 import NoDataFound from '@/components/Global/NoDataFound';
 import TabItem from '@/components/Global/TabItem';
 import TabPanel from '@/components/Global/TabPanel';
+import { useAuthStore } from '@/lib/auth-store';
 import useGetAllHighlight from '@/lib/hooks/admin/useGetAllHighlight';
-import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { ImSpinner } from 'react-icons/im';
 import HighlightsTab from './HighlightsTab';
@@ -15,11 +15,12 @@ export default function WatchHome() {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [isLoadMore, setIsLoadMore] = useState(false);
-  const { data: session } = useSession();
+
+  const { token, isAdmin, user } = useAuthStore();
 
   const { highlights, highlightsLoading, highlightsRefetch } =
     useGetAllHighlight({
-      session,
+      token,
       page,
       limit,
     });

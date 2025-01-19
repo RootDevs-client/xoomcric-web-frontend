@@ -1,7 +1,7 @@
 'use client';
+import { useAuthStore } from '@/lib/auth-store';
 import { xoomBackendUrl } from '@/lib/axios/getAxios';
 import useGetUserProfile from '@/lib/hooks/useGetUserProfile';
-import { useSession } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
@@ -16,9 +16,13 @@ export default function MatchTabs({ match_id, status, teams_name, match }) {
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
 
-  const { data: session } = useSession();
+  const { token, isAdmin, user } = useAuthStore();
 
-  const { userProfile, refetchProfile } = useGetUserProfile(session);
+  const { userProfile, refetchProfile } = useGetUserProfile(
+    token,
+    isAdmin,
+    user
+  );
 
   const isFavorite =
     userProfile?.favorites?.matches.some(
@@ -35,18 +39,18 @@ export default function MatchTabs({ match_id, status, teams_name, match }) {
 
   const handleFavoriteClick = async (event, match) => {
     event.preventDefault();
-    if (session) {
+    if (user) {
       setIsStarClicked(true);
 
       // Check if the user is an admin
-      if (session?.user?.email?.role === 'admin') {
+      if (isAdmin === 'admin') {
         toast.error('Please login as a user to add matches to favorites.');
         setIsStarClicked(false);
         return;
       }
 
       const favoriteData = {
-        email: session?.user?.email,
+        phone: user?.phone,
         key: 'matches',
         item: { ...match, status, id: match.matchInfo?.matchId },
       };
@@ -76,10 +80,10 @@ export default function MatchTabs({ match_id, status, teams_name, match }) {
 
   const handleRemoveFavorite = async (event, match) => {
     event.preventDefault();
-    if (session) {
+    if (user) {
       setIsStarClicked(false);
       const favoriteData = {
-        email: session?.user?.email,
+        phone: user?.phone,
         key: 'matches',
         item: { id: match.matchInfo?.matchId },
       };
