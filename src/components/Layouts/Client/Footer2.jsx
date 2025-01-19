@@ -29,7 +29,7 @@ export default function Footer2() {
                   XoomCric is The best Cricket App
                 </h2>
               </div>
-              <div className="font-semibold">
+              <div className="font-semibold flex items-center gap-5">
                 <p>
                   <Link href="/">Matches</Link>
                 </p>
@@ -43,7 +43,7 @@ export default function Footer2() {
                   <Link href="/watch">Highlights</Link>
                 </p>
               </div>
-              <div className="font-semibold">
+              {/* <div className="font-semibold">
                 <p>
                   {' '}
                   <a href="/terms-of-service">Terms of Use</a>
@@ -56,7 +56,7 @@ export default function Footer2() {
                   {' '}
                   <a href="">Contact</a>
                 </p>
-              </div>
+              </div> */}
               {/* <div className="font-bold px-2">
                 <div className="py-4">
                   <h2>Follow Us On</h2>
