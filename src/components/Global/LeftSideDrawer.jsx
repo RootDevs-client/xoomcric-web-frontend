@@ -240,7 +240,7 @@ export default function LeftSideDrawer() {
                   </div>
 
                   <Link
-                    href="https://xoomsport.com/terms"
+                    href="https://xoomcric.com/terms"
                     className="flex justify-between py-1 cursor-pointer hover:text-secondary"
                     onClick={closeDrawer}
                   >
@@ -253,7 +253,7 @@ export default function LeftSideDrawer() {
                   </Link>
 
                   <Link
-                    href="https://xoomsport.com/policy"
+                    href="https://xoomcric.com/policy"
                     className="flex justify-between py-1 cursor-pointer hover:text-secondary"
                     onClick={closeDrawer}
                   >
@@ -272,7 +272,7 @@ export default function LeftSideDrawer() {
 
                 <div className="">
                   <p className="font-semibold text-rose-500">
-                    COPYRIGHT &copy; XOOMSPORT
+                    COPYRIGHT &copy; XoomCric
                   </p>
                   <p className="pt-1 font-semibold">ALL RIGHTS RESERVED.</p>
                 </div>

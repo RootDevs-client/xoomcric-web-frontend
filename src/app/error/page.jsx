@@ -7,7 +7,7 @@ export default function page({ searchParams }) {
       <div className="divider">or</div>
 
       <p className="text-center text-lg text-gray-700 py-4">
-        Register on Xoomsport
+        Register on XoomCric
       </p>
 
       <div className="flex items-center justify-center  gap-5">

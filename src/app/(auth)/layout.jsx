@@ -1,5 +1,5 @@
 export const metadata = {
-  title: 'XoomSports | Authentication',
+  title: 'XoomCric | Authentication',
 };
 
 export default function AuthLayout({ children }) {
