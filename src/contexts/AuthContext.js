@@ -58,6 +58,7 @@ export default function AuthContext({ children }) {
       '/payment/cancel',
       '/error',
     ];
+
     const isPublicRoute = publicRoutes.includes(pathname);
     const isAdminRoute = pathname.startsWith('/xoomadmin');
 

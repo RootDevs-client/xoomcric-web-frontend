@@ -24,6 +24,7 @@ export default function SettingsMainForm() {
   const [timezoneOption, setTimezoneOption] = useState('');
   const [languageOption, setLanguageOption] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [allowedCountries, setAllowedCountries] = useState([]);
 
   const [terms, setTerms] = useState('');
   const [policy, setPolicy] = useState('');
@@ -53,6 +54,7 @@ export default function SettingsMainForm() {
     android_download_link: '',
     days_highlight: 0,
     days_news: 0,
+    allowedCountries: [],
   });
 
   useEffect(() => {
@@ -70,6 +72,7 @@ export default function SettingsMainForm() {
           setSiteIconOnline(data?.data?.site_icon);
           setTerms(data?.data?.terms);
           setPolicy(data?.data?.policy);
+          setAllowedCountries(data?.data?.allowedCountries || []);
         }
       } catch (error) {
         console.error('Error fetching general settings:', error);
@@ -146,6 +149,8 @@ export default function SettingsMainForm() {
                     setFieldValue={setFieldValue}
                     setLanguageOption={setLanguageOption}
                     languageOption={languageOption}
+                    allowedCountries={allowedCountries}
+                    setAllowedCountries={setAllowedCountries}
                   />
                 </div>
 

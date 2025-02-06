@@ -1,7 +1,8 @@
 'use client';
 
+import { useAuthStore } from '@/lib/auth-store';
+import { xoomBackendUrl } from '@/lib/axios/getAxios';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -11,6 +12,8 @@ import * as Yup from 'yup';
 
 export default function SignInForm() {
   const { replace } = useRouter();
+
+  const setAuth = useAuthStore((state) => state.setAuth);
   const [showPassword, setShowPassword] = useState(false);
   const [loginFormSubmitted, setLoginFormSubmitted] = useState(false);
 
@@ -29,19 +32,21 @@ export default function SignInForm() {
     setLoginFormSubmitted(true);
     values.adminLogin = true;
 
-    signIn('credentials', {
-      ...values,
-      redirect: false,
-    }).then((callback) => {
-      if (callback?.ok && !callback?.error) {
+    try {
+      const { data } = await xoomBackendUrl.post('/api/admin/login', {
+        email: values?.email,
+        password: values?.password,
+      });
+
+      if (data.status) {
+        setAuth(data?.data?.accessToken, data?.data, true);
         replace('/xoomadmin/dashboard');
-        toast.success('Admin Login Successfully!');
+      } else {
+        toast.error('Invalid Credentials');
       }
-      if (callback?.error) {
-        setLoginFormSubmitted(false);
-        toast.error(callback?.error);
-      }
-    });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (

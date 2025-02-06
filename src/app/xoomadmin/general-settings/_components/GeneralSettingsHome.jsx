@@ -8,13 +8,11 @@ export default function GeneralSettingsHome() {
   };
 
   return (
-    <div>
-      <div>
-        <div className="flex items-center justify-between py-5">
-          <BreadCrumb breadMenu={breadMenu} />
-        </div>
-        <SettingsMainForm />
+    <>
+      <div className="flex items-center justify-between py-5">
+        <BreadCrumb breadMenu={breadMenu} />
       </div>
-    </div>
+      <SettingsMainForm />
+    </>
   );
 }
