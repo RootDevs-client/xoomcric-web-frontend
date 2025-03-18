@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import * as Yup from 'yup';
+import AppInfo from './AppInfo';
 
 export default function UserLogin() {
   const { push } = useRouter();
@@ -41,11 +42,7 @@ export default function UserLogin() {
   return (
     <div className="mt-10 lg:mt-20 grid grid-cols-1 lg:grid-cols-2 rounded-lg border border-primary shadow ">
       <div className="rounded-l-md items-center flex-col justify-center bg-primary text-white flex py-4">
-        <h2 className="text-2xl font-semibold">Welcome to XoomCric</h2>
-        <p className="text-gray-100 text-sm text-center py-2 px-4">
-          XoomCric helps you stay connected with your sports community and
-          events.
-        </p>
+        <AppInfo />
         <p className="text-gray-400 text-sm">Don&apos;t have an account?</p>
         <Link
           href={'/register'}

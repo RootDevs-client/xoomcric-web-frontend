@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import * as Yup from 'yup';
+import AppInfo from './AppInfo';
 
 export default function UserRegister() {
   const [registerFormSubmitted, setRegisterFormSubmitted] = useState(false);
@@ -23,11 +24,7 @@ export default function UserRegister() {
     <>
       <div className="mt-10 lg:mt-20 grid grid-cols-1 lg:grid-cols-2 rounded-lg border border-primary shadow">
         <div className="flex rounded-l-md items-center flex-col justify-center bg-primary text-white py-4">
-          <h2 className="text-2xl font-semibold">Welcome to XoomCric</h2>
-          <p className="text-gray-100 text-sm text-center py-2 px-4">
-            XoomCric helps you stay connected with your sports community and
-            events.
-          </p>
+          <AppInfo />
 
           <p className="text-gray-400 text-sm">Already have an account?</p>
           <Link
