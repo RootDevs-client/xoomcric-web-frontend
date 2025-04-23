@@ -10,6 +10,7 @@ import {
 
 import { useAuthStore } from '@/lib/auth-store';
 import useGetPopularSeries from '@/lib/hooks/admin/useGetPopularSeries';
+import { useSeriesData } from '@/lib/hooks/admin/useSeriesData';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
@@ -23,7 +24,7 @@ import AddNewsModal from './AddNewsModal';
 import SeriesDeleteModal from './SeriesDeleteModal';
 import SeriesItem from './SeriesItem';
 
-function PopularSeriesList({ seriesData }) {
+function PopularSeriesList() {
   const [showSeries, setShowSeries] = useState([]);
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [addingSeries, setAddingSeries] = useState(false);
@@ -35,6 +36,28 @@ function PopularSeriesList({ seriesData }) {
 
   const { popularSeries, popularSeriesLoading, popularSeriesRefetch } =
     useGetPopularSeries(token);
+  const [activeTab, setActiveTab] = useState({ id: 1, label: 'international' });
+
+  const { seriesData } = useSeriesData(activeTab?.label);
+
+  const tabs = [
+    {
+      id: 1,
+      label: 'international',
+      link: '/xoomadmin/popular/series?category=international',
+    },
+    {
+      id: 2,
+      label: 'league',
+      link: '/xoomadmin/popular/series?category=league',
+    },
+    {
+      id: 3,
+      label: 'domestic',
+      link: '/xoomadmin/popular/series?category=domestic',
+    },
+    { id: 4, label: 'women', link: '/xoomadmin/popular/series?category=women' },
+  ];
 
   useEffect(() => {
     if (!popularSeriesLoading) {
@@ -184,69 +207,88 @@ function PopularSeriesList({ seriesData }) {
 
       <div className="card w-full bg-white shadow-md px-5 py-10">
         <h2 className="card-title text-gray-600 mb-2">Search Popular Series</h2>
-        <div className="form-control w-10/12 lg:w-4/12 relative">
-          <input
-            className="input input-bordered bg-white pr-10"
-            placeholder="Type here..."
-            onChange={handleSearch}
-            value={searchInput}
-          />
-          <HiMagnifyingGlass className="text-2xl absolute top-3 right-3" />
+        <div className="flex items-center gap-x-8">
+          <div className="form-control w-10/12 lg:w-4/12 relative">
+            <input
+              className="input input-bordered bg-white pr-10"
+              placeholder="Type here..."
+              onChange={handleSearch}
+              value={searchInput}
+            />
+            <HiMagnifyingGlass className="text-2xl absolute top-3 right-3" />
 
-          <div
-            className={`${
-              showSearchModal ? 'block' : 'hidden'
-            } max-h-[300px] w-full shadow-md bg-white absolute top-24 z-10 rounded-md`}
-          >
-            <div className="relative py-2">
-              <RiCloseCircleFill
-                className="absolute -right-2 -top-2 text-2xl text-secondary cursor-pointer"
-                onClick={handleSearchModal}
-              />
-              <div className="overflow-y-auto px-5 pb-5 pt-10 max-h-[280px]">
-                <ul className="w-full rounded-box">
-                  {showSeries.length > 0 ? (
-                    <>
-                      {showSeries.map((league) => (
-                        <li
-                          key={league.league_id}
-                          className="grid grid-cols-12 p-2 bg-gray-200 mb-2 rounded-md"
-                        >
-                          <div className="col-span-8 flex items-center justify-start">
-                            {/* <img
+            <div
+              className={`${
+                showSearchModal ? 'block' : 'hidden'
+              } max-h-[300px] w-full shadow-md bg-white absolute top-24 z-10 rounded-md`}
+            >
+              <div className="relative py-2">
+                <RiCloseCircleFill
+                  className="absolute -right-2 -top-2 text-2xl text-secondary cursor-pointer"
+                  onClick={handleSearchModal}
+                />
+                <div className="overflow-y-auto px-5 pb-5 pt-10 max-h-[280px]">
+                  <ul className="w-full rounded-box">
+                    {showSeries.length > 0 ? (
+                      <>
+                        {showSeries.map((league) => (
+                          <li
+                            key={league.league_id}
+                            className="grid grid-cols-12 p-2 bg-gray-200 mb-2 rounded-md"
+                          >
+                            <div className="col-span-8 flex items-center justify-start">
+                              {/* <img
                               src={league.image_path}
                               alt="Logo"
                               className="w-[40px] rounded-full"
                             /> */}
-                            <span className="font-medium ml-2">
-                              {league.name}
-                            </span>
-                          </div>
-                          <div className="col-span-4 flex items-center justify-center">
-                            <button
-                              className="btn btn-sm btn-success"
-                              onClick={() => addSeriesHandler(league)}
-                              disabled={addingSeries}
-                            >
-                              Add <LuPlus className="text-xl" />
-                            </button>
-                          </div>
-                        </li>
-                      ))}
-                    </>
-                  ) : (
-                    <li className="grid grid-cols-12 p-2 bg-gray-200 mb-2 rounded-md">
-                      <div className="col-span-12 flex items-center justify-center">
-                        <span className="font-medium ml-2">
-                          No Series Found!
-                        </span>
-                      </div>
-                    </li>
-                  )}
-                </ul>
+                              <span className="font-medium ml-2">
+                                {league.name}
+                              </span>
+                            </div>
+                            <div className="col-span-4 flex items-center justify-center">
+                              <button
+                                className="btn btn-sm btn-success"
+                                onClick={() => addSeriesHandler(league)}
+                                disabled={addingSeries}
+                              >
+                                Add <LuPlus className="text-xl" />
+                              </button>
+                            </div>
+                          </li>
+                        ))}
+                      </>
+                    ) : (
+                      <li className="grid grid-cols-12 p-2 bg-gray-200 mb-2 rounded-md">
+                        <div className="col-span-12 flex items-center justify-center">
+                          <span className="font-medium ml-2">
+                            No Series Found!
+                          </span>
+                        </div>
+                      </li>
+                    )}
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
+
+          <ul className="flex flex-wrap border rounded-lg  text-sm font-medium text-center text-gray-500 dark:text-gray-400">
+            {tabs?.map((tab) => (
+              <li key={tab?.id} className="">
+                <button
+                  onClick={() => setActiveTab(tab)}
+                  className={`inline-block px-4 py-3 rounded-lg capitalize ${
+                    activeTab?.id === tab.id
+                      ? 'bg-blue-600 text-white'
+                      : 'hover:text-gray-900 hover:bg-gray-100'
+                  } `}
+                >
+                  {tab?.label}
+                </button>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
 

@@ -2,6 +2,8 @@ import { xoomBackendUrl } from '@/lib/axios/getAxios';
 import { useQuery } from 'react-query';
 
 export default function useGetPopularSeries(token) {
+  console.log('token here', token);
+
   const {
     isLoading: popularSeriesLoading,
     data: popularSeries,

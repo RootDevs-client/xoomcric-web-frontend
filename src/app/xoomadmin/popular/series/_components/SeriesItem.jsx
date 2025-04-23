@@ -36,7 +36,9 @@ function SeriesItem({
 
       if (data?.status === true) {
         setIsAddNews(false);
-        toast.success(`You've successfully fetched ${data?.newsCount} news`);
+        toast.success(
+          `You've successfully fetched ${data?.newsCount || 0} news`
+        );
       } else {
         toast.error('Failed to fetch news!');
       }
