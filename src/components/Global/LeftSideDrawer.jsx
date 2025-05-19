@@ -2,7 +2,6 @@ import { useAuthStore } from '@/lib/auth-store';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import toast from 'react-hot-toast';
-import { BiFootball } from 'react-icons/bi';
 import { GoArrowRight } from 'react-icons/go';
 import { HiMenuAlt2 } from 'react-icons/hi';
 import { IoClose } from 'react-icons/io5';
@@ -31,12 +30,7 @@ export default function LeftSideDrawer() {
         href="/"
         className="flex items-center text-2xl font-semibold text-black uppercase md:text-3xl"
       >
-        <span className="text-secondary">x</span>
-        <BiFootball className="animate-bounce" />
-        <BiFootball className="text-secondary animate-bounce [animation-delay:-0.3s]" />
-        mSp
-        <BiFootball className="animate-spin" />
-        rts
+    <img src="/images/logo.png" alt="logo" className="w-32" />
       </Link>
 
       <div>
@@ -76,7 +70,7 @@ export default function LeftSideDrawer() {
                     className="text-2xl font-semibold text-gray-800 uppercase"
                     onClick={closeDrawer}
                   >
-                    <span className="text-secondary">x</span>oom sports
+                <img src="/images/logo.png" alt="logo" className="w-32" />
                   </Link>
                   {/* <p className="pt-5 font-semibold">LOGIN OR REGISTER</p> */}
                 </div>

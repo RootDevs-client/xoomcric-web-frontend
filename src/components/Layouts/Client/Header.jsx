@@ -29,14 +29,6 @@ export default function Header() {
               href="/"
               className="flex items-center text-2xl font-semibold text-white uppercase md:text-3xl"
             >
-              {/* <span className="text-secondary">x</span>
-              <BiSolidCricketBall className="animate-bounce" />
-              <BiSolidCricketBall className="text-secondary animate-bounce [animation-delay:-0.3s]" />
-              mCr
-              <span className="rotate-[46deg] mx-[-9px]">
-                <GiCricketBat className=" rotate-90 [animation-delay:-0.3s]" />
-              </span>
-              ck */}
               <img src="/images/logo.png" alt="logo" className="w-32" />
             </Link>
             <ul className="flex items-center gap-3 text-lg text-white uppercase md:gap-5">
