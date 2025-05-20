@@ -2,7 +2,6 @@ import { useAuthStore } from '@/lib/auth-store';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import toast from 'react-hot-toast';
-import { GoArrowRight } from 'react-icons/go';
 import { HiMenuAlt2 } from 'react-icons/hi';
 import { IoClose } from 'react-icons/io5';
 
@@ -30,7 +29,7 @@ export default function LeftSideDrawer() {
         href="/"
         className="flex items-center text-2xl font-semibold text-black uppercase md:text-3xl"
       >
-    <img src="/images/logo.png" alt="logo" className="w-32" />
+        <img src="/images/logo.png" alt="logo" className="w-32" />
       </Link>
 
       <div>
@@ -70,7 +69,7 @@ export default function LeftSideDrawer() {
                     className="text-2xl font-semibold text-gray-800 uppercase"
                     onClick={closeDrawer}
                   >
-                <img src="/images/logo.png" alt="logo" className="w-32" />
+                    <img src="/images/logo.png" alt="logo" className="w-32" />
                   </Link>
                   {/* <p className="pt-5 font-semibold">LOGIN OR REGISTER</p> */}
                 </div>
@@ -206,58 +205,6 @@ export default function LeftSideDrawer() {
                       login
                     </Link>
                   )}
-                </div>
-
-                <div id="menu_support" className="pt-8">
-                  <p className="py-1 text-lg font-semibold ">SUPPORT</p>
-
-                  <Link
-                    href="#"
-                    className="flex justify-between py-1 cursor-pointer hover:text-secondary"
-                    onClick={closeDrawer}
-                  >
-                    <div>
-                      <p className="text-sm font-semibold">SUPPORT & CONTACT</p>
-                    </div>
-                    <div>
-                      <GoArrowRight className="text-2xl font-bold" />
-                    </div>
-                  </Link>
-
-                  <div className="flex justify-between py-1 cursor-pointer hover:text-secondary">
-                    <div>
-                      <p className="text-sm font-semibold">RATE THIS APP</p>
-                    </div>
-                    <div>
-                      <GoArrowRight className="text-2xl font-bold" />
-                    </div>
-                  </div>
-
-                  <Link
-                    href="https://xoomcric.com/terms"
-                    className="flex justify-between py-1 cursor-pointer hover:text-secondary"
-                    onClick={closeDrawer}
-                  >
-                    <div>
-                      <p className="text-sm font-semibold">TERMS OF USE</p>
-                    </div>
-                    <div>
-                      <GoArrowRight className="text-2xl font-bold" />
-                    </div>
-                  </Link>
-
-                  <Link
-                    href="https://xoomcric.com/policy"
-                    className="flex justify-between py-1 cursor-pointer hover:text-secondary"
-                    onClick={closeDrawer}
-                  >
-                    <div>
-                      <p className="text-sm font-semibold">PRIVACY & POLICY</p>
-                    </div>
-                    <div>
-                      <GoArrowRight className="text-2xl font-bold" />
-                    </div>
-                  </Link>
                 </div>
 
                 <div className="py-5">

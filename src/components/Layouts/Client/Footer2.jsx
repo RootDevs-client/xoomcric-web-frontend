@@ -98,12 +98,9 @@ export default function Footer2() {
                   <FaRegCopyright className="font-bold text-black inline-block" />
                 </span>{' '}
                 Copyright {updateYear[2]}{' '}
-                <a
-                  href="http://localhost:3000/"
-                  className="hover:underline font-bold text-black"
-                >
+                <span className="hover:underline font-bold text-black">
                   XoomCric™
-                </a>
+                </span>
                 . All Rights Reserved.
               </span>
             </div>
