@@ -163,20 +163,18 @@ export default function ProfileHome() {
                 );
               }
             })}
-
-            <div className="text-sm text-gray-600 mt-2">
-              Xoom Cric{' '}
-              <span className="font-bold text-red-500 capitalize">
-                daily pack
-              </span>{' '}
-              BDT 5.05/day (Tax included and auto-renewal applicable)
-            </div>
           </div>
         ) : (
           <p className="text-gray-500 text-center">
             No active subscriptions found.
           </p>
         )}
+
+        <div className="text-sm text-gray-600 mt-2">
+          Xoom Cric{' '}
+          <span className="font-bold text-red-500 capitalize">daily pack</span>{' '}
+          BDT 5.05/day (Tax included and auto-renewal applicable)
+        </div>
       </div>
     </div>
   );
