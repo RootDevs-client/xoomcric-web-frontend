@@ -1,1 +1,1 @@
-XoomCric Frontend
+XoomCric Frontend v1
