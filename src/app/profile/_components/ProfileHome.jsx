@@ -2,7 +2,6 @@
 
 import { useAuthStore } from '@/lib/auth-store';
 import { xoomBackendUrl } from '@/lib/axios/getAxios';
-import moment from 'moment';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -12,8 +11,6 @@ export default function ProfileHome() {
   const { token, user } = useAuthStore();
   const [isProcessing, setIsProcessing] = useState(false);
   const { push } = useRouter();
-
-  console.log('user', user);
 
   const {
     isLoading,
@@ -65,21 +62,42 @@ export default function ProfileHome() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-10 border border-gray-300 rounded-lg p-4 lg:p-6">
       {/* Profile Section */}
-      <div className="flex flex-col items-start gap-4">
-        <img
-          src="/images/default_profile.png"
-          alt="Profile"
-          className="w-24 rounded-full"
-        />
-        <p className="text-lg font-semibold text-gray-700">
-          Phone: {user?.phone || 'N/A'}
-        </p>
-        <p className="text-lg font-semibold text-gray-700">
-          Expires At:{' '}
-          {user?.expiresAt ? moment(user.expiresAt * 1000).calendar() : 'N/A'}
-        </p>
+      <div className=" bg-white shadow-md rounded-xl p-6 flex flex-col items-center gap-4">
+        {/* Profile Image */}
+        <div className="relative w-28 h-28">
+          <img
+            src="/images/default_profile.png"
+            alt="Profile"
+            className="w-28 h-28 rounded-full border-4 border-primary object-cover"
+          />
+          {/* Optional: Online indicator */}
+          <span className="absolute bottom-1 right-1 w-5 h-5 bg-green-500 border-2 border-white rounded-full"></span>
+        </div>
+
+        {/* User Info */}
+        <div className="w-full text-center space-y-2">
+          <p className="text-lg font-medium text-gray-800">
+            <span className="font-semibold">Phone:</span> {user?.phone || 'N/A'}
+          </p>
+          <p className="text-lg font-medium text-gray-800">
+            <span className="font-semibold">Subscribed At:</span>{' '}
+            {user?.SubscribedAt ? formatted(user?.SubscribedAt) : 'N/A'}
+          </p>
+          <p className="text-lg font-medium text-gray-800">
+            <span className="font-semibold">Expires At:</span>{' '}
+            {user?.expiresAt ? formatted(user.expiresAt * 1000) : 'N/A'}
+          </p>
+        </div>
+
+        {/* Action Button */}
         <button
-          className="btn btn-primary btn-sm btn-outline rounded-md w-40 mt-4"
+          className={`w-full mt-4 py-2 rounded-lg font-semibold transition-colors duration-200 
+            ${
+              isProcessing
+                ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
+                : 'bg-red-500 text-white hover:bg-red-600'
+            }
+          `}
           onClick={handleCancelPayment}
           disabled={isProcessing}
         >
@@ -88,71 +106,94 @@ export default function ProfileHome() {
       </div>
 
       {/* Subscription Section */}
-      <div className="p-6 max-w-md w-full border rounded-lg">
-        <h2 className="text-2xl font-bold mb-6">Active Subscription</h2>
+      <div className="p-6 max-w-md w-full mx-auto bg-white shadow-md rounded-xl">
+        <h2 className="text-2xl font-bold mb-6 text-gray-800">
+          Active Subscription
+        </h2>
 
         {user?.reference ? (
-          <>
-            <div
-              className={`border rounded-lg p-4 mb-4 transition-all duration-200 border-red-500 bg-red-100`}
-            >
-              <label className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <input
-                    type="radio"
-                    name="plan"
-                    checked
-                    className="form-radio checkbox-md checkbox-error checkbox"
-                    readOnly
-                  />
-                  <span className="text-lg font-medium">
-                    {user?.membershipPlan}
-                  </span>
-                </div>
-              </label>
-            </div>
-          </>
-        ) : (
-          <>
-            {isLoading ? (
-              <p>Loading subscriptions...</p>
-            ) : subscriptions?.length > 0 ? (
-              subscriptions.map((plan) => {
+          <div className="border-2 border-red-500 bg-red-50 rounded-lg p-4 mb-4 transition-all duration-200">
+            <label className="flex items-center justify-between cursor-pointer">
+              <div className="flex items-center gap-3">
+                <input
+                  type="radio"
+                  name="plan"
+                  checked
+                  className="form-radio checkbox-md checkbox-error"
+                  readOnly
+                />
+                <span className="text-lg font-semibold text-red-600">
+                  {user?.membershipPlan}
+                </span>
+              </div>
+              <span className="text-sm text-red-700 font-medium">Active</span>
+            </label>
+          </div>
+        ) : isLoading ? (
+          <p className="text-gray-500 text-center">Loading subscriptions...</p>
+        ) : subscriptions?.length > 0 ? (
+          <div className="space-y-3">
+            {subscriptions.map((plan) => {
+              if (plan._id === user?.subscription) {
                 return (
                   <div
-                    key={plan?._id}
-                    className={`border rounded-lg p-4 mb-4 transition-all duration-200 ${
-                      plan._id === user?.subscription
-                        ? 'border-red-500 bg-red-100'
-                        : 'border-gray-300'
-                    }`}
+                    key={plan._id}
+                    className={`border rounded-lg p-4 flex justify-between items-center transition-all duration-200 cursor-pointer hover:shadow-lg 
+                     
+                    `}
                   >
-                    <label className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <input
-                          type="radio"
-                          name="plan"
-                          checked={plan._id === user?.subscription}
-                          className="form-radio checkbox-md checkbox-error checkbox"
-                          readOnly
-                        />
-                        <span className="text-lg font-medium">
+                    <label className="flex items-center gap-3 w-full">
+                      {/* <input
+                        type="radio"
+                        name="plan"
+                        checked={plan._id === user?.subscription}
+                        className="form-radio checkbox-md checkbox-error"
+                        readOnly
+                      /> */}
+                      <div className="flex flex-col">
+                        <span className="text-lg font-semibold text-gray-800">
                           {plan.title}
                         </span>
+                        {/* <span className="text-sm text-gray-500">
+                          ${plan.price} / {plan.duration_type}
+                        </span> */}
                       </div>
-                      <span className="text-gray-500">
-                        ${plan.price} / {plan.duration_type}
-                      </span>
                     </label>
                   </div>
                 );
-              })
-            ) : (
-              <p>No active subscriptions found.</p>
-            )}
-          </>
+              }
+            })}
+
+            <div className="text-sm text-gray-600 mt-2">
+              Xoom Cric{' '}
+              <span className="font-bold text-red-500 capitalize">
+                daily pack
+              </span>{' '}
+              BDT 5.05/day (Tax included and auto-renewal applicable)
+            </div>
+          </div>
+        ) : (
+          <p className="text-gray-500 text-center">
+            No active subscriptions found.
+          </p>
         )}
       </div>
     </div>
   );
+}
+
+function formatted(timestamp) {
+  const localDate = new Date(Number(timestamp));
+
+  const date = localDate.toLocaleString('en-US', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    // second: '2-digit',
+    hour12: true,
+  });
+
+  return date;
 }
