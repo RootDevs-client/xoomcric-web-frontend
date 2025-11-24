@@ -121,7 +121,7 @@ export default function Header() {
                 </>
               ) : (
                 <Link
-                  href={'/login'}
+                  href={'/phone-login'}
                   className="text-white cursor-pointer hover:text-secondary"
                 >
                   Login
