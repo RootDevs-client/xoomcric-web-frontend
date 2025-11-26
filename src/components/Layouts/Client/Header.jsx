@@ -1,12 +1,15 @@
 'use client';
 import LeftSideDrawer from '@/components/Global/LeftSideDrawer';
 import AuthModal from '@/components/Modal/AuthModal';
+import ConfirmationModal from '@/components/Modal/confirmation-modal';
 import { useAuthStore } from '@/lib/auth-store';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useRef } from 'react';
 import toast from 'react-hot-toast';
 
 export default function Header() {
+  const logoutModalRef = useRef(null)
   const pathname = usePathname();
   const { user } = useAuthStore();
 
@@ -18,6 +21,17 @@ export default function Header() {
   };
 
   const isCurrentPath = (path) => pathname.includes(path);
+
+   const handleLogoutClick = () => {
+    logoutModalRef.current?.showModal()
+  }
+    const handleLogoutConfirm = () => {
+      handleLogout()
+    logoutModalRef.current?.close()
+  }
+    const handleCancel = () => {
+    logoutModalRef.current?.close()
+  }
 
   return (
     <header>
@@ -112,7 +126,7 @@ export default function Header() {
                       </li>
                       <li
                         className="w-full mx-auto mt-3 rounded-md btn btn-sm btn-error"
-                        onClick={handleLogout}
+                        onClick={handleLogoutClick}
                       >
                         Logout
                       </li>
@@ -136,6 +150,18 @@ export default function Header() {
       </div>
       {/* Modals */}
       <AuthModal />
+
+      {/* Logout Modal */}
+      <ConfirmationModal
+        ref={logoutModalRef}
+        title="Log out?"
+        message="Do you really want to log out? You'll need to sign in again to access your account."
+        confirmText="Yes, Log out"
+        cancelText="Cancel"
+        onConfirm={handleLogoutConfirm}
+        onCancel={handleCancel}
+        modalId="logoutModal"
+      />
     </header>
   );
 }

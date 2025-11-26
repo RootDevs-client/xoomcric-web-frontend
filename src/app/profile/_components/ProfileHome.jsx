@@ -1,9 +1,10 @@
 'use client';
 
+import ConfirmationModal from '@/components/Modal/confirmation-modal';
 import { useAuthStore } from '@/lib/auth-store';
 import { xoomBackendUrl } from '@/lib/axios/getAxios';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useQuery } from 'react-query';
 
@@ -11,6 +12,7 @@ export default function ProfileHome() {
   const { token, user } = useAuthStore();
   const [isProcessing, setIsProcessing] = useState(false);
   const { push } = useRouter();
+  const unsubscribeModalRef = useRef(null)
 
   const {
     isLoading,
@@ -48,7 +50,7 @@ export default function ProfileHome() {
 
       if (response.status === 200) {
         useAuthStore.getState().logout();
-        push('/login');
+        push('/phone-login');
         refetch();
         toast.success('Subscription cancelled successfully.');
       }
@@ -58,6 +60,19 @@ export default function ProfileHome() {
       setIsProcessing(false);
     }
   };
+
+     const handleUnsubscribeClick = () => {
+    unsubscribeModalRef.current?.showModal()
+  }
+
+  const handleUnsubscribeConfirm = () => {
+   handleCancelPayment()
+    unsubscribeModalRef.current?.close()
+  }
+
+  const handleCancel = () => {
+    unsubscribeModalRef.current?.close()
+  }
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-10 border border-gray-300 rounded-lg p-4 lg:p-6">
@@ -98,7 +113,7 @@ export default function ProfileHome() {
                 : 'bg-red-500 text-white hover:bg-red-600'
             }
           `}
-          onClick={handleCancelPayment}
+          onClick={handleUnsubscribeClick}
           disabled={isProcessing}
         >
           {isProcessing ? 'Processing...' : 'Unsubscribe'}
@@ -176,6 +191,16 @@ export default function ProfileHome() {
           BDT 5.05/day (Tax included and auto-renewal applicable)
         </div>
       </div>
+       <ConfirmationModal
+        ref={unsubscribeModalRef}
+        title="Unsubscribe?"
+        message="Do you really want to unsubscribe? You'll no longer receive our updates and communications."
+        confirmText="Yes, Unsubscribe"
+        cancelText="No, Keep me"
+        onConfirm={handleUnsubscribeConfirm}
+        onCancel={handleCancel}
+        modalId="unsubscribeModal"
+      />
     </div>
   );
 }
