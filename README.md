@@ -1,1 +1,1 @@
-XoomCric Frontend 1.3
+Subscription check added
