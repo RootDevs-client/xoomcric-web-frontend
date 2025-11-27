@@ -1,1 +1,1 @@
-Subscription check added
+Subscription check 1.1
