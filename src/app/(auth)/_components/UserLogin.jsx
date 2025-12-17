@@ -2,7 +2,6 @@
 import { useAuthStore } from '@/lib/auth-store';
 import { xoomBackendUrl } from '@/lib/axios/getAxios';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -44,12 +43,12 @@ export default function UserLogin() {
       <div className="rounded-l-md items-center flex-col justify-center bg-primary text-white flex py-4">
         <AppInfo />
         <p className="text-gray-400 text-sm">Don&apos;t have an account?</p>
-        <Link
-          href={'/register'}
+        <a
+          href={process.env.NEXT_PUBLIC_REGISTER_REDIRECT}
           className="btn btn-link rounded-full mt-3 text-white btn-sm"
         >
           Register
-        </Link>
+        </a>
       </div>
       <div className="p-2 lg:p-5">
         <h4 className="text-2xl font-semibold">Login</h4>
