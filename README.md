@@ -1,1 +1,1 @@
-Subscription check 1.1
+Redirect check 1.1
