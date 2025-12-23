@@ -1,1 +1,1 @@
-Redirect check 1.2
+Redirect check 1.3
