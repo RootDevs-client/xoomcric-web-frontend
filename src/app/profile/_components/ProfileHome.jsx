@@ -188,7 +188,7 @@ export default function ProfileHome() {
         <div className="text-sm text-gray-600 mt-2">
           Xoom Cric{' '}
           <span className="font-bold text-red-500 capitalize">daily pack</span>{' '}
-          BDT 5.05/day (Tax included and auto-renewal applicable)
+          BDT 6.06/day (Tax included and auto-renewal applicable)
         </div>
       </div>
        <ConfirmationModal
