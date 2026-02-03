@@ -115,23 +115,23 @@ const MatchCommentary = ({ data }) => {
                 {['batsmanStriker', 'batsmanNonStriker'].map((role) => (
                   <tr className="hover:bg-gray-100" key={role}>
                     <td className="border px-4 py-2 text-start text-sm md:text-base">
-                      {data?.miniscore?.[role].batName} (
+                      {data?.miniscore?.[role]?.batName} (
                       {role === 'batsmanStriker' ? 'Striker' : 'Non-Striker'})
                     </td>
                     <td className="border px-4 py-2 text-start text-sm md:text-base">
-                      {data?.miniscore?.[role].batRuns}
+                      {data?.miniscore?.[role]?.batRuns}
                     </td>
                     <td className="border px-4 py-2 text-start text-sm md:text-base">
-                      {data?.miniscore?.[role].batBalls}
+                      {data?.miniscore?.[role]?.batBalls}
                     </td>
                     <td className="border px-4 py-2 text-start text-sm md:text-base">
-                      {data?.miniscore?.[role].batStrikeRate}
+                      {data?.miniscore?.[role]?.batStrikeRate}
                     </td>
                     <td className="border px-4 py-2 text-start text-sm md:text-base">
-                      {data?.miniscore?.[role].batFours}
+                      {data?.miniscore?.[role]?.batFours}
                     </td>
                     <td className="border px-4 py-2 text-start text-sm md:text-base">
-                      {data?.miniscore?.[role].batSixes}
+                      {data?.miniscore?.[role]?.batSixes}
                     </td>
                   </tr>
                 ))}
@@ -167,23 +167,23 @@ const MatchCommentary = ({ data }) => {
                 {['bowlerStriker', 'bowlerNonStriker'].map((role) => (
                   <tr className="hover:bg-gray-100" key={role}>
                     <td className="border px-4 py-2 text-start text-sm md:text-base">
-                      {data?.miniscore?.[role].bowlName} (
+                      {data?.miniscore?.[role]?.bowlName} (
                       {role === 'bowlerStriker' ? 'Striker' : 'Non-Striker'})
                     </td>
                     <td className="border px-4 py-2 text-start text-sm md:text-base">
-                      {data?.miniscore?.[role].bowlOvs}
+                      {data?.miniscore?.[role]?.bowlOvs}
                     </td>
                     <td className="border px-4 py-2 text-start text-sm md:text-base">
-                      {data?.miniscore?.[role].bowlRuns}
+                      {data?.miniscore?.[role]?.bowlRuns}
                     </td>
                     <td className="border px-4 py-2 text-start text-sm md:text-base">
-                      {data?.miniscore?.[role].bowlWkts}
+                      {data?.miniscore?.[role]?.bowlWkts}
                     </td>
                     <td className="border px-4 py-2 text-start text-sm md:text-base">
-                      {data?.miniscore?.[role].bowlEcon}
+                      {data?.miniscore?.[role]?.bowlEcon}
                     </td>
                     <td className="border px-4 py-2 text-start text-sm md:text-base">
-                      {data?.miniscore?.[role].bowlMaidens}
+                      {data?.miniscore?.[role]?.bowlMaidens}
                     </td>
                   </tr>
                 ))}
