@@ -1,8 +1,6 @@
 import { useAuthStore } from '@/lib/auth-store';
 import { xoomBackendUrl } from '@/lib/axios/getAxios';
-import getSlugify from '@/lib/helpers/getSlugify';
 import useGetUserProfile from '@/lib/hooks/useGetUserProfile';
-import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import MatchStates from './MatchStates';
@@ -121,12 +119,12 @@ const MatchCardCricket = ({ match, large, status, activeTab }) => {
 
   return (
     <div className="relative w-full">
-      <Link
-        href={`/match/${status}/${getSlugify(
-          match?.matchInfo?.team1?.teamName
-        )}-vs-${getSlugify(match?.matchInfo?.team2?.teamName)}/${
-          match.matchInfo?.matchId
-        }`}
+      <div
+        // href={`/match/${status}/${getSlugify(
+        //   match?.matchInfo?.team1?.teamName
+        // )}-vs-${getSlugify(match?.matchInfo?.team2?.teamName)}/${
+        //   match.matchInfo?.matchId
+        // }`}
         className="w-full"
       >
         <div className="bg-base-100 h-auto w-full -skew-y-[0.5deg] mb-4">
@@ -164,9 +162,9 @@ const MatchCardCricket = ({ match, large, status, activeTab }) => {
                   match?.matchScore?.team1Score?.inngs2
                     ? match?.matchScore?.team1Score?.inngs2?.runs
                     : match?.matchScore?.team1Score?.inngs1?.runs &&
-                      match?.matchScore?.team2Score?.inngs2
-                    ? match?.matchScore?.team2Score?.inngs2?.runs
-                    : match?.matchScore?.team2Score?.inngs1?.runs
+                        match?.matchScore?.team2Score?.inngs2
+                      ? match?.matchScore?.team2Score?.inngs2?.runs
+                      : match?.matchScore?.team2Score?.inngs1?.runs
                 ) ? (
                 <div className="col-span-2 w-14 h-14 p-1 sm:w-16 sm:h-16 bg-primary rounded-full flex flex-col text-xs text-gray-100 items-center justify-around mx-auto ">
                   <div className="h-1/2 flex items-center w-full ml-4 justify-start">
@@ -212,7 +210,7 @@ const MatchCardCricket = ({ match, large, status, activeTab }) => {
             </div>
           )}
         </div>
-      </Link>
+      </div>
 
       <div className={` mx-auto absolute top-6 right-5`}>
         <button

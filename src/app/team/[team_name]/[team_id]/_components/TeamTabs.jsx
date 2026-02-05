@@ -15,13 +15,13 @@ const tabs = [
     id: 1,
     label: 'Results',
   },
-  {
-    id: 2,
-    label: 'Schedule',
-  },
+  // {
+  //   id: 2,
+  //   label: 'Schedule',
+  // },
 
   {
-    id: 3,
+    id: 2,
     label: 'Players',
   },
 ];
