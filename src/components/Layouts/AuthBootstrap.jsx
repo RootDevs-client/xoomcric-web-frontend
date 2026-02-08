@@ -1,13 +1,15 @@
 'use client';
 
+import { isAdminRoute } from '@/contexts/routeMatcher';
 import { useAuthStore } from '@/lib/auth-store';
 import { xoomBackendUrl } from '@/lib/axios/getAxios';
+import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import MainLoader from '../Global/MainLoader';
-
 export default function AuthBootstrap({ children }) {
   const { token, updateUser, logout } = useAuthStore();
   const [ready, setReady] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     if (!token) {
@@ -17,13 +19,19 @@ export default function AuthBootstrap({ children }) {
 
     xoomBackendUrl
       .get('/api/user/me', {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       })
       .then(({ data }) => {
         if (data.status) updateUser(data.user);
         else logout();
       })
-      .catch(logout)
+      .catch((error) => {
+        if (!isAdminRoute(pathname)) {
+          logout();
+        }
+      })
       .finally(() => setReady(true));
   }, [token]);
 

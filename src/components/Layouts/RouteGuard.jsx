@@ -1,6 +1,11 @@
 'use client';
 
-import { isLoginRestricted, isPrivet } from '@/contexts/routeMatcher';
+import {
+  adminLoginRoute,
+  isAdminRoute,
+  isLoginRestricted,
+  isPrivet,
+} from '@/contexts/routeMatcher';
 import { useAuthStore } from '@/lib/auth-store';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
@@ -16,6 +21,10 @@ export default function RouteGuard({ children }) {
       return;
     }
 
+    if (!token && isAdminRoute(pathname)) {
+      router.replace(adminLoginRoute);
+      return;
+    }
     if (!token && isPrivet(pathname)) {
       router.replace('/phone-login');
       return;

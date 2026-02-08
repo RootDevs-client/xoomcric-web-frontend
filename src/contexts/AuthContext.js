@@ -4,78 +4,59 @@ import MainLoader from '@/components/Global/MainLoader';
 import { useAuthStore } from '@/lib/auth-store';
 import { xoomBackendUrl } from '@/lib/axios/getAxios';
 import { usePathname, useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { isLoginRestricted, isPrivet } from './routeMatcher';
 
 export default function AuthContext({ children }) {
   const router = useRouter();
   const pathname = usePathname();
-
-  const { token, isAdmin, user, updateUser, setLoading, isLoading } =
-    useAuthStore();
-
+  const validatedRef = useRef(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const { token, isAdmin, updateUser, setLoading, logout } = useAuthStore();
   useEffect(() => {
-    if (token === undefined) return;
-    const validateUser = async () => {
-      if (token && !isAdmin) {
-        setLoading(true);
+    if (!token || validatedRef.current) {
+      setIsLoading(false);
+      return;
+    }
 
-        try {
-          const { data } = await xoomBackendUrl.get('/api/user/me', {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
+    const validate = async () => {
+      setLoading(true);
+      try {
+        const { data } = await xoomBackendUrl.get('/api/user/me', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
 
-          if (data.status) {
-            updateUser(data?.user);
-
-            if (token && data.user) {
-              router.replace('/');
-            }
-          }
-        } catch (error) {
-          console.error('Failed to validate user:', error);
-          useAuthStore.getState().logout();
-          router.replace('/');
-        } finally {
-          setLoading(false);
+        if (data.status) {
+          updateUser(data.user);
+          validatedRef.current = true;
         }
+      } catch {
+        logout();
+      } finally {
+        setLoading(false);
+        setIsLoading(false);
       }
     };
 
-    validateUser();
-  }, [token, updateUser, router]);
+    validate();
+  }, [token]);
 
   useEffect(() => {
-    if (token === undefined) return;
-    const publicRoutes = [
-      '/login',
-      '/phone-login',
-      '/register',
-      '/xoomadmin/login',
-      '/package',
-      '/payment/success',
-      '/payment/cancel',
-      '/error',
-    ];
-
-    const isPublicRoute = publicRoutes.includes(pathname);
-    const isAdminRoute = pathname.startsWith('/xoomadmin');
-
-    if (!token && !isPublicRoute) {
+    if (token === undefined) {
+      setIsLoading(false);
+      return;
+    }
+    if (token && isLoginRestricted(pathname)) {
+      router.replace('/');
+    } else if (!token && isPrivet(pathname)) {
       router.replace('/phone-login');
       return;
-    }
-
-    if (isAdminRoute && !isAdmin && pathname !== '/xoomadmin/login') {
-      router.replace('/xoomadmin/login');
+    } else {
+      router.replace(pathname);
       return;
     }
-  }, [pathname, token, isAdmin, user, router]);
-
-  if (isLoading) {
-    return <MainLoader />;
-  }
+  }, [pathname, token, isAdmin]);
+  if (isLoading) return <MainLoader />;
 
   return children;
 }
