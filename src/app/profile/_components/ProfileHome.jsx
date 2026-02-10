@@ -194,7 +194,7 @@
 //       <ConfirmationModal
 //         ref={unsubscribeModalRef}
 //         title="Unsubscribe?"
-//         message="Do you really want to unsubscribe? You'll no longer receive our updates and communications."
+//         message="Do you really want to unsubscribe?"
 //         confirmText="Yes, Unsubscribe"
 //         cancelText="No, Keep me"
 //         onConfirm={handleUnsubscribeConfirm}
@@ -417,7 +417,7 @@ export default function ProfileHome() {
       <ConfirmationModal
         ref={unsubscribeModalRef}
         title="Unsubscribe?"
-        message="Do you really want to unsubscribe? You'll no longer receive our updates and communications."
+        message="Do you really want to unsubscribe?"
         confirmText="Yes, Unsubscribe"
         cancelText="No, Keep me"
         onConfirm={handleUnsubscribeConfirm}
