@@ -7,7 +7,7 @@ export default function LiveCommentary({ result, loading }) {
   // async function getData() {
   //   setLoading(true);
   //   try {
-  // const res = await xoomBackendUrl.post(
+  // const res = await backendUrl.post(
   //   `/cric-buzz/cricket/mcenter/v1/${match_id}/comm`
   // );
 
@@ -48,16 +48,24 @@ export default function LiveCommentary({ result, loading }) {
   }
 
   function createFormattedString(data) {
-    const { commText, commentaryFormats } = data;
-    const { bold } = commentaryFormats;
+    const commText = data?.commText ?? data?.commtxt ?? '';
+    const commentaryFormats =
+      data?.commentaryFormats ?? data?.commentaryformats ?? {};
+    const bold = commentaryFormats?.bold;
 
-    let formattedCommText = commText.replace(/\\n/g, '<br/>');
-    if (bold && bold.formatId && bold.formatValue) {
+    let formattedCommText = String(commText).replace(/\\n/g, '<br/>');
+    if (
+      bold &&
+      Array.isArray(bold.formatId) &&
+      Array.isArray(bold.formatValue)
+    ) {
       bold.formatId.forEach((id, index) => {
-        formattedCommText = formattedCommText.replace(
-          id,
-          `<span class="font-bold">${bold.formatValue[index]}</span>`
-        );
+        const val = bold.formatValue[index] ?? '';
+        if (id)
+          formattedCommText = formattedCommText.replace(
+            id,
+            `<span class="font-bold">${val}</span>`
+          );
       });
     }
     return formattedCommText;

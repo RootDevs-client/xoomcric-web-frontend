@@ -1,7 +1,9 @@
 import { useAuthStore } from '@/lib/auth-store';
 import { xoomBackendUrl } from '@/lib/axios/getAxios';
 import getShortName from '@/lib/helpers/getShortName';
+import getSlugify from '@/lib/helpers/getSlugify';
 import useGetUserProfile from '@/lib/hooks/useGetUserProfile';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import MatchStates from './MatchStates';
@@ -119,10 +121,10 @@ const MatchCard = ({ match, large }) => {
 
   return (
     <div className="relative w-full">
-      <div
-        // href={`/match/${isPreviewPage ? 'preview' : 'details'}/${getSlugify(
-        //   teamByLocation('home')?.name
-        // )}-vs-${getSlugify(teamByLocation('away')?.name)}/${match?.id}`}
+      <Link
+        href={`/match/${isPreviewPage ? 'preview' : 'details'}/${getSlugify(
+          teamByLocation('home')?.name
+        )}-vs-${getSlugify(teamByLocation('away')?.name)}/${match?.id}`}
         className="w-full"
       >
         <div className="bg-base-100 h-auto w-full -skew-y-[0.5deg] mb-1">
@@ -165,7 +167,7 @@ const MatchCard = ({ match, large }) => {
             </div>
           </div>
         </div>
-      </div>
+      </Link>
 
       <div className=" mx-auto absolute top-6 right-5">
         <button

@@ -1,6 +1,8 @@
 import { useAuthStore } from '@/lib/auth-store';
 import { xoomBackendUrl } from '@/lib/axios/getAxios';
+import getSlugify from '@/lib/helpers/getSlugify';
 import useGetUserProfile from '@/lib/hooks/useGetUserProfile';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import MatchStates from './MatchStates';
@@ -119,12 +121,12 @@ const MatchCardCricket = ({ match, large, status, activeTab }) => {
 
   return (
     <div className="relative w-full">
-      <div
-        // href={`/match/${status}/${getSlugify(
-        //   match?.matchInfo?.team1?.teamName
-        // )}-vs-${getSlugify(match?.matchInfo?.team2?.teamName)}/${
-        //   match.matchInfo?.matchId
-        // }`}
+      <Link
+        href={`/match/${status}/${getSlugify(
+          match?.matchInfo?.team1?.teamName
+        )}-vs-${getSlugify(match?.matchInfo?.team2?.teamName)}/${
+          match.matchInfo?.matchId
+        }`}
         className="w-full"
       >
         <div className="bg-base-100 h-auto w-full -skew-y-[0.5deg] mb-4">
@@ -210,7 +212,7 @@ const MatchCardCricket = ({ match, large, status, activeTab }) => {
             </div>
           )}
         </div>
-      </div>
+      </Link>
 
       <div className={` mx-auto absolute top-6 right-5`}>
         <button

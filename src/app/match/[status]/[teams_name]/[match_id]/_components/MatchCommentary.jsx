@@ -19,16 +19,24 @@ const MatchCommentary = ({ data }) => {
   // =============
 
   function createFormattedString(data) {
-    const { commText, commentaryFormats } = data;
-    const { bold } = commentaryFormats;
+    const commText = data?.commText ?? data?.commtxt ?? '';
+    const commentaryFormats =
+      data?.commentaryFormats ?? data?.commentaryformats ?? {};
+    const bold = commentaryFormats?.bold;
 
-    let formattedCommText = commText.replace(/\\n/g, '<br/>');
-    if (bold && bold.formatId && bold.formatValue) {
+    let formattedCommText = String(commText).replace(/\\n/g, '<br/>');
+    if (
+      bold &&
+      Array.isArray(bold.formatId) &&
+      Array.isArray(bold.formatValue)
+    ) {
       bold.formatId.forEach((id, index) => {
-        formattedCommText = formattedCommText.replace(
-          id,
-          `<span class="font-bold">${bold.formatValue[index]}</span>`
-        );
+        const val = bold.formatValue[index] ?? '';
+        if (id)
+          formattedCommText = formattedCommText.replace(
+            id,
+            `<span class="font-bold">${val}</span>`
+          );
       });
     }
     return formattedCommText;
@@ -49,15 +57,15 @@ const MatchCommentary = ({ data }) => {
 
       <p className="mb-4 text-sm text-gray-500">{data?.matchHeader?.status}</p>
       <div className="font-semibold text-black">
-        {data?.miniscore?.matchScoreDetails?.inningsScoreList.map(
+        {(data?.miniscore?.matchScoreDetails?.inningsScoreList ?? []).map(
           (match, index) => (
             <div key={index} className="mb-2 text-sm sm:text-base">
               <span className="sm:text-lg text-base">
-                {match?.batTeamName}:{' '}
+                {match?.batTeamName ?? match?.batteamshortname}:{' '}
               </span>
-              <span>{match?.score} runs</span>
-              <span> | {match?.wickets} wickets</span>
-              <span> | {match?.overs} overs</span>
+              <span>{match?.score ?? match?.runs ?? 0} runs</span>
+              <span> | {match?.wickets ?? 0} wickets</span>
+              <span> | {match?.overs ?? 0} overs</span>
               {match?.isDeclared && (
                 <span className="text-green-500"> (Declared)</span>
               )}
