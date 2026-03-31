@@ -27,8 +27,32 @@ export default function PhoneLogin({ phone = '', countries = [] }) {
         setSelectedCountry(matchedCountry);
         setPhoneNumber(phone.replace(matchedCountry.dialCode, ''));
       }
+      autoLogin({
+        phone,
+        phoneNumber,
+      })
+        .then((data) => {
+          console.log('step passing', {
+            data,
+            accessToken: data?.data?.accessToken,
+            user: data?.data?.user,
+          });
+          if (data.status) {
+            setAuth(data?.data?.accessToken, data?.data?.user);
+            push('/');
+          } else {
+            toast.error('Invalid Credentials');
+          }
+        })
+        .catch((error) => {
+          toast.error('try aging!');
+        })
+        .finally(() => setIsCheckingPhone(false));
     }
-    setIsCheckingPhone(false);
+    if (!phone) {
+      setIsCheckingPhone(false);
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phone]);
 
@@ -232,4 +256,21 @@ export default function PhoneLogin({ phone = '', countries = [] }) {
       </div>
     </div>
   );
+}
+
+async function autoLogin({ phone, phoneNumber }) {
+  try {
+    const fullPhoneNumber = `${phone || phoneNumber}`;
+    const { data } = await xoomBackendUrl.post('/api/user/auth', {
+      phone: fullPhoneNumber,
+    });
+    return data;
+  } catch (error) {
+    if (error?.response?.status === 402) {
+      toast.error('Subscription Expired or Cancelled, Please register again');
+    } else {
+      toast.error('Invalid Credentials');
+    }
+    console.error(error);
+  }
 }
