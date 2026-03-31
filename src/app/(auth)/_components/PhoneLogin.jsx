@@ -40,12 +40,10 @@ export default function PhoneLogin({ phone = '', countries = [] }) {
           if (data.status) {
             setAuth(data?.data?.accessToken, data?.data?.user);
             push('/');
+            toast.success('Logged in successfully');
           } else {
             toast.error('Invalid Credentials');
           }
-        })
-        .catch((error) => {
-          toast.error('try aging!');
         })
         .finally(() => setIsCheckingPhone(false));
     }
