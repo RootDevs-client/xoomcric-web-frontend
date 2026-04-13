@@ -15,9 +15,10 @@ import toast from 'react-hot-toast';
 import { FaHome } from 'react-icons/fa';
 import { ImSpinner6 } from 'react-icons/im';
 import * as Yup from 'yup';
+import ImageDropSingle from '../../../../components/Global/ImageDropSingle';
 
 export default function NewsUpdate({ id }) {
-  const { token, isAdmin, user } = useAuthStore();
+  const { token } = useAuthStore();
 
   const { singleNews, singleNewsLoading } = useGetSingleNews(token, id);
   const [newsImage, setNewsImage] = useState(null);
@@ -69,7 +70,7 @@ export default function NewsUpdate({ id }) {
         let uploadedImageUrl = null;
 
         if (newsImage) {
-          const uploadPreset = 'XoomCric';
+          const uploadPreset = 'XoomSports';
           uploadedImageUrl = await uploadImageToCloudinary(
             newsImage,
             uploadPreset
@@ -257,7 +258,7 @@ export default function NewsUpdate({ id }) {
                               )}
                             </span>
                           </div>
-                          <imgDropSingle
+                          <ImageDropSingle
                             className="mt-3"
                             value={newsImage}
                             onChange={(image) => {
