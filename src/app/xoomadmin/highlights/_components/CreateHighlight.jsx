@@ -11,8 +11,10 @@ import { toast } from 'react-hot-toast';
 import { ImSpinner } from 'react-icons/im';
 import { IoIosFootball } from 'react-icons/io';
 import * as Yup from 'yup';
+import ImageDropSingle from '../../../../components/Global/ImageDropSingle';
 
 export default function CreateHighlight({ query }) {
+  const { token } = useAuthStore();
   const [thumbnailImage, setThumbnailImage] = useState('');
   const [uploadImageMsg, setUploadImageMsg] = useState('');
   const [fixtureId, setFixtureId] = useState(query?.fixture_id ?? '');
@@ -21,19 +23,16 @@ export default function CreateHighlight({ query }) {
     query?.video_list ? JSON.parse(query.video_list) : []
   );
 
-  const { token } = useAuthStore();
-
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { push } = useRouter();
 
   // Initial values
   const initialHighlightValue = {
-    title: query?.match_title || '',
+    title: query?.title || '',
     thumbnail_type: 'none',
     video_type: query?.fixture_id ? 'sportmonk' : 'none',
     youtube_url: '',
     status: '1',
-    fixture_id: query?.fixture_id || '',
   };
 
   // Schema validation
@@ -51,8 +50,13 @@ export default function CreateHighlight({ query }) {
       ['none', 'image', 'url'],
       'Thumbnail Type is required.'
     ),
-    image: Yup.mixed().when('thumbnail_type', {
-      is: 'image',
+    image: Yup.mixed().when(['thumbnail_type', 'video_type'], {
+      is: (thumbnail_type, video_type) => {
+        if (thumbnail_type === 'image' && thumbnailImage != '') {
+          return false;
+        }
+        return true;
+      },
       then: () => Yup.mixed().required('Thumbnail Image is required.'),
     }),
     highlight_image: Yup.string().when('thumbnail_type', {
@@ -95,7 +99,7 @@ export default function CreateHighlight({ query }) {
       let imageUrl = '';
 
       if (thumbnailImage) {
-        const uploadPreset = 'XoomCric';
+        const uploadPreset = 'XoomSports';
         imageUrl = await uploadImageToCloudinary(thumbnailImage, uploadPreset);
       }
 
@@ -131,279 +135,286 @@ export default function CreateHighlight({ query }) {
         onSubmit={handleSubmit}
         enableReinitialize
       >
-        {({ values, handleChange, setFieldValue }) => (
-          <Form className="space-y-4 bg-white mt-3 p-4 rounded-md">
-            <div>
-              <div className="form-control w-full">
-                <label
-                  className="label text-gray-700 font-medium flex items-center justify-start"
-                  htmlFor="title"
-                >
-                  Title<span className="text-red-500">*</span>
-                </label>
-                <Field
-                  id="title"
-                  type="text"
-                  className="input input-bordered w-full bg-white rounded"
-                  name="title"
-                />
-                <ErrorMessage
-                  name="title"
-                  component="div"
-                  className="mt-1 text-red-500"
-                />
-              </div>
-
-              <div className="form-control w-full">
-                <label
-                  htmlFor="short_description"
-                  className="label font-medium flex items-center justify-start text-gray-700 "
-                >
-                  Short Description
-                </label>
-                <Field
-                  as="textarea"
-                  id="short_description"
-                  rows={3}
-                  className="textarea textarea-bordered bg-white rounded"
-                  name="short_description"
-                />
-                <ErrorMessage
-                  name="short_description"
-                  component="div"
-                  className="mt-1 text-red-500"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        {({ values, handleChange, errors, setFieldValue }) => {
+          if (Object.keys(errors).length > 0) {
+            console.log('Validation Errors:', errors);
+          }
+          return (
+            <Form className="space-y-4 bg-white mt-3 p-4 rounded-md">
+              <div>
                 <div className="form-control w-full">
                   <label
-                    htmlFor="type"
-                    className="label font-medium flex items-center justify-start text-gray-700"
+                    className="label text-gray-700 font-medium flex items-center justify-start"
+                    htmlFor="title"
                   >
-                    Video Type<span className="text-red-500">*</span>
+                    Title<span className="text-red-500">*</span>
                   </label>
                   <Field
-                    as="select"
-                    name="video_type"
+                    id="title"
+                    type="text"
                     className="input input-bordered w-full bg-white rounded"
-                  >
-                    <option value="none">None</option>
-                    <option value="sportmonk">Sportmonk</option>
-                    <option value="youtube">Youtube</option>
-                  </Field>
+                    name="title"
+                  />
                   <ErrorMessage
-                    name="video_type"
+                    name="title"
                     component="div"
                     className="mt-1 text-red-500"
                   />
                 </div>
 
-                {values.video_type == 'sportmonk' && (
-                  <div>
-                    <label
-                      className="label font-medium flex items-center justify-start text-gray-700"
-                      htmlFor="fixture_id"
-                    >
-                      Fixture ID<span className="text-red-500">*</span>
-                    </label>
-                    <Field
-                      id="fixture_id"
-                      type="text"
-                      className="input input-bordered w-full bg-white rounded"
-                      name="fixture_id"
-                      onChange={(e) => {
-                        handleChange(e);
-                        const fixtureId = e.target.value;
-                        handleHighlightCheck(fixtureId, setFieldValue);
-                      }}
-                    />
-                  </div>
-                )}
+                <div className="form-control w-full">
+                  <label
+                    htmlFor="short_description"
+                    className="label font-medium flex items-center justify-start text-gray-700 "
+                  >
+                    Short Description
+                  </label>
+                  <Field
+                    as="textarea"
+                    id="short_description"
+                    rows={3}
+                    className="textarea textarea-bordered bg-white rounded"
+                    name="short_description"
+                  />
+                  <ErrorMessage
+                    name="short_description"
+                    component="div"
+                    className="mt-1 text-red-500"
+                  />
+                </div>
 
-                {values.video_type == 'youtube' && (
-                  <div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <div className="form-control w-full">
                     <label
+                      htmlFor="type"
                       className="label font-medium flex items-center justify-start text-gray-700"
-                      htmlFor="youtube_url"
                     >
-                      Youtube Url<span className="text-red-500">*</span>
+                      Video Type<span className="text-red-500">*</span>
                     </label>
                     <Field
-                      id="youtube_url"
-                      type="text"
+                      as="select"
+                      name="video_type"
                       className="input input-bordered w-full bg-white rounded"
-                      name="youtube_url"
-                      onChange={(e) => {
-                        handleChange(e);
-                        const url = e.target.value;
-                        const videoId = url.split('v=')[1];
-                        setFieldValue('thumbnail_type', 'url');
-                        setFieldValue(
-                          'highlight_image',
-                          `https://img.youtube.com/vi/${videoId}/0.jpg`
-                        );
-                      }}
-                    />
+                    >
+                      <option value="none">None</option>
+                      <option value="sportmonk">Sportmonk</option>
+                      <option value="youtube">Youtube</option>
+                    </Field>
                     <ErrorMessage
-                      name="youtube_url"
+                      name="video_type"
                       component="div"
                       className="mt-1 text-red-500"
                     />
                   </div>
-                )}
 
-                {values.video_type == 'sportmonk' && (
-                  <div className="mb-5">
-                    <label className="label font-medium flex items-center justify-start text-gray-700">
-                      Video List
-                    </label>
-                    {!isLoading ? (
-                      <div className="flex flex-col dark:border-[#1b2e4b]">
-                        {fixtureId ? (
-                          videoList?.length > 0 ? (
-                            videoList.map((highlight, index) => (
-                              <p
-                                key={index}
-                                className="mb-2 rounded-md border border-white-light bg-[#eee] px-4 py-2.5 dark:border-[#1b2e4b] dark:hover:bg-[#eee]/10"
-                              >
-                                {highlight}
+                  {values.video_type == 'sportmonk' && (
+                    <div>
+                      <label
+                        className="label font-medium flex items-center justify-start text-gray-700"
+                        htmlFor="fixture_id"
+                      >
+                        Fixture ID<span className="text-red-500">*</span>
+                      </label>
+                      <Field
+                        id="fixture_id"
+                        type="text"
+                        className="input input-bordered w-full bg-white rounded"
+                        name="fixture_id"
+                        onChange={(e) => {
+                          handleChange(e);
+                          const fixtureId = e.target.value;
+                          handleHighlightCheck(fixtureId, setFieldValue);
+                        }}
+                      />
+                    </div>
+                  )}
+
+                  {values.video_type == 'youtube' && (
+                    <div>
+                      <label
+                        className="label font-medium flex items-center justify-start text-gray-700"
+                        htmlFor="youtube_url"
+                      >
+                        Youtube Url<span className="text-red-500">*</span>
+                      </label>
+                      <Field
+                        id="youtube_url"
+                        type="text"
+                        className="input input-bordered w-full bg-white rounded"
+                        name="youtube_url"
+                        onChange={(e) => {
+                          handleChange(e);
+                          const url = e.target.value;
+                          const videoId = url.split('v=')[1];
+                          setFieldValue('thumbnail_type', 'url');
+                          setFieldValue(
+                            'highlight_image',
+                            `https://img.youtube.com/vi/${videoId}/0.jpg`
+                          );
+                        }}
+                      />
+                      <ErrorMessage
+                        name="youtube_url"
+                        component="div"
+                        className="mt-1 text-red-500"
+                      />
+                    </div>
+                  )}
+
+                  {values.video_type == 'sportmonk' && (
+                    <div className="mb-5">
+                      <label className="label font-medium flex items-center justify-start text-gray-700">
+                        Video List
+                      </label>
+                      {!isLoading ? (
+                        <div className="flex flex-col dark:border-[#1b2e4b]">
+                          {fixtureId ? (
+                            videoList?.length > 0 ? (
+                              videoList.map((highlight, index) => (
+                                <p
+                                  key={index}
+                                  className="mb-2 rounded-md border border-white-light bg-[#eee] px-4 py-2.5 dark:border-[#1b2e4b] dark:hover:bg-[#eee]/10"
+                                >
+                                  {highlight}
+                                </p>
+                              ))
+                            ) : (
+                              <p className="mb-2 rounded-md border border-white-light bg-[#eee] px-4 py-2.5 dark:border-[#1b2e4b] dark:hover:bg-[#eee]/10">
+                                No Highlights Available!
                               </p>
-                            ))
+                            )
                           ) : (
                             <p className="mb-2 rounded-md border border-white-light bg-[#eee] px-4 py-2.5 dark:border-[#1b2e4b] dark:hover:bg-[#eee]/10">
-                              No Highlights Available!
+                              Enter Fixture ID!
                             </p>
-                          )
-                        ) : (
-                          <p className="mb-2 rounded-md border border-white-light bg-[#eee] px-4 py-2.5 dark:border-[#1b2e4b] dark:hover:bg-[#eee]/10">
-                            Enter Fixture ID!
-                          </p>
-                        )}
-                      </div>
-                    ) : (
-                      <div className="animate-bounce">
-                        <IoIosFootball className="animate-spin text-3xl text-green-400" />
-                      </div>
-                    )}
+                          )}
+                        </div>
+                      ) : (
+                        <div className="animate-bounce">
+                          <IoIosFootball className="animate-spin text-3xl text-green-400" />
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+                <div className="w-100">
+                  <div>
+                    <label
+                      className="label font-medium flex items-center justify-start text-gray-700"
+                      htmlFor="type"
+                    >
+                      Thumbnail Image Type
+                    </label>
+                    <div>
+                      <Field
+                        as="select"
+                        className="input input-bordered w-full bg-white rounded"
+                        name="thumbnail_type"
+                      >
+                        <option value="none">None</option>
+                        <option value="url">Url</option>
+                        <option value="image">Image</option>
+                      </Field>
+                      <ErrorMessage
+                        name="thumbnail_type"
+                        component="div"
+                        className="mt-1 text-red-500"
+                      />
+                    </div>
                   </div>
-                )}
-              </div>
-              <div className="w-100">
+                </div>
+                <div className="col-span-12">
+                  <label className="form-control w-full">
+                    {values?.thumbnail_type === 'url' && (
+                      <>
+                        <div className="label">
+                          <span className="label-text font-medium">
+                            Image Url <span className="text-red-500">*</span>{' '}
+                            <ErrorMessage
+                              name="highlight_image"
+                              component={({ children }) => (
+                                <span className="text-sm text-red-600">
+                                  ({children})
+                                </span>
+                              )}
+                            />
+                          </span>
+                        </div>
+                        <Field
+                          className="input input-bordered w-full bg-white"
+                          name="highlight_image"
+                        />
+                        {values?.highlight_image &&
+                          /^(ftp|https):\/\/[^ "]+$/.test(
+                            values?.highlight_image
+                          ) && (
+                            <img
+                              src={values.highlight_image}
+                              alt="Image"
+                              className="aspect-video w-52 object-cover rounded-md mt-3"
+                            />
+                          )}
+                      </>
+                    )}
+                  </label>
+                  {values.thumbnail_type === 'image' && (
+                    <div>
+                      <div className="label">
+                        <span className="label-text font-medium">
+                          Upload Image <span className="text-red-500">*</span>{' '}
+                          {uploadImageMsg && (
+                            <span className="text-sm text-red-600">
+                              ({uploadImageMsg})
+                            </span>
+                          )}
+                        </span>
+                      </div>
+                      <ImageDropSingle
+                        className="mt-3"
+                        value={thumbnailImage}
+                        onChange={(image) => {
+                          setUploadImageMsg('');
+                          setThumbnailImage(image);
+                        }}
+                      />
+                    </div>
+                  )}
+                </div>
+
                 <div>
                   <label
                     className="label font-medium flex items-center justify-start text-gray-700"
                     htmlFor="type"
                   >
-                    Thumbnail Image Type
+                    Status
                   </label>
                   <div>
                     <Field
                       as="select"
+                      name="status"
                       className="input input-bordered w-full bg-white rounded"
-                      name="thumbnail_type"
                     >
-                      <option value="none">None</option>
-                      <option value="url">Url</option>
-                      <option value="image">Image</option>
+                      <option value="1">Active</option>
+                      <option value="0">Inactive</option>
                     </Field>
-                    <ErrorMessage
-                      name="thumbnail_type"
-                      component="div"
-                      className="mt-1 text-red-500"
-                    />
                   </div>
                 </div>
-              </div>
-              <div className="col-span-12">
-                <label className="form-control w-full">
-                  {values?.thumbnail_type === 'url' && (
-                    <>
-                      <div className="label">
-                        <span className="label-text font-medium">
-                          Image Url <span className="text-red-500">*</span>{' '}
-                          <ErrorMessage
-                            name="highlight_image"
-                            component={({ children }) => (
-                              <span className="text-sm text-red-600">
-                                ({children})
-                              </span>
-                            )}
-                          />
-                        </span>
-                      </div>
-                      <Field
-                        className="input input-bordered w-full bg-white"
-                        name="highlight_image"
-                      />
-                      {values?.highlight_image &&
-                        /^(ftp|https):\/\/[^ "]+$/.test(
-                          values?.highlight_image
-                        ) && (
-                          <img
-                            src={values.highlight_image}
-                            alt="Image"
-                            className="aspect-video w-52 object-cover rounded-md mt-3"
-                          />
-                        )}
-                    </>
-                  )}
-                </label>
-                {values.thumbnail_type === 'image' && (
-                  <div>
-                    <div className="label">
-                      <span className="label-text font-medium">
-                        Upload Image <span className="text-red-500">*</span>{' '}
-                        {uploadImageMsg && (
-                          <span className="text-sm text-red-600">
-                            ({uploadImageMsg})
-                          </span>
-                        )}
-                      </span>
-                    </div>
-                    <imgDropSingle
-                      className="mt-3"
-                      value={thumbnailImage}
-                      onChange={(image) => {
-                        setUploadImageMsg('');
-                        setThumbnailImage(image);
-                      }}
-                    />
-                  </div>
-                )}
-              </div>
-
-              <div>
-                <label
-                  className="label font-medium flex items-center justify-start text-gray-700"
-                  htmlFor="type"
-                >
-                  Status
-                </label>
-                <div>
-                  <Field
-                    as="select"
-                    name="status"
-                    className="input input-bordered w-full bg-white rounded"
+                <div className="flex items-center justify-end">
+                  <button
+                    type="submit"
+                    className="btn btn-success rounded-md btn-sm mt-3 text-gray-700"
+                    disabled={isSubmitting}
                   >
-                    <option value="1">Active</option>
-                    <option value="0">Inactive</option>
-                  </Field>
+                    Create Highlight{' '}
+                    {isSubmitting && (
+                      <ImSpinner className="ml-2 animate-spin" />
+                    )}
+                  </button>
                 </div>
               </div>
-              <div className="flex items-center justify-end">
-                <button
-                  type="submit"
-                  className="btn btn-success rounded-md btn-sm mt-3 text-gray-700"
-                  disabled={isSubmitting}
-                >
-                  Create Highlight{' '}
-                  {isSubmitting && <ImSpinner className="ml-2 animate-spin" />}
-                </button>
-              </div>
-            </div>
-          </Form>
-        )}
+            </Form>
+          );
+        }}
       </Formik>
     </div>
   );

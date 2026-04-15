@@ -19,6 +19,7 @@ export default function UpdateHighlight({ highlightId }) {
   const [videoList, setVideoList] = useState([]);
   const [thumbnailImage, setThumbnailImage] = useState('');
   const [uploadImageMsg, setUploadImageMsg] = useState('');
+
   const { token } = useAuthStore();
 
   const { push } = useRouter();
@@ -120,7 +121,7 @@ export default function UpdateHighlight({ highlightId }) {
       let imageUrl = '';
 
       if (thumbnailImage) {
-        const uploadPreset = 'XoomCric';
+        const uploadPreset = 'XoomSports';
         imageUrl = await uploadImageToCloudinary(thumbnailImage, uploadPreset);
       }
 

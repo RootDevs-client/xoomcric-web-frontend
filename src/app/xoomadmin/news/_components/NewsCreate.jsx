@@ -13,14 +13,14 @@ import toast from 'react-hot-toast';
 import { FaHome } from 'react-icons/fa';
 import { ImSpinner6 } from 'react-icons/im';
 import * as Yup from 'yup';
+import ImageDropSingle from '../../../../components/Global/ImageDropSingle';
 
 export default function NewsCreate() {
+  const { token } = useAuthStore();
   const [newsImage, setNewsImage] = useState(null);
   const [newsFormSubmitting, setNewsFormSubmitting] = useState(false);
   const [uploadNewsImageMsg, setUploadNewsImageMsg] = useState('');
   const router = useRouter();
-
-  const { token } = useAuthStore();
 
   const initialValues = {
     title: '',
@@ -57,12 +57,17 @@ export default function NewsCreate() {
         setUploadNewsImageMsg('');
         let uploadedImageUrl = null;
 
-        if (newsImage) {
-          const uploadPreset = 'XoomCric';
-          uploadedImageUrl = await uploadImageToCloudinary(
-            newsImage,
-            uploadPreset
-          );
+        try {
+          if (newsImage) {
+            const uploadPreset = 'XoomSports';
+            uploadedImageUrl = await uploadImageToCloudinary(
+              newsImage,
+              uploadPreset
+            );
+          }
+        } catch (error) {
+          toast.error(`Image Upload failed`);
+          setNewsFormSubmitting(false);
         }
 
         const { data: newsCreateRes } = await xoomBackendUrl.post(
@@ -86,7 +91,7 @@ export default function NewsCreate() {
       }
     }
   };
-
+  console.log(Field.name, 'field information');
   return (
     <div>
       <div className="text-sm breadcrumbs p-5">
@@ -237,7 +242,7 @@ export default function NewsCreate() {
                             )}
                           </span>
                         </div>
-                        <imgDropSingle
+                        <ImageDropSingle
                           className="mt-3"
                           value={newsImage}
                           onChange={(image) => {

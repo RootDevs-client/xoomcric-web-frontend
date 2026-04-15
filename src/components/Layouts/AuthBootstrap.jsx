@@ -27,7 +27,7 @@ export default function AuthBootstrap({ children }) {
         if (data.status) updateUser(data.user);
         else logout();
       })
-      .catch((error) => {
+      .catch(() => {
         if (!isAdminRoute(pathname)) {
           logout();
         }
