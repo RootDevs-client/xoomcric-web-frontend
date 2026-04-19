@@ -55,7 +55,7 @@ export default function CreateHighlight({ query }) {
         if (thumbnail_type === 'image' && thumbnailImage != '') {
           return false;
         }
-        return true;
+        return false;
       },
       then: () => Yup.mixed().required('Thumbnail Image is required.'),
     }),

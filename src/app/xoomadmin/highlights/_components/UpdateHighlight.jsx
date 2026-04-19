@@ -105,8 +105,13 @@ export default function UpdateHighlight({ highlightId }) {
       ['none', 'image', 'url'],
       'Thumbnail Type is required.'
     ),
-    image: Yup.mixed().when('thumbnail_type', {
-      is: 'image',
+    image: Yup.mixed().when(['thumbnail_type', 'video_type'], {
+      is: (thumbnail_type, video_type) => {
+        if (thumbnail_type === 'image' && thumbnailImage != '') {
+          return false;
+        }
+        return false;
+      },
       then: () => Yup.mixed().required('Thumbnail Image is required.'),
     }),
     highlight_image: Yup.string().when('thumbnail_type', {
