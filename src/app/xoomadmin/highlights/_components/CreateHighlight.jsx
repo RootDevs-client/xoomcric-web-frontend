@@ -34,7 +34,6 @@ export default function CreateHighlight({ query }) {
     youtube_url: '',
     status: '1',
   };
-  console.log(thumbnailImage != '', 'hi');
   // Schema validation
   const validationSchema = Yup.object().shape({
     title: Yup.string().required('Title is required.'),
